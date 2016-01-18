@@ -1,0 +1,8 @@
+
+site_name: Webmaster
+repo_url: https://github.com/mardix/webmaster
+theme: "readthedocs"
+pages:
+  - Home: 'index.md'
+  - Decorators: 'decorators.md'
+

@@ -1,0 +1,116 @@
+
+// version 1.0
+// A basic style to add to help quickly change the nav header
+// -----------------------------------------------------------------------------
+
+//---- VARIABLES
+// Best to place the variables in _vars.scss
+
+@import url("http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800,300italic,400italic");
+$font-family: 'Open Sans', sans-serif !important;
+$margin: 20px;
+$darker-color: #2c2f36;
+$primary-color: #222;
+$alt-color: #999999;
+$primary-link-color: #2c2c2c;
+$alt-link-color: $primary-color;
+
+// Body
+$background-color: #ffd454;
+
+// Navbar
+$navbar-background-color: $background-color;
+$navbar-border-color: $primary-color;
+$navbar-link-color: #222;
+$navbar-active-link-color: $primary-color;
+$navbar-height: 70px;
+$navbar-font-size: 16px;
+
+// -----------------------------------------------------------------------------
+
+// Place in style.scss
+body {
+  background-color: $background-color !important;
+  color: $primary-color !important;
+  font-family: $font-family;
+  padding-top: $navbar-height + 10 !important;
+}
+
+// -----------------------------------------------------------------------------
+
+// NAVBAR
+// Best to place in _navbar.scss and include in in style.scss
+.navbar-default {
+    background-color: $navbar-background-color !important;
+    border-bottom: 1px solid $navbar-border-color !important;
+    height: $navbar-height !important;
+}
+.navbar-nav {
+  background: $navbar-background-color;
+}
+.navbar-brand>img {
+    display: block;
+    height: $navbar-height;
+    margin-top: -15px;
+}
+.navbar-default .navbar-nav>li>a {
+    color: $navbar-link-color !important;
+    font-weight: bold;
+    font-size: 18px;
+    padding-top: 24.5px;
+    padding-bottom: 14.5px;
+}
+ul.nav a:hover {
+  color: $navbar-active-link-color !important;
+  background: transparent !important;
+}
+.navbar-default .navbar-nav>.active>a,
+.navbar-default .navbar-nav>.active>a:hover,
+.navbar-default .navbar-nav>.active>a:focus {
+    color: $navbar-active-link-color !important;
+    background: transparent !important;
+    height: 100%;
+}
+.navbar-default .navbar-nav>.open>a,
+.navbar-default .navbar-nav>.open>a:hover,
+.navbar-default .navbar-nav>.open>a:focus {
+    color: $navbar-active-link-color !important;
+    background: transparent !important;
+    height: 100%;
+}
+
+.navbar-nav {
+   &>li {
+      border-right: 1px solid $alt-color;
+      height: $navbar-height - 1;
+
+     &>.dropdown-menu {
+       background-color: $navbar-background-color !important;
+       border: 1px solid $navbar-border-color !important;
+       &>li {
+         &>a {
+          color: $navbar-link-color !important;
+          font-weight: bold;
+          font-size: 16px;
+          &:hover {
+            color: $navbar-active-link-color !important;
+          }
+         }
+       }
+     }
+   }
+}
+.navbar-collapse {
+  max-height: 100% !important;
+    border: 0px !important;
+    -webkit-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle {
+    background-color: $navbar-active-link-color !important;
+}
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
