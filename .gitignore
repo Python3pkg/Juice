@@ -29,5 +29,6 @@ MANIFEST
 
 devtest*/
 test.py
+test*.py
 
 .cache
