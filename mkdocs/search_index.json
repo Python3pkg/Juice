@@ -1,0 +1,89 @@
+{
+    "docs": [
+        {
+            "location": "/", 
+            "text": "Welcome to \nWebmaster\n\n\n\n\nfrom webmaster import View\nfrom webmaster.decorators import menu\n\nclass Index(View):\n\n    @menu(\"Home\")\n    def index(self):\n        return {}\n\n    @menu(\"About Us\")\n    def about_us(self):\n        return {}\n\n\n\n\n\nAbout\n\n\nWEBMASTER\n is a Flask based web framework. \n\n\n\n\nFor full documentation visit \nmkdocs.org\n.\n\n\nCommands\n\n\n\n\nmkdocs new [dir-name]\n - Create a new project.\n\n\nmkdocs serve\n - Start the live-reloading docs server.\n\n\nmkdocs build\n - Build the documentation site.\n\n\nmkdocs help\n - Print this help message.\n\n\n\n\nProject layout\n\n\nmkdocs.yml    # The configuration file.\ndocs/\n    index.md  # The documentation homepage.\n    ...       # Other markdown pages, images and other files.", 
+            "title": "Home"
+        }, 
+        {
+            "location": "/#welcome-to-webmaster", 
+            "text": "", 
+            "title": "Welcome to Webmaster"
+        }, 
+        {
+            "location": "/#about", 
+            "text": "WEBMASTER  is a Flask based web framework.    For full documentation visit  mkdocs.org .", 
+            "title": "About"
+        }, 
+        {
+            "location": "/#commands", 
+            "text": "mkdocs new [dir-name]  - Create a new project.  mkdocs serve  - Start the live-reloading docs server.  mkdocs build  - Build the documentation site.  mkdocs help  - Print this help message.", 
+            "title": "Commands"
+        }, 
+        {
+            "location": "/#project-layout", 
+            "text": "mkdocs.yml    # The configuration file.\ndocs/\n    index.md  # The documentation homepage.\n    ...       # Other markdown pages, images and other files.", 
+            "title": "Project layout"
+        }, 
+        {
+            "location": "/decorators/", 
+            "text": "Decorators\n\n\n@route(rule, **kwargs)\n\n\n@route\n has the same functionalities as Flask's route. The difference, it can be applied on the \nView class or methods in the View class\n\n\nArgs\n\n\n\n\n\n\nrule: (string - required) - The endpoint. ie: \n/my-hello\n \n\n\n\n\n\n\n**kwargs:\n\n\n\n\n\n\nendpoint (string - optional) - The endpoint name. Only on methods. ie: \nCONTACT_US_PAGE\n\n\n\n\n\n\ndefaults: (dict - optional) - To set defaults args. Only on methods. ie: \n{'category': 'all'}\n\n\n\n\n\n\n\n\n\n\non class View:\n\n\nfrom webmaster import View\nfrom webmaster.decorators import route\n\n@route(\"/my-hello\")\nclass Hello(View):\n\n    def index(self):\n        return {}\n\n    def contact(self):\n        return {}\n\n\n\nThe above example have the following endpoints:\n\n\nhttp://domain-name.com/my-hello\n and \nhttp://domain-name.com/my-hello/contact\n\n\non View action:\n\n\nclass World(View):\n\n    def index(self):\n        return {}\n\n    @route(\"/contact-us\")\n    def contact(self):\n        return {}\n\n\n\nThe above example have the following endpoints:\n\n\nhttp://domain-name.com/world\n and \nhttp://domain-name.com/world/contact-us\n\n\n\n\n@menu(name, **kwargs)\n\n\n@menu lets you conveniently create a Menu navigation on the View class and actions. \n\n\nIt can be used in the template to create a navigation menu effortlessly without editing any HTML.\n\n\nThe menu can be ordered and placed anywhere on the page. \n\n\nWith this method you can show and hide the menu without even touching any HTML. \n\n\nArgs\n\n\n\n\n\n\nname: The menu name\n\n\n\n\n\n\n**kwargs:\n\n\n\n\n\n\norder (int) : The order of the menu in the list.\n\n\n\n\n\n\nvisible (bool or callback) : To hide/show menu\n\n\n\n\n\n\nendpoint (string): By default the endpoint is built based on the method and class.\n When set it will be used instead\n\n\n\n\n\n\nendpoint_kwargs (dict): dict of k/v data for enpoint\n\n\n\n\n\n\ngroup_name (string): On class menu, it can be used to filter a menu set to display. \nIf a class is passed, it will try to inherit the group from that class\n\n\n\n\n\n\nurl (string): To override the normal \nendpoint\n and use a URL \n\n\n\n\n\n\ntarget (string): to use along with url, if applying a different target. ie: _blank\n\n\n\n\n\n\nalign_right (bool): By default it assumes the menu is on the left, \nwhen True it will set the flag for right\n\n\n\n\n\n\nfa_icon (bool): The font-awesome icon to use. ie: fa-pencil\n\n\n\n\n\n\nshow_profile_avatar (bool): Show the profile avatar\n\n\n\n\n\n\nshow_profile_name (bool): Show profile name in the menu instead of menu title\n\n\n\n\n\n\nThe args below will allow you to change where the menu is placed.\nBy default they are set automatically\n\n\n\n\n\n\nmodule_: the module name. Usually if using another module\n\n\n\n\n\n\nclass_: the class name class name in the module\n\n\n\n\n\n\nmethod_: The method name, to build endpoint. Changing this will change the url\n\n\n\n\n\n\nextends: class Name. To use the extends of the class\n\n\n\n\n\n\n\n\n\n\nExample:\n\n\n@menu(\"Main Menu\")\nclass HelloWorld(View):\n\n    @menu(\"Home\")\n    def index(self):\n        return {}\n\n    @menu(\"Password Checker\")\n    def check_password(view):\n        return {}\n\n\n\n\n\n@methods(*args)\n\n\n@methods allows to change the acceptable request method of a View Action. \n\n\nIf the action is accessed with the wrong method, it will return a 403 Invalid Method\n\n\nArgs\n\n\n\n\n*args: POST, GET, PUT, DELETE \n\n\n\n\nExample:\n\n\nclass HelloWorld(View):\n\n    def index(self):\n        return {}\n\n    @methods('POST')\n    def check_password(view):\n        return {}\n\n    @methods('POST', 'GET')\n    def comments(self):\n        if request.method == \"GET\":\n            return {}\n\n        elif request.method == \"POST\":\n            return {}\n\n\n\n\n\n@template\n\n\n\n\n@plugin\n\n\n\n\n@render_as_json\n\n\nTo render the view as JSON. The method must return a dict.\n\n\nThis decorator can be applied on the View class or the actions.\n\n\nWhen applied on the View class, it will render all actions to JSON.\n\n\nWhen applied on actions, only the action containing the decorator will be rendered as JSON.\n\n\nOn View class\n\n\n@render_as_json\nclass API(View):\n\n    def index(self):\n        return {\n            \"version\": 1,\n            \"name\": \"My API\"\n        }\n\n\n\nOn View action:\n\n\nclass Index(View):\n\n    def index(self):\n        return {}\n\n    @render_as_json\n    def list_users(views):\n        return {\n            \"users\": [\n                \"Mardix\",\n                \"Faby\",\n                \"Seba\",\n                \"Sami\"\n            ]\n        }\n\n\n\n\n\n@render_as_xml\n\n\nTo render the view as XML. The method must return a dict.\n\n\nThis decorator can be applied on the View class or the actions.\n\n\nWhen applied on the View class, it will render all actions to XML.\n\n\nWhen applied on actions, only the action containing the decorator will be rendered as XML.\n\n\nOn View class\n\n\n@render_as_xml\nclass API(View):\n\n    def index(self):\n        return {\n            \"version\": 1,\n            \"name\": \"My API\"\n        }\n\n\n\nOn View action:\n\n\nclass Index(View):\n\n    def index(self):\n        return {}\n\n    @render_as_xml\n    def list_users(views):\n        return {\n            \"users\": [\n                \"Mardix\",\n                \"Faby\",\n                \"Seba\",\n                \"Sami\"\n            ]\n        }\n\n\n\n\n\n@login_required\n\n\nExtension of \nflask_login.login_required\n where it checks for the decorator \n\n@no_login_required\n in the same action. \n\n\nIf the View class has \nlogin_required\n as decorators, having \n@no_login_required\n\n on an action will not test if the act\n\n\nExample\n\n\nclass Account(View):\n    decorators = [login_required]\n\n    def index(self):\n        return {}\n\n    @no_login_required\n    def docs(self):\n        return {}\n\n\n\nWith the above example, accessing \n/account\n will require login, but \n/account/docs\n \nwill not require login.\n\n\n\n\n@no_login_required\n\n\nA dummy decorator that just stays there \n@login_required\n to skip login requirements \non the method.\n\n\nExample\n\n\nclass Account(View):\n    decorators = [login_required]\n\n    def index(self):\n        return {}\n\n    @no_login_required\n    def docs(self):\n        return {}\n\n\n\nWith the above example, accessing \n/account\n will require login, but \n/account/docs\n \nwill not require login.\n\n\n\n\n@require_user_roles(*roles)\n\n\nA decorator to check if user has any of the roles specified\n\n\nArgs\n\n\n\n\n*roles: tuple of roles\n\n\n\n\nExample:\n\n\nclass Account(View):\n    decorators = [login_required]\n\n    def index(self):\n        return {}\n\n    @require_user_roles('superadmin', 'admin')\n    def admin(self):\n        return {}", 
+            "title": "Decorators"
+        }, 
+        {
+            "location": "/decorators/#decorators", 
+            "text": "", 
+            "title": "Decorators"
+        }, 
+        {
+            "location": "/decorators/#routerule-42kwargs", 
+            "text": "@route  has the same functionalities as Flask's route. The difference, it can be applied on the \nView class or methods in the View class  Args    rule: (string - required) - The endpoint. ie:  /my-hello      **kwargs:    endpoint (string - optional) - The endpoint name. Only on methods. ie:  CONTACT_US_PAGE    defaults: (dict - optional) - To set defaults args. Only on methods. ie:  {'category': 'all'}      on class View:  from webmaster import View\nfrom webmaster.decorators import route\n\n@route(\"/my-hello\")\nclass Hello(View):\n\n    def index(self):\n        return {}\n\n    def contact(self):\n        return {}  The above example have the following endpoints:  http://domain-name.com/my-hello  and  http://domain-name.com/my-hello/contact  on View action:  class World(View):\n\n    def index(self):\n        return {}\n\n    @route(\"/contact-us\")\n    def contact(self):\n        return {}  The above example have the following endpoints:  http://domain-name.com/world  and  http://domain-name.com/world/contact-us", 
+            "title": "@route(rule, **kwargs)"
+        }, 
+        {
+            "location": "/decorators/#menuname-kwargs", 
+            "text": "@menu lets you conveniently create a Menu navigation on the View class and actions.   It can be used in the template to create a navigation menu effortlessly without editing any HTML.  The menu can be ordered and placed anywhere on the page.   With this method you can show and hide the menu without even touching any HTML.   Args    name: The menu name    **kwargs:    order (int) : The order of the menu in the list.    visible (bool or callback) : To hide/show menu    endpoint (string): By default the endpoint is built based on the method and class.\n When set it will be used instead    endpoint_kwargs (dict): dict of k/v data for enpoint    group_name (string): On class menu, it can be used to filter a menu set to display. \nIf a class is passed, it will try to inherit the group from that class    url (string): To override the normal  endpoint  and use a URL     target (string): to use along with url, if applying a different target. ie: _blank    align_right (bool): By default it assumes the menu is on the left, \nwhen True it will set the flag for right    fa_icon (bool): The font-awesome icon to use. ie: fa-pencil    show_profile_avatar (bool): Show the profile avatar    show_profile_name (bool): Show profile name in the menu instead of menu title    The args below will allow you to change where the menu is placed.\nBy default they are set automatically    module_: the module name. Usually if using another module    class_: the class name class name in the module    method_: The method name, to build endpoint. Changing this will change the url    extends: class Name. To use the extends of the class      Example:  @menu(\"Main Menu\")\nclass HelloWorld(View):\n\n    @menu(\"Home\")\n    def index(self):\n        return {}\n\n    @menu(\"Password Checker\")\n    def check_password(view):\n        return {}", 
+            "title": "@menu(name, **kwargs)"
+        }, 
+        {
+            "location": "/decorators/#methodsargs", 
+            "text": "@methods allows to change the acceptable request method of a View Action.   If the action is accessed with the wrong method, it will return a 403 Invalid Method  Args   *args: POST, GET, PUT, DELETE    Example:  class HelloWorld(View):\n\n    def index(self):\n        return {}\n\n    @methods('POST')\n    def check_password(view):\n        return {}\n\n    @methods('POST', 'GET')\n    def comments(self):\n        if request.method == \"GET\":\n            return {}\n\n        elif request.method == \"POST\":\n            return {}", 
+            "title": "@methods(*args)"
+        }, 
+        {
+            "location": "/decorators/#template", 
+            "text": "", 
+            "title": "@template"
+        }, 
+        {
+            "location": "/decorators/#plugin", 
+            "text": "", 
+            "title": "@plugin"
+        }, 
+        {
+            "location": "/decorators/#render_as_json", 
+            "text": "To render the view as JSON. The method must return a dict.  This decorator can be applied on the View class or the actions.  When applied on the View class, it will render all actions to JSON.  When applied on actions, only the action containing the decorator will be rendered as JSON.  On View class  @render_as_json\nclass API(View):\n\n    def index(self):\n        return {\n            \"version\": 1,\n            \"name\": \"My API\"\n        }  On View action:  class Index(View):\n\n    def index(self):\n        return {}\n\n    @render_as_json\n    def list_users(views):\n        return {\n            \"users\": [\n                \"Mardix\",\n                \"Faby\",\n                \"Seba\",\n                \"Sami\"\n            ]\n        }", 
+            "title": "@render_as_json"
+        }, 
+        {
+            "location": "/decorators/#render_as_xml", 
+            "text": "To render the view as XML. The method must return a dict.  This decorator can be applied on the View class or the actions.  When applied on the View class, it will render all actions to XML.  When applied on actions, only the action containing the decorator will be rendered as XML.  On View class  @render_as_xml\nclass API(View):\n\n    def index(self):\n        return {\n            \"version\": 1,\n            \"name\": \"My API\"\n        }  On View action:  class Index(View):\n\n    def index(self):\n        return {}\n\n    @render_as_xml\n    def list_users(views):\n        return {\n            \"users\": [\n                \"Mardix\",\n                \"Faby\",\n                \"Seba\",\n                \"Sami\"\n            ]\n        }", 
+            "title": "@render_as_xml"
+        }, 
+        {
+            "location": "/decorators/#login_required", 
+            "text": "Extension of  flask_login.login_required  where it checks for the decorator  @no_login_required  in the same action.   If the View class has  login_required  as decorators, having  @no_login_required \n on an action will not test if the act  Example  class Account(View):\n    decorators = [login_required]\n\n    def index(self):\n        return {}\n\n    @no_login_required\n    def docs(self):\n        return {}  With the above example, accessing  /account  will require login, but  /account/docs  \nwill not require login.", 
+            "title": "@login_required"
+        }, 
+        {
+            "location": "/decorators/#no_login_required", 
+            "text": "A dummy decorator that just stays there  @login_required  to skip login requirements \non the method.  Example  class Account(View):\n    decorators = [login_required]\n\n    def index(self):\n        return {}\n\n    @no_login_required\n    def docs(self):\n        return {}  With the above example, accessing  /account  will require login, but  /account/docs  \nwill not require login.", 
+            "title": "@no_login_required"
+        }, 
+        {
+            "location": "/decorators/#require_user_rolesroles", 
+            "text": "A decorator to check if user has any of the roles specified  Args   *roles: tuple of roles   Example:  class Account(View):\n    decorators = [login_required]\n\n    def index(self):\n        return {}\n\n    @require_user_roles('superadmin', 'admin')\n    def admin(self):\n        return {}", 
+            "title": "@require_user_roles(*roles)"
+        }
+    ]
+}

@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Decorators - Webmaster</title>
+  
+
+  <link rel="shortcut icon" href="../img/favicon.ico">
+
+  
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Decorators";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script>
+  <script src="../js/theme.js"></script> 
+
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Webmaster</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+        <ul class="current">
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="..">Home</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <li class="toctree-l1 current">
+        <a class="current" href="./">Decorators</a>
+        
+            <ul>
+            
+                <li class="toctree-l3"><a href="#decorators">Decorators</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#routerule-42kwargs">@route(rule, **kwargs)</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#menuname-kwargs">@menu(name, **kwargs)</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#methodsargs">@methods(*args)</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#template">@template</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#plugin">@plugin</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#render_as_json">@render_as_json</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#render_as_xml">@render_as_xml</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#login_required">@login_required</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#no_login_required">@no_login_required</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#require_user_rolesroles">@require_user_roles(*roles)</a></li>
+                
+            
+            </ul>
+        
+    </li>
+<li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Webmaster</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Decorators</li>
+    <li class="wy-breadcrumbs-aside">
+      
+        
+          <a href="https://github.com/mardix/webmaster" class="icon icon-github"> Edit on GitHub</a>
+        
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="decorators">Decorators</h2>
+<h2 id="routerule-42kwargs">@route(rule, **kwargs)</h2>
+<p><strong>@route</strong> has the same functionalities as Flask's route. The difference, it can be applied on the 
+View class or methods in the View class</p>
+<p><strong>Args</strong></p>
+<ul>
+<li>
+<p>rule: (string - required) - The endpoint. ie: <code>/my-hello</code> </p>
+</li>
+<li>
+<p>**kwargs:</p>
+<ul>
+<li>
+<p>endpoint (string - optional) - The endpoint name. Only on methods. ie: <code>CONTACT_US_PAGE</code></p>
+</li>
+<li>
+<p>defaults: (dict - optional) - To set defaults args. Only on methods. ie: <code>{'category': 'all'}</code></p>
+</li>
+</ul>
+</li>
+</ul>
+<p>on class View:</p>
+<pre><code>from webmaster import View
+from webmaster.decorators import route
+
+@route("/my-hello")
+class Hello(View):
+
+    def index(self):
+        return {}
+
+    def contact(self):
+        return {}
+</code></pre>
+<p>The above example have the following endpoints:</p>
+<p><code>http://domain-name.com/my-hello</code> and <code>http://domain-name.com/my-hello/contact</code></p>
+<p>on View action:</p>
+<pre><code>class World(View):
+
+    def index(self):
+        return {}
+
+    @route("/contact-us")
+    def contact(self):
+        return {}
+</code></pre>
+<p>The above example have the following endpoints:</p>
+<p><code>http://domain-name.com/world</code> and <code>http://domain-name.com/world/contact-us</code></p>
+<hr />
+<h2 id="menuname-kwargs">@menu(name, **kwargs)</h2>
+<p>@menu lets you conveniently create a Menu navigation on the View class and actions. </p>
+<p>It can be used in the template to create a navigation menu effortlessly without editing any HTML.</p>
+<p>The menu can be ordered and placed anywhere on the page. </p>
+<p>With this method you can show and hide the menu without even touching any HTML. </p>
+<p><strong>Args</strong></p>
+<ul>
+<li>
+<p>name: The menu name</p>
+</li>
+<li>
+<p>**kwargs:</p>
+<ul>
+<li>
+<p>order (int) : The order of the menu in the list.</p>
+</li>
+<li>
+<p>visible (bool or callback) : To hide/show menu</p>
+</li>
+<li>
+<p>endpoint (string): By default the endpoint is built based on the method and class.
+ When set it will be used instead</p>
+</li>
+<li>
+<p>endpoint_kwargs (dict): dict of k/v data for enpoint</p>
+</li>
+<li>
+<p>group_name (string): On class menu, it can be used to filter a menu set to display. 
+If a class is passed, it will try to inherit the group from that class</p>
+</li>
+<li>
+<p>url (string): To override the normal <code>endpoint</code> and use a URL </p>
+</li>
+<li>
+<p>target (string): to use along with url, if applying a different target. ie: _blank</p>
+</li>
+<li>
+<p>align_right (bool): By default it assumes the menu is on the left, 
+when True it will set the flag for right</p>
+</li>
+<li>
+<p>fa_icon (bool): The font-awesome icon to use. ie: fa-pencil</p>
+</li>
+<li>
+<p>show_profile_avatar (bool): Show the profile avatar</p>
+</li>
+<li>
+<p>show_profile_name (bool): Show profile name in the menu instead of menu title</p>
+</li>
+</ul>
+<p>The args below will allow you to change where the menu is placed.
+By default they are set automatically</p>
+<ul>
+<li>
+<p>module_: the module name. Usually if using another module</p>
+</li>
+<li>
+<p>class_: the class name class name in the module</p>
+</li>
+<li>
+<p>method_: The method name, to build endpoint. Changing this will change the url</p>
+</li>
+<li>
+<p>extends: class Name. To use the extends of the class</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Example:</p>
+<pre><code>@menu("Main Menu")
+class HelloWorld(View):
+
+    @menu("Home")
+    def index(self):
+        return {}
+
+    @menu("Password Checker")
+    def check_password(view):
+        return {}
+</code></pre>
+<hr />
+<h2 id="methodsargs">@methods(*args)</h2>
+<p>@methods allows to change the acceptable request method of a View Action. </p>
+<p>If the action is accessed with the wrong method, it will return a 403 Invalid Method</p>
+<p><strong>Args</strong></p>
+<ul>
+<li>*args: POST, GET, PUT, DELETE </li>
+</ul>
+<p>Example:</p>
+<pre><code>class HelloWorld(View):
+
+    def index(self):
+        return {}
+
+    @methods('POST')
+    def check_password(view):
+        return {}
+
+    @methods('POST', 'GET')
+    def comments(self):
+        if request.method == "GET":
+            return {}
+
+        elif request.method == "POST":
+            return {}
+</code></pre>
+<hr />
+<h2 id="template">@template</h2>
+<hr />
+<h2 id="plugin">@plugin</h2>
+<hr />
+<h2 id="render_as_json">@render_as_json</h2>
+<p>To render the view as JSON. The method must return a dict.</p>
+<p>This decorator can be applied on the View class or the actions.</p>
+<p>When applied on the View class, it will render all actions to JSON.</p>
+<p>When applied on actions, only the action containing the decorator will be rendered as JSON.</p>
+<p>On View class</p>
+<pre><code>@render_as_json
+class API(View):
+
+    def index(self):
+        return {
+            "version": 1,
+            "name": "My API"
+        }
+</code></pre>
+<p>On View action:</p>
+<pre><code>class Index(View):
+
+    def index(self):
+        return {}
+
+    @render_as_json
+    def list_users(views):
+        return {
+            "users": [
+                "Mardix",
+                "Faby",
+                "Seba",
+                "Sami"
+            ]
+        }
+</code></pre>
+<hr />
+<h2 id="render_as_xml">@render_as_xml</h2>
+<p>To render the view as XML. The method must return a dict.</p>
+<p>This decorator can be applied on the View class or the actions.</p>
+<p>When applied on the View class, it will render all actions to XML.</p>
+<p>When applied on actions, only the action containing the decorator will be rendered as XML.</p>
+<p>On View class</p>
+<pre><code>@render_as_xml
+class API(View):
+
+    def index(self):
+        return {
+            "version": 1,
+            "name": "My API"
+        }
+</code></pre>
+<p>On View action:</p>
+<pre><code>class Index(View):
+
+    def index(self):
+        return {}
+
+    @render_as_xml
+    def list_users(views):
+        return {
+            "users": [
+                "Mardix",
+                "Faby",
+                "Seba",
+                "Sami"
+            ]
+        }
+</code></pre>
+<hr />
+<h2 id="login_required">@login_required</h2>
+<p>Extension of <code>flask_login.login_required</code> where it checks for the decorator 
+<code>@no_login_required</code> in the same action. </p>
+<p>If the View class has <code>login_required</code> as decorators, having <code>@no_login_required</code>
+ on an action will not test if the act</p>
+<p>Example</p>
+<pre><code>class Account(View):
+    decorators = [login_required]
+
+    def index(self):
+        return {}
+
+    @no_login_required
+    def docs(self):
+        return {}
+</code></pre>
+<p>With the above example, accessing <code>/account</code> will require login, but <code>/account/docs</code> 
+will not require login.</p>
+<hr />
+<h2 id="no_login_required">@no_login_required</h2>
+<p>A dummy decorator that just stays there <code>@login_required</code> to skip login requirements 
+on the method.</p>
+<p>Example</p>
+<pre><code>class Account(View):
+    decorators = [login_required]
+
+    def index(self):
+        return {}
+
+    @no_login_required
+    def docs(self):
+        return {}
+</code></pre>
+<p>With the above example, accessing <code>/account</code> will require login, but <code>/account/docs</code> 
+will not require login.</p>
+<hr />
+<h2 id="require_user_rolesroles">@require_user_roles(*roles)</h2>
+<p>A decorator to check if user has any of the roles specified</p>
+<p><strong>Args</strong></p>
+<ul>
+<li>*roles: tuple of roles</li>
+</ul>
+<p>Example:</p>
+<pre><code>class Account(View):
+    decorators = [login_required]
+
+    def index(self):
+        return {}
+
+    @require_user_roles('superadmin', 'admin')
+    def admin(self):
+        return {}
+</code></pre>
+<hr />
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href=".." class="btn btn-neutral" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+<div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+          <a class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
+      
+      
+        <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+
+</body>
+</html>
