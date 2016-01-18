@@ -26,7 +26,7 @@ MANIFEST
 # Mac stuff
 .DS_Store
 
-
+site/
 devtest*/
 test.py
 test*.py
