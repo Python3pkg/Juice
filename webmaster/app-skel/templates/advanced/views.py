@@ -1,6 +1,6 @@
 """
-Webmaster
-Your Application's View
+Webmaster: Your Application's View
+
 """
 
 from webmaster import (View, flash, abort, session, request, url_for,
@@ -100,51 +100,5 @@ class Account(View):
 class Blog(View):
     pass
 
-# ------------------------------------------------------------------------------
-# /admin
-# Creates and admin view
-# Extends publisher.admin to manage posts
-# Extends user.admin to manage users
-#
-
-@menu("My Admin", group_name="admin")
-@template("Webmaster/admin/layout.html", brand_name="My Admin Zone")
-@plugin(user.admin, model=model.User, menu={"group_name": "admin"})
-@plugin(publisher.admin, model=model.Publisher, menu={"group_name": "admin"})
-@route("/admin")
-class Admin(View):
-
-    @menu("All")
-    def index(self):
-        return {}
-
-
-# ------------------------------------------------------------------------------
-# /api
-# This endpoint illustrates and /api endpoint
-# All actions return json
-# @methods is used to change the required method on the action
-#
-@render_as_json
-class Api(View):
-
-    def index(self):
-        return {
-            "name": "My API",
-            "version": 1.0
-        }
-
-    def get(self, id):
-        return {
-            "description": "This is a get",
-            "id": id
-        }
-
-    @methods("post")
-    def test(self, id):
-        return {
-            "desc": "This is a test",
-            "id": int(id)
-        }
 
 

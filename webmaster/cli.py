@@ -45,7 +45,7 @@ def copy_resource(src, dest):
                 f.write(pkg_resources.resource_string(__name__, src))
 
 
-def create_project(project_name, template="app"):
+def create_project(project_name, template="simple"):
     """
     Create the project
     """
@@ -89,8 +89,7 @@ def create_project(project_name, template="app"):
             with open(f[0], "wb") as f0:
                 f0.write(f[1])
 
-    copy_resource("%s/%s/" % (SKELETON_DIR, template), project_dir)
-
+    copy_resource("%s/templates/%s/" % (SKELETON_DIR, template), project_dir)
     copy_resource("%s/%s/" % (SKELETON_DIR, "data"), APPLICATION_DATA_DIR)
 
 # ------------------------------------------------------------------------------
@@ -199,7 +198,8 @@ def cli(): pass
 
 @cli.command()
 @click.option("--app", "-a", default="www")
-def create(app):
+@click.option("--template", "-t", default="simple")
+def create(app, template):
     """  Create a new App """
 
     app = format_app_name(app)
@@ -207,7 +207,7 @@ def create(app):
     _title("Create new App ...")
     click.echo("- App: %s " % app)
 
-    create_project(app)
+    create_project(app, template)
 
     click.echo("- Sweet! Your new app [ %s ] has been created" % app)
     click.echo("- Location: [ application/%s ]" % app)
