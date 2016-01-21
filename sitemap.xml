@@ -4,17 +4,143 @@
     
     <url>
      <loc>None/</loc>
-     <lastmod>2016-01-18</lastmod>
+     <lastmod>2016-01-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
 
     
+        
     <url>
-     <loc>None/decorators/</loc>
-     <lastmod>2016-01-18</lastmod>
+     <loc>None/application/</loc>
+     <lastmod>2016-01-20</lastmod>
      <changefreq>daily</changefreq>
     </url>
+        
+    <url>
+     <loc>None/application/config/</loc>
+     <lastmod>2016-01-20</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>None/application/views/</loc>
+     <lastmod>2016-01-20</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>None/application/templates/</loc>
+     <lastmod>2016-01-20</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>None/application/static/</loc>
+     <lastmod>2016-01-20</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    
+
+    
+        
+    <url>
+     <loc>None/packages/</loc>
+     <lastmod>2016-01-20</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>None/packages/base/</loc>
+     <lastmod>2016-01-20</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>None/packages/contact-page/</loc>
+     <lastmod>2016-01-20</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>None/packages/user/</loc>
+     <lastmod>2016-01-20</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>None/packages/publisher/</loc>
+     <lastmod>2016-01-20</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>None/packages/error-page/</loc>
+     <lastmod>2016-01-20</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>None/packages/maintenance-page/</loc>
+     <lastmod>2016-01-20</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    
+
+    
+    <url>
+     <loc>None/webcli/</loc>
+     <lastmod>2016-01-20</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+        
+    <url>
+     <loc>None/webmaster/core/</loc>
+     <lastmod>2016-01-20</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>None/webmaster/decorators/</loc>
+     <lastmod>2016-01-20</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>None/webmaster/exceptions/</loc>
+     <lastmod>2016-01-20</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>None/webmaster/utils/</loc>
+     <lastmod>2016-01-20</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    
+
+    
+    <url>
+     <loc>None/deploy/</loc>
+     <lastmod>2016-01-20</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+    
+
+    
+        
+    <url>
+     <loc>None/snippets/</loc>
+     <lastmod>2016-01-20</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
     
 
 </urlset>

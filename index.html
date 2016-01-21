@@ -55,13 +55,29 @@
         
             <ul>
             
-                <li class="toctree-l3"><a href="#welcome-to-webmaster">Welcome to Webmaster</a></li>
+                <li class="toctree-l3"><a href="#what-is-webmaster">What is Webmaster ?</a></li>
                 
-                    <li><a class="toctree-l4" href="#about">About</a></li>
+                    <li><a class="toctree-l4" href="#installation">Installation</a></li>
                 
-                    <li><a class="toctree-l4" href="#commands">Commands</a></li>
+                    <li><a class="toctree-l4" href="#create-your-first-application">Create Your First Application</a></li>
                 
-                    <li><a class="toctree-l4" href="#project-layout">Project layout</a></li>
+                    <li><a class="toctree-l4" href="#your-first-launch-on-local-dev">Your First Launch on Local Dev</a></li>
+                
+                    <li><a class="toctree-l4" href="#your-first-view">Your First View</a></li>
+                
+                    <li><a class="toctree-l4" href="#your-first-template">Your First Template</a></li>
+                
+                    <li><a class="toctree-l4" href="#your-first-static">Your First Static</a></li>
+                
+                    <li><a class="toctree-l4" href="#deploy-to-production">Deploy to Production</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#decision-made-for-you">Decision Made for You</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#built-in-packages">Built-in Packages</a></li>
+                
+                    <li><a class="toctree-l4" href="#front-end-components">Front End Components</a></li>
                 
             
             </ul>
@@ -70,10 +86,168 @@
 <li>
           
             <li>
+    <ul class="subnav">
+    <li><span>Application</span></li>
+
+        
+            
     <li class="toctree-l1 ">
-        <a class="" href="decorators/">Decorators</a>
+        <a class="" href="application/">Home</a>
         
     </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="application/config/">Config</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="application/views/">Views</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="application/templates/">Templates</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="application/static/">Static</a>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>Packages</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="packages/">Home</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="packages/base/">Base</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="packages/contact-page/">Contact Page</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="packages/user/">User</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="packages/publisher/">Publisher</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="packages/error-page/">Error Page</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="packages/maintenance-page/">Maintenance Page</a>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="webcli/">Webcli</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>Webmaster Core</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="webmaster/core/">Core</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="webmaster/decorators/">Decorators</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="webmaster/exceptions/">Exceptions</a>
+        
+    </li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="webmaster/utils/">Utils</a>
+        
+    </li>
+
+        
+    </ul>
+<li>
+          
+            <li>
+    <li class="toctree-l1 ">
+        <a class="" href="deploy/">Deployment</a>
+        
+    </li>
+<li>
+          
+            <li>
+    <ul class="subnav">
+    <li><span>Snippets</span></li>
+
+        
+            
+    <li class="toctree-l1 ">
+        <a class="" href="snippets/">Home</a>
+        
+    </li>
+
+        
+    </ul>
 <li>
           
         </ul>
@@ -112,39 +286,388 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="welcome-to-webmaster">Welcome to <em>Webmaster</em></h1>
-<h2 id="_1"></h2>
+                <h1 id="what-is-webmaster">What is <em>Webmaster</em> ?</h1>
+<p><strong>Webmaster</strong> is a Flask based framework with some of the most common Flask extensions 
+to rapidly build Website, Admin section, RESTful API and more. </p>
+<p>One of the strength of <strong>Webmaster</strong> is it automatically creates the route endpoint
+from the class and methods.</p>
+<p>It also quickly allows you to create Navigation menu on the methods you are writing.</p>
+<p><strong>Webmaster</strong> is really convenient and will help create web applications faster. </p>
+<hr />
+<h2 id="installation">Installation</h2>
+<p>The best way to install <strong>Webmaster</strong> is to do it with pip. </p>
+<pre><code>pip install webmaster
+</code></pre>
+<p>As a good practice, it is best to install it into its own virtual environment.</p>
+<p>The installation will get all the necessary packages to get you going.</p>
+<p>After the installation is complete, <strong>Webmaster</strong> will create <strong>webcli</strong>,
+a command line tool to conveniently create projects, build assets, 
+push assets to S3, deploy application to production server and more.</p>
+<p><a href="webcli/">Read more about WEBCLI</a></p>
+<p>On the command line run the <strong>webcli</strong> like below</p>
+<pre><code>webcli
+</code></pre>
+<hr />
+<h2 id="create-your-first-application">Create Your First Application</h2>
+<p>To create your application, we'll use the <strong>webcli</strong> command. It will create 
+all the necessary files to get you going.</p>
+<p>First, <code>cd</code> into the directory that will contain your application, 
+then type the command below:</p>
+<pre><code>webcli create --project www
+</code></pre>
+<p>Upon creation, you should see the structure below,
+where <code>www</code> name is the default name for web project, 
+but can be anything and will follow the structure below.</p>
+<p>Please notice the file <code>app_www.py</code> and the directory <code>/application/www</code>.</p>
+<pre><code>/
+- app_www.py
+|
+- manage.py
+|
+- propel.yml
+|
+- requirements.txt
+|
+- application/
+    |
+    - data/
+        |
+        - mailer-templates/
+        |
+        - uploads/
+    |
+    - extras/
+        |
+        - __init__.py
+    |
+    - www/
+        |
+        - static/
+            |   
+            - css/
+            |
+            - images/
+            |
+            - js/
+            |
+            - assets.yml
+        |
+        - templates/
+            |
+            - Index/
+                |   
+                - index.html
+        |
+        - __init__.py
+        |
+        - views.py
+</code></pre>
+<ul>
+<li>
+<p><code>app_www.py</code>: This is the project's entry point. It is used to launch the application. </p>
+</li>
+<li>
+<p><code>manage.py</code>: Mostly a command line tool to setup the application or do anything on the command line</p>
+</li>
+<li>
+<p><code>requirements.txt</code>: This file should contain all your application's dependencies to be installed</p>
+</li>
+<li>
+<p><code>propel.yml</code>: A deployment configuration file. </p>
+</li>
+<li>
+<p><code>/application</code>: contains all the applications </p>
+</li>
+<li>
+<p><code>/application/data</code>: This directory contains application data such uploads etc.</p>
+</li>
+<li>
+<p><code>/application/extras</code>: May contain customs module to be shared by all the applications</p>
+</li>
+<li>
+<p><code>/application/www</code>: In this case <code>www</code> is the application name and was set when doing <code>webcli create --project www</code>. 
+This directory contains your application's static files, templates files, views, etc.</p>
+</li>
+<li>
+<p><code>/application/www/static</code>: This directory contains the application's static files for the <code>www</code> application</p>
+</li>
+<li>
+<p><code>/application/www/templates</code>: This directory contains the template files for the <code>www</code> application</p>
+</li>
+<li>
+<p><code>/application/www/views.py</code>: That file conatains the application's View classes</p>
+</li>
+</ul>
+<h2 id="your-first-launch-on-local-dev">Your First Launch on Local Dev</h2>
+<p>Now the application is setup we can launch the local dev server to see the site.</p>
+<p>To run the server, type the command below:</p>
+<pre><code>webcli local --project www
+</code></pre>
+<p>Automatically it will launch the site and you can navigate to see the site at:</p>
+<pre><code>http://127.0.0.1:5000
+</code></pre>
+<hr />
+<h2 id="your-first-view">Your First View</h2>
+<p>By default, your views file is at <code>/application/www/views.py</code></p>
+<p>You views consist of classes extended by <code>webmaster.View</code>. One view file can 
+have multiple View classes in it.</p>
+<p>Each method in the class is automatically an action, unless it is a <code>@classsmethod</code>
+or starts with <code>_</code> underscore. And <code>action</code> is an endpoint to be accessed.</p>
+<p>By default, each endpoint is built on the class and the method being called. 
+It will be in lower case and dasherized.</p>
+<p>Here's a sample of a <code>views.py</code>, which contains two View classes</p>
 <pre><code>from webmaster import View
-from webmaster.decorators import menu
+from webmaster.decorators import (menu, methods)
 
 class Index(View):
 
-    @menu("Home")
+    @menu("Home", order=1)
     def index(self):
         return {}
 
-    @menu("About Us")
+    @menu("About Us", order=3)
     def about_us(self):
         return {}
+
+@menu("Music", order=2)
+class Music(View):
+
+    @menu("Browse All")
+    def index(self):
+        return {}
+
+    def get(self, id):
+        return {
+            "album_name": "Webmaster",
+            "artist_name": "Mardix",
+            "genre": "Hip-Hop" 
+        }
+
+    @menu("Search")
+    def search(self):
+        return {}
+
+    @methods("POST")
+    def submit(self):
+        return {}
 </code></pre>
-<hr />
-<h2 id="about">About</h2>
-<p><strong>WEBMASTER</strong> is a Flask based web framework. </p>
-<hr />
-<p>For full documentation visit <a href="http://mkdocs.org">mkdocs.org</a>.</p>
-<h2 id="commands">Commands</h2>
+<h4 id="automatic-routes">Automatic routes</h4>
+<p>Using the above example the following endpoints are available automatically. 
+No need to create a route for each one of them.</p>
 <ul>
-<li><code>mkdocs new [dir-name]</code> - Create a new project.</li>
-<li><code>mkdocs serve</code> - Start the live-reloading docs server.</li>
-<li><code>mkdocs build</code> - Build the documentation site.</li>
-<li><code>mkdocs help</code> - Print this help message.</li>
+<li>
+<p><code>Index.index</code> -&gt; <strong>http://domain/</strong></p>
+</li>
+<li>
+<p><code>Index.about_us</code> -&gt; <strong>http://domain/about-us</strong></p>
+</li>
+<li>
+<p><code>Music.index</code> -&gt; <strong>http://domain/music</strong></p>
+</li>
+<li>
+<p><code>Music.search</code> -&gt; <strong>http://domain/music/search</strong></p>
+</li>
+<li>
+<p><code>Music.get</code> -&gt; <strong>http://domain/music/12345</strong></p>
+</li>
 </ul>
-<h2 id="project-layout">Project layout</h2>
-<pre><code>mkdocs.yml    # The configuration file.
-docs/
-    index.md  # The documentation homepage.
-    ...       # Other markdown pages, images and other files.
+<h4 id="instant-navigation-menu-creation">Instant navigation menu creation</h4>
+<p><code>@menu</code> allow us to create a navigation menu directly in the Class and methods. 
+This help with Rapid Application Development, and it uses the endpoint of the current 
+Class and method. Below is how it will look like using the views above. </p>
+<p><img alt="Nav Menu" src="./imgs/index.md-menu1.png" /></p>
+<h4 id="smart-templates-mapping">Smart templates mapping</h4>
+<p>And lastly, notice that the methods return a <code>dict</code> of the data to pass to the template. 
+<strong>Webmaster</strong> will map the class name and the method used to the templates.</p>
+<ul>
+<li>
+<p><code>Index.about_us</code> -&gt; <strong>/templates/Index/about_us.html</strong></p>
+</li>
+<li>
+<p><code>Music.search</code> -&gt; <strong>/templates/Music/search.html</strong></p>
+</li>
+</ul>
+<p>Learn more about <a href="application/views/">VIEWS</a></p>
+<hr />
+<h2 id="your-first-template">Your First Template</h2>
+<p>Templates are normal JINJA <code>.html</code> pages placed at <code>application/www/templates</code></p>
+<p>Each directory match a View class name in the <code>views.py</code>, and inside of the directory,
+ contains <code>.html</code> files matching the methods name. </p>
+<ul>
+<li>
+<p><code>Index.index</code> -&gt; <strong>/templates/Index/index.html</strong></p>
+</li>
+<li>
+<p><code>Index.about_us</code> -&gt; <strong>/templates/Index/about_us.html</strong></p>
+</li>
+<li>
+<p><code>Music.index</code> -&gt; <strong>/templates/Music/index.html</strong></p>
+</li>
+<li>
+<p><code>Music.get</code> -&gt; <strong>/templates/Music/get.html</strong></p>
+</li>
+<li>
+<p><code>Music.search</code> -&gt; <strong>/templates/Music/search.html</strong></p>
+</li>
+</ul>
+<p>With <code>views.py</code> above, <code>/templates/Music/get.html</code> </p>
+<pre><code>&lt;h2&gt;Music Info&lt;/h2&gt;
+
+&lt;h3&gt;{{ artist_name }}&lt;/h3&gt;
+
+&lt;h4&gt;Album name: {{ album_name}} &lt;/h4&gt;
+
+&lt;h4&gt;Genre: {{ genre }} &lt;/h4&gt;
 </code></pre>
+<h4 id="dude-wheres-my-layout">Dude where's my layout?</h4>
+<p><code>application/www/templates/layout.html</code> is the main layout of the site, 
+all pages are automatically included upon rendering.</p>
+<p>You would not need to use <code>{% extends %}</code> to place a layout around the <code>Music/get.html</code> page.</p>
+<p>Upon rendering, you will see a site looking like this:</p>
+<p><img alt="Nav Menu" src="./imgs/index.md-render.png" /></p>
+<p>Learn more about <a href="application/templates/">TEMPLATES</a></p>
+<hr />
+<h2 id="your-first-static">Your First Static</h2>
+<p><code>application/www/static</code> contains all the static files: images, css, javascript etc.</p>
+<p>Learn more about <a href="application/static/">STATIC</a></p>
+<hr />
+<h2 id="deploy-to-production">Deploy to Production</h2>
+<p>Now your application is ready, it is time to deploy in production.</p>
+<p>While there many other options, I'm more familiar with <a href="deploy/">Propel</a> and Gunicorn.</p>
+<ul>
+<li>
+<p>With <a href="deploy/">Propel</a></p>
+<pre><code>propel -w
+</code></pre>
+</li>
+<li>
+<p>On Gunicorn</p>
+<pre><code>gunicorn app_www:app
+</code></pre>
+</li>
+</ul>
+<p>Learn more about <a href="deploy/">DEPLOYMENT</a></p>
+<hr />
+<p>That's it!</p>
+<p>Wasn't it easy?</p>
+<hr />
+<h1 id="decision-made-for-you">Decision Made for You</h1>
+<ul>
+<li>
+<p>Smart routing: automatically generates routes based on the classes and methods in your views</p>
+</li>
+<li>
+<p>Class name as the base url, ie: class UserAccount will be accessed at '/user-account'</p>
+</li>
+<li>
+<p>Class methods (action) could be accessed: hello_world(self) becomes 'hello-world'</p>
+</li>
+<li>
+<p>Easy rending and render decorator</p>
+</li>
+<li>
+<p>Auto route can be edited with @route()</p>
+</li>
+<li>
+<p>Restful: GET, POST, PUT, DELETE</p>
+</li>
+<li>
+<p>REST API Ready</p>
+</li>
+<li>
+<p>bcrypt is chosen as the password hasher</p>
+</li>
+<li>
+<p>Session: Redis, AWS S3, Google Storage, SQLite, MySQL, PostgreSQL</p>
+</li>
+<li>
+<p>ORM: <a href="https://github.com/mardix/active-alchemy">Active-Alchemy</a> (SQLALchemy wrapper)</p>
+</li>
+<li>
+<p>ReCaptcha: <a href="https://github.com/mardix/flask-recaptcha">Flask-Recaptcha</a></p>
+</li>
+<li>
+<p>CSRF on all POST</p>
+</li>
+<li>
+<p>Storage: Local, S3, Google Storage <a href="https://github.com/mardix/flask-cloudy">Flask-Cloudy</a></p>
+</li>
+<li>
+<p>Mailer (SES or SMTP)</p>
+</li>
+<li>
+<p>Caching</p>
+</li>
+<li>
+<p>Propel for deployment</p>
+</li>
+</ul>
+<hr />
+<h1 id="built-in-packages">Built-in Packages</h1>
+<p><strong>Wemaster</strong> comes with built-in packages to help you run from the get go.</p>
+<ul>
+<li>
+<p>Basic Layout</p>
+</li>
+<li>
+<p>Admin Layout</p>
+</li>
+<li>
+<p>Index page</p>
+</li>
+<li>
+<p>User Auth : It allows to authenticate users into the application. Contains the following pages: </p>
+<ul>
+<li>login</li>
+<li>signup</li>
+<li>lost-password</li>
+<li>account-settings</li>
+</ul>
+</li>
+<li>
+<p>User Admin</p>
+</li>
+<li>
+<p>Publisher a CMS lite to manage posts (article, blog, dynamic pages, etc)</p>
+<ul>
+<li>With Admin</li>
+<li>With Front end view</li>
+</ul>
+</li>
+<li>
+<p>Contact Page</p>
+</li>
+<li>
+<p>Error Page (Custom error page)</p>
+</li>
+<li>
+<p>Social Signin (in experiment)</p>
+</li>
+<li>
+<p>Social Share</p>
+</li>
+<li>
+<p>Bootswatch</p>
+</li>
+<li>
+<p>Font-Awesome</p>
+</li>
+<li>
+<p>Markdown</p>
+</li>
+</ul>
+<h2 id="front-end-components">Front End Components</h2>
+<ul>
+<li>Lazy load images</li>
+<li>Social Share Buttons</li>
+<li>JQuery</li>
+<li>Bootstrap</li>
+<li>Bootswatch</li>
+<li>Js-Cookie</li>
+<li>JQuery Lazy</li>
+<li>JQuery Oembed</li>
+<li>(aut)</li>
+</ul>
               
             </div>
           </div>
@@ -152,7 +675,7 @@ docs/
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="decorators/" class="btn btn-neutral float-right" title="Decorators"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="application/" class="btn btn-neutral float-right" title="Home"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
     </div>
@@ -182,7 +705,7 @@ docs/
       
       
       
-        <span style="margin-left: 15px"><a href="decorators/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="application/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
@@ -192,5 +715,5 @@ docs/
 
 <!--
 MkDocs version : 0.14.0
-Build Date UTC : 2016-01-18 07:55:09.960762
+Build Date UTC : 2016-01-21 02:24:28.515289
 -->

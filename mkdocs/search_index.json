@@ -2,88 +2,253 @@
     "docs": [
         {
             "location": "/", 
-            "text": "Welcome to \nWebmaster\n\n\n\n\nfrom webmaster import View\nfrom webmaster.decorators import menu\n\nclass Index(View):\n\n    @menu(\"Home\")\n    def index(self):\n        return {}\n\n    @menu(\"About Us\")\n    def about_us(self):\n        return {}\n\n\n\n\n\nAbout\n\n\nWEBMASTER\n is a Flask based web framework. \n\n\n\n\nFor full documentation visit \nmkdocs.org\n.\n\n\nCommands\n\n\n\n\nmkdocs new [dir-name]\n - Create a new project.\n\n\nmkdocs serve\n - Start the live-reloading docs server.\n\n\nmkdocs build\n - Build the documentation site.\n\n\nmkdocs help\n - Print this help message.\n\n\n\n\nProject layout\n\n\nmkdocs.yml    # The configuration file.\ndocs/\n    index.md  # The documentation homepage.\n    ...       # Other markdown pages, images and other files.", 
+            "text": "What is \nWebmaster\n ?\n\n\nWebmaster\n is a Flask based framework with some of the most common Flask extensions \nto rapidly build Website, Admin section, RESTful API and more. \n\n\nOne of the strength of \nWebmaster\n is it automatically creates the route endpoint\nfrom the class and methods.\n\n\nIt also quickly allows you to create Navigation menu on the methods you are writing.\n\n\nWebmaster\n is really convenient and will help create web applications faster. \n\n\n\n\nInstallation\n\n\nThe best way to install \nWebmaster\n is to do it with pip. \n\n\npip install webmaster\n\n\n\nAs a good practice, it is best to install it into its own virtual environment.\n\n\nThe installation will get all the necessary packages to get you going.\n\n\nAfter the installation is complete, \nWebmaster\n will create \nwebcli\n,\na command line tool to conveniently create projects, build assets, \npush assets to S3, deploy application to production server and more.\n\n\nRead more about WEBCLI\n\n\nOn the command line run the \nwebcli\n like below\n\n\nwebcli\n\n\n\n\n\nCreate Your First Application\n\n\nTo create your application, we'll use the \nwebcli\n command. It will create \nall the necessary files to get you going.\n\n\nFirst, \ncd\n into the directory that will contain your application, \nthen type the command below:\n\n\nwebcli create --project www\n\n\n\nUpon creation, you should see the structure below,\nwhere \nwww\n name is the default name for web project, \nbut can be anything and will follow the structure below.\n\n\nPlease notice the file \napp_www.py\n and the directory \n/application/www\n.\n\n\n/\n- app_www.py\n|\n- manage.py\n|\n- propel.yml\n|\n- requirements.txt\n|\n- application/\n    |\n    - data/\n        |\n        - mailer-templates/\n        |\n        - uploads/\n    |\n    - extras/\n        |\n        - __init__.py\n    |\n    - www/\n        |\n        - static/\n            |   \n            - css/\n            |\n            - images/\n            |\n            - js/\n            |\n            - assets.yml\n        |\n        - templates/\n            |\n            - Index/\n                |   \n                - index.html\n        |\n        - __init__.py\n        |\n        - views.py\n\n\n\n\n\n\n\napp_www.py\n: This is the project's entry point. It is used to launch the application. \n\n\n\n\n\n\nmanage.py\n: Mostly a command line tool to setup the application or do anything on the command line\n\n\n\n\n\n\nrequirements.txt\n: This file should contain all your application's dependencies to be installed\n\n\n\n\n\n\npropel.yml\n: A deployment configuration file. \n\n\n\n\n\n\n/application\n: contains all the applications \n\n\n\n\n\n\n/application/data\n: This directory contains application data such uploads etc.\n\n\n\n\n\n\n/application/extras\n: May contain customs module to be shared by all the applications\n\n\n\n\n\n\n/application/www\n: In this case \nwww\n is the application name and was set when doing \nwebcli create --project www\n. \nThis directory contains your application's static files, templates files, views, etc.\n\n\n\n\n\n\n/application/www/static\n: This directory contains the application's static files for the \nwww\n application\n\n\n\n\n\n\n/application/www/templates\n: This directory contains the template files for the \nwww\n application\n\n\n\n\n\n\n/application/www/views.py\n: That file conatains the application's View classes\n\n\n\n\n\n\nYour First Launch on Local Dev\n\n\nNow the application is setup we can launch the local dev server to see the site.\n\n\nTo run the server, type the command below:\n\n\nwebcli local --project www\n\n\n\nAutomatically it will launch the site and you can navigate to see the site at:\n\n\nhttp://127.0.0.1:5000\n\n\n\n\n\nYour First View\n\n\nBy default, your views file is at \n/application/www/views.py\n\n\nYou views consist of classes extended by \nwebmaster.View\n. One view file can \nhave multiple View classes in it.\n\n\nEach method in the class is automatically an action, unless it is a \n@classsmethod\n\nor starts with \n_\n underscore. And \naction\n is an endpoint to be accessed.\n\n\nBy default, each endpoint is built on the class and the method being called. \nIt will be in lower case and dasherized.\n\n\nHere's a sample of a \nviews.py\n, which contains two View classes\n\n\nfrom webmaster import View\nfrom webmaster.decorators import (menu, methods)\n\nclass Index(View):\n\n    @menu(\"Home\", order=1)\n    def index(self):\n        return {}\n\n    @menu(\"About Us\", order=3)\n    def about_us(self):\n        return {}\n\n@menu(\"Music\", order=2)\nclass Music(View):\n\n    @menu(\"Browse All\")\n    def index(self):\n        return {}\n\n    def get(self, id):\n        return {\n            \"album_name\": \"Webmaster\",\n            \"artist_name\": \"Mardix\",\n            \"genre\": \"Hip-Hop\" \n        }\n\n    @menu(\"Search\")\n    def search(self):\n        return {}\n\n    @methods(\"POST\")\n    def submit(self):\n        return {}\n\n\n\nAutomatic routes\n\n\nUsing the above example the following endpoints are available automatically. \nNo need to create a route for each one of them.\n\n\n\n\n\n\nIndex.index\n -\n \nhttp://domain/\n\n\n\n\n\n\nIndex.about_us\n -\n \nhttp://domain/about-us\n\n\n\n\n\n\nMusic.index\n -\n \nhttp://domain/music\n\n\n\n\n\n\nMusic.search\n -\n \nhttp://domain/music/search\n\n\n\n\n\n\nMusic.get\n -\n \nhttp://domain/music/12345\n\n\n\n\n\n\nInstant navigation menu creation\n\n\n@menu\n allow us to create a navigation menu directly in the Class and methods. \nThis help with Rapid Application Development, and it uses the endpoint of the current \nClass and method. Below is how it will look like using the views above. \n\n\n\n\nSmart templates mapping\n\n\nAnd lastly, notice that the methods return a \ndict\n of the data to pass to the template. \n\nWebmaster\n will map the class name and the method used to the templates.\n\n\n\n\n\n\nIndex.about_us\n -\n \n/templates/Index/about_us.html\n\n\n\n\n\n\nMusic.search\n -\n \n/templates/Music/search.html\n\n\n\n\n\n\nLearn more about \nVIEWS\n\n\n\n\nYour First Template\n\n\nTemplates are normal JINJA \n.html\n pages placed at \napplication/www/templates\n\n\nEach directory match a View class name in the \nviews.py\n, and inside of the directory,\n contains \n.html\n files matching the methods name. \n\n\n\n\n\n\nIndex.index\n -\n \n/templates/Index/index.html\n\n\n\n\n\n\nIndex.about_us\n -\n \n/templates/Index/about_us.html\n\n\n\n\n\n\nMusic.index\n -\n \n/templates/Music/index.html\n\n\n\n\n\n\nMusic.get\n -\n \n/templates/Music/get.html\n\n\n\n\n\n\nMusic.search\n -\n \n/templates/Music/search.html\n\n\n\n\n\n\nWith \nviews.py\n above, \n/templates/Music/get.html\n \n\n\nh2\nMusic Info\n/h2\n\n\n\nh3\n{{ artist_name }}\n/h3\n\n\n\nh4\nAlbum name: {{ album_name}} \n/h4\n\n\n\nh4\nGenre: {{ genre }} \n/h4\n\n\n\n\nDude where's my layout?\n\n\napplication/www/templates/layout.html\n is the main layout of the site, \nall pages are automatically included upon rendering.\n\n\nYou would not need to use \n{% extends %}\n to place a layout around the \nMusic/get.html\n page.\n\n\nUpon rendering, you will see a site looking like this:\n\n\n\n\nLearn more about \nTEMPLATES\n\n\n\n\nYour First Static\n\n\napplication/www/static\n contains all the static files: images, css, javascript etc.\n\n\nLearn more about \nSTATIC\n\n\n\n\nDeploy to Production\n\n\nNow your application is ready, it is time to deploy in production.\n\n\nWhile there many other options, I'm more familiar with \nPropel\n and Gunicorn.\n\n\n\n\n\n\nWith \nPropel\n\n\npropel -w\n\n\n\n\n\n\n\nOn Gunicorn\n\n\ngunicorn app_www:app\n\n\n\n\n\n\n\nLearn more about \nDEPLOYMENT\n\n\n\n\nThat's it!\n\n\nWasn't it easy?\n\n\n\n\nDecision Made for You\n\n\n\n\n\n\nSmart routing: automatically generates routes based on the classes and methods in your views\n\n\n\n\n\n\nClass name as the base url, ie: class UserAccount will be accessed at '/user-account'\n\n\n\n\n\n\nClass methods (action) could be accessed: hello_world(self) becomes 'hello-world'\n\n\n\n\n\n\nEasy rending and render decorator\n\n\n\n\n\n\nAuto route can be edited with @route()\n\n\n\n\n\n\nRestful: GET, POST, PUT, DELETE\n\n\n\n\n\n\nREST API Ready\n\n\n\n\n\n\nbcrypt is chosen as the password hasher\n\n\n\n\n\n\nSession: Redis, AWS S3, Google Storage, SQLite, MySQL, PostgreSQL\n\n\n\n\n\n\nORM: \nActive-Alchemy\n (SQLALchemy wrapper)\n\n\n\n\n\n\nReCaptcha: \nFlask-Recaptcha\n\n\n\n\n\n\nCSRF on all POST\n\n\n\n\n\n\nStorage: Local, S3, Google Storage \nFlask-Cloudy\n\n\n\n\n\n\nMailer (SES or SMTP)\n\n\n\n\n\n\nCaching\n\n\n\n\n\n\nPropel for deployment\n\n\n\n\n\n\n\n\nBuilt-in Packages\n\n\nWemaster\n comes with built-in packages to help you run from the get go.\n\n\n\n\n\n\nBasic Layout\n\n\n\n\n\n\nAdmin Layout\n\n\n\n\n\n\nIndex page\n\n\n\n\n\n\nUser Auth : It allows to authenticate users into the application. Contains the following pages: \n\n\n\n\nlogin\n\n\nsignup\n\n\nlost-password\n\n\naccount-settings\n\n\n\n\n\n\n\n\nUser Admin\n\n\n\n\n\n\nPublisher a CMS lite to manage posts (article, blog, dynamic pages, etc)\n\n\n\n\nWith Admin\n\n\nWith Front end view\n\n\n\n\n\n\n\n\nContact Page\n\n\n\n\n\n\nError Page (Custom error page)\n\n\n\n\n\n\nSocial Signin (in experiment)\n\n\n\n\n\n\nSocial Share\n\n\n\n\n\n\nBootswatch\n\n\n\n\n\n\nFont-Awesome\n\n\n\n\n\n\nMarkdown\n\n\n\n\n\n\nFront End Components\n\n\n\n\nLazy load images\n\n\nSocial Share Buttons\n\n\nJQuery\n\n\nBootstrap\n\n\nBootswatch\n\n\nJs-Cookie\n\n\nJQuery Lazy\n\n\nJQuery Oembed\n\n\n(aut)", 
             "title": "Home"
         }, 
         {
-            "location": "/#welcome-to-webmaster", 
+            "location": "/#what-is-webmaster", 
+            "text": "Webmaster  is a Flask based framework with some of the most common Flask extensions \nto rapidly build Website, Admin section, RESTful API and more.   One of the strength of  Webmaster  is it automatically creates the route endpoint\nfrom the class and methods.  It also quickly allows you to create Navigation menu on the methods you are writing.  Webmaster  is really convenient and will help create web applications faster.", 
+            "title": "What is Webmaster ?"
+        }, 
+        {
+            "location": "/#installation", 
+            "text": "The best way to install  Webmaster  is to do it with pip.   pip install webmaster  As a good practice, it is best to install it into its own virtual environment.  The installation will get all the necessary packages to get you going.  After the installation is complete,  Webmaster  will create  webcli ,\na command line tool to conveniently create projects, build assets, \npush assets to S3, deploy application to production server and more.  Read more about WEBCLI  On the command line run the  webcli  like below  webcli", 
+            "title": "Installation"
+        }, 
+        {
+            "location": "/#create-your-first-application", 
+            "text": "To create your application, we'll use the  webcli  command. It will create \nall the necessary files to get you going.  First,  cd  into the directory that will contain your application, \nthen type the command below:  webcli create --project www  Upon creation, you should see the structure below,\nwhere  www  name is the default name for web project, \nbut can be anything and will follow the structure below.  Please notice the file  app_www.py  and the directory  /application/www .  /\n- app_www.py\n|\n- manage.py\n|\n- propel.yml\n|\n- requirements.txt\n|\n- application/\n    |\n    - data/\n        |\n        - mailer-templates/\n        |\n        - uploads/\n    |\n    - extras/\n        |\n        - __init__.py\n    |\n    - www/\n        |\n        - static/\n            |   \n            - css/\n            |\n            - images/\n            |\n            - js/\n            |\n            - assets.yml\n        |\n        - templates/\n            |\n            - Index/\n                |   \n                - index.html\n        |\n        - __init__.py\n        |\n        - views.py    app_www.py : This is the project's entry point. It is used to launch the application.     manage.py : Mostly a command line tool to setup the application or do anything on the command line    requirements.txt : This file should contain all your application's dependencies to be installed    propel.yml : A deployment configuration file.     /application : contains all the applications     /application/data : This directory contains application data such uploads etc.    /application/extras : May contain customs module to be shared by all the applications    /application/www : In this case  www  is the application name and was set when doing  webcli create --project www . \nThis directory contains your application's static files, templates files, views, etc.    /application/www/static : This directory contains the application's static files for the  www  application    /application/www/templates : This directory contains the template files for the  www  application    /application/www/views.py : That file conatains the application's View classes", 
+            "title": "Create Your First Application"
+        }, 
+        {
+            "location": "/#your-first-launch-on-local-dev", 
+            "text": "Now the application is setup we can launch the local dev server to see the site.  To run the server, type the command below:  webcli local --project www  Automatically it will launch the site and you can navigate to see the site at:  http://127.0.0.1:5000", 
+            "title": "Your First Launch on Local Dev"
+        }, 
+        {
+            "location": "/#your-first-view", 
+            "text": "By default, your views file is at  /application/www/views.py  You views consist of classes extended by  webmaster.View . One view file can \nhave multiple View classes in it.  Each method in the class is automatically an action, unless it is a  @classsmethod \nor starts with  _  underscore. And  action  is an endpoint to be accessed.  By default, each endpoint is built on the class and the method being called. \nIt will be in lower case and dasherized.  Here's a sample of a  views.py , which contains two View classes  from webmaster import View\nfrom webmaster.decorators import (menu, methods)\n\nclass Index(View):\n\n    @menu(\"Home\", order=1)\n    def index(self):\n        return {}\n\n    @menu(\"About Us\", order=3)\n    def about_us(self):\n        return {}\n\n@menu(\"Music\", order=2)\nclass Music(View):\n\n    @menu(\"Browse All\")\n    def index(self):\n        return {}\n\n    def get(self, id):\n        return {\n            \"album_name\": \"Webmaster\",\n            \"artist_name\": \"Mardix\",\n            \"genre\": \"Hip-Hop\" \n        }\n\n    @menu(\"Search\")\n    def search(self):\n        return {}\n\n    @methods(\"POST\")\n    def submit(self):\n        return {}  Automatic routes  Using the above example the following endpoints are available automatically. \nNo need to create a route for each one of them.    Index.index  -   http://domain/    Index.about_us  -   http://domain/about-us    Music.index  -   http://domain/music    Music.search  -   http://domain/music/search    Music.get  -   http://domain/music/12345    Instant navigation menu creation  @menu  allow us to create a navigation menu directly in the Class and methods. \nThis help with Rapid Application Development, and it uses the endpoint of the current \nClass and method. Below is how it will look like using the views above.    Smart templates mapping  And lastly, notice that the methods return a  dict  of the data to pass to the template.  Webmaster  will map the class name and the method used to the templates.    Index.about_us  -   /templates/Index/about_us.html    Music.search  -   /templates/Music/search.html    Learn more about  VIEWS", 
+            "title": "Your First View"
+        }, 
+        {
+            "location": "/#your-first-template", 
+            "text": "Templates are normal JINJA  .html  pages placed at  application/www/templates  Each directory match a View class name in the  views.py , and inside of the directory,\n contains  .html  files matching the methods name.     Index.index  -   /templates/Index/index.html    Index.about_us  -   /templates/Index/about_us.html    Music.index  -   /templates/Music/index.html    Music.get  -   /templates/Music/get.html    Music.search  -   /templates/Music/search.html    With  views.py  above,  /templates/Music/get.html    h2 Music Info /h2  h3 {{ artist_name }} /h3  h4 Album name: {{ album_name}}  /h4  h4 Genre: {{ genre }}  /h4   Dude where's my layout?  application/www/templates/layout.html  is the main layout of the site, \nall pages are automatically included upon rendering.  You would not need to use  {% extends %}  to place a layout around the  Music/get.html  page.  Upon rendering, you will see a site looking like this:   Learn more about  TEMPLATES", 
+            "title": "Your First Template"
+        }, 
+        {
+            "location": "/#your-first-static", 
+            "text": "application/www/static  contains all the static files: images, css, javascript etc.  Learn more about  STATIC", 
+            "title": "Your First Static"
+        }, 
+        {
+            "location": "/#deploy-to-production", 
+            "text": "Now your application is ready, it is time to deploy in production.  While there many other options, I'm more familiar with  Propel  and Gunicorn.    With  Propel  propel -w    On Gunicorn  gunicorn app_www:app    Learn more about  DEPLOYMENT   That's it!  Wasn't it easy?", 
+            "title": "Deploy to Production"
+        }, 
+        {
+            "location": "/#decision-made-for-you", 
+            "text": "Smart routing: automatically generates routes based on the classes and methods in your views    Class name as the base url, ie: class UserAccount will be accessed at '/user-account'    Class methods (action) could be accessed: hello_world(self) becomes 'hello-world'    Easy rending and render decorator    Auto route can be edited with @route()    Restful: GET, POST, PUT, DELETE    REST API Ready    bcrypt is chosen as the password hasher    Session: Redis, AWS S3, Google Storage, SQLite, MySQL, PostgreSQL    ORM:  Active-Alchemy  (SQLALchemy wrapper)    ReCaptcha:  Flask-Recaptcha    CSRF on all POST    Storage: Local, S3, Google Storage  Flask-Cloudy    Mailer (SES or SMTP)    Caching    Propel for deployment", 
+            "title": "Decision Made for You"
+        }, 
+        {
+            "location": "/#built-in-packages", 
+            "text": "Wemaster  comes with built-in packages to help you run from the get go.    Basic Layout    Admin Layout    Index page    User Auth : It allows to authenticate users into the application. Contains the following pages:    login  signup  lost-password  account-settings     User Admin    Publisher a CMS lite to manage posts (article, blog, dynamic pages, etc)   With Admin  With Front end view     Contact Page    Error Page (Custom error page)    Social Signin (in experiment)    Social Share    Bootswatch    Font-Awesome    Markdown", 
+            "title": "Built-in Packages"
+        }, 
+        {
+            "location": "/#front-end-components", 
+            "text": "Lazy load images  Social Share Buttons  JQuery  Bootstrap  Bootswatch  Js-Cookie  JQuery Lazy  JQuery Oembed  (aut)", 
+            "title": "Front End Components"
+        }, 
+        {
+            "location": "/application/", 
+            "text": "WEB_ENV", 
+            "title": "Home"
+        }, 
+        {
+            "location": "/application/config/", 
             "text": "", 
-            "title": "Welcome to Webmaster"
+            "title": "Config"
         }, 
         {
-            "location": "/#about", 
-            "text": "WEBMASTER  is a Flask based web framework.    For full documentation visit  mkdocs.org .", 
-            "title": "About"
+            "location": "/application/views/", 
+            "text": "", 
+            "title": "Views"
         }, 
         {
-            "location": "/#commands", 
-            "text": "mkdocs new [dir-name]  - Create a new project.  mkdocs serve  - Start the live-reloading docs server.  mkdocs build  - Build the documentation site.  mkdocs help  - Print this help message.", 
-            "title": "Commands"
+            "location": "/application/templates/", 
+            "text": "", 
+            "title": "Templates"
         }, 
         {
-            "location": "/#project-layout", 
-            "text": "mkdocs.yml    # The configuration file.\ndocs/\n    index.md  # The documentation homepage.\n    ...       # Other markdown pages, images and other files.", 
-            "title": "Project layout"
+            "location": "/application/static/", 
+            "text": "", 
+            "title": "Static"
         }, 
         {
-            "location": "/decorators/", 
+            "location": "/packages/", 
+            "text": "", 
+            "title": "Home"
+        }, 
+        {
+            "location": "/packages/base/", 
+            "text": "", 
+            "title": "Base"
+        }, 
+        {
+            "location": "/packages/contact-page/", 
+            "text": "", 
+            "title": "Contact Page"
+        }, 
+        {
+            "location": "/packages/user/", 
+            "text": "", 
+            "title": "User"
+        }, 
+        {
+            "location": "/packages/publisher/", 
+            "text": "", 
+            "title": "Publisher"
+        }, 
+        {
+            "location": "/packages/error-page/", 
+            "text": "", 
+            "title": "Error Page"
+        }, 
+        {
+            "location": "/packages/maintenance-page/", 
+            "text": "", 
+            "title": "Maintenance Page"
+        }, 
+        {
+            "location": "/webcli/", 
+            "text": "Webcli\n\n\nwebcli\n is a command line tool to conveniently create projects, \nbuild assets, push assets to S3, deploy application to production server and more.\n\n\nwebcli\n was created during the installation of Webmaster.\n\n\nBelow are the availale commands:\n\n\n\n\ncreate\n\n\nTo create new project in your application.\n\n\nArgs\n\n\n\n\n\n\n--project | -p \n(required. default: www)\n - The name of the project to create. \nNo space or dashes.\n\n\n\n\n\n\n--skel | -s \n(default: basic)\n - The pre-made skeleton to use for the project. \n\n\n\n\nbasic\n : Basic skeleton\n\n\napi\n : A skeleton for RESTful API\n\n\nadmin\n: A skeleton for admin interface\n\n\napp\n: A full fledge skeleton with login, blogs, etc.\n\n\n\n\n\n\n\n\nWill create a \nwww\n project with \nbasic\n skeleton\n\n\nwebcli create --project www\n\n\n\nCreate a project name \napi\n with \napi\n skeleton\n\n\nwebcli create -p api --skel api\n\n\n\n\n\nlocal\n\n\nAllow to launch the project in local dev environment.\n\n\nArgs\n\n\n\n\n\n\n--project | -p: The name of the project\n\n\n\n\n\n\n--port \n(default: 5000)\n - The port to use if you want to use one other than 5000\n\n\n\n\n\n\nThis will launch the \nwww\n project under port 5000\n\n\nwebcli local -p www\n\n\n\nThis will launch the \napi\n project under port 5001\n\n\nwebcli local -p api --port 5001\n\n\n\n\n\nbuildassets\n\n\nAllows to build web assets static files.\n\n\nArgs\n\n\n\n\n--project | -p : The name of the project\n\n\n\n\nThis will build your assets for the \nwww\n project\n\n\nwebcli buildassets -p www\n\n\n\n\n\nassets2s3\n\n\nIf you want to host your assets on AWS S3, \nwebcli\n can conveniently upload \nthem on S3.\n\n\nArgs\n\n\n\n\n--project | -p : The name of the project\n\n\n\n\nThe example below will build and upload to S3 your static files. \nIt will be reflected autmatically in your code.\n\n\nwebcli assets2s3 -p www\n\n\n\nBy default the \nDevelopment\n config will be used. \nIf you want to use the \nPRODUCTION\n to upload from your local machine:\n\n\nWEB_ENV='PRODUCTION' webcli assets2s3 -p www\n\n\n\n\n\npush\n\n\nThis is convenient command to push your application to production server by using GIT.\n\n\nNo need to add a remote manually. By specifying the remote in your \npropel.yml\n\nfile, it will push it to that remote. This will allow to quickly change the remotes\nto push to. Of course you must commit your code.\n\n\nArgs\n\n\n\n\n\n\n--remote | -r : The remote to push to\n\n\n\n\n\n\n--all : To push to all remotes\n\n\n\n\n\n\nIn your \n/propel.yml\n file, edit the section \ngit-remotes\n:\n\n\ngit-remotes:\n  web:\n    - ssh://user@host/path.git\n    - ssh://user@host2/application-name.git\n  workers:\n    - ssh://user@host3/another.git\n\n\n\nNow to push to \nweb\n only:\n\n\nwebcli push --remote web\n\n\n\nTo push \nworkers\n:\n\n\nwebcli push -r workers\n\n\n\nTo push to all remotes:\n\n\nwebcli push --all", 
+            "title": "Webcli"
+        }, 
+        {
+            "location": "/webcli/#webcli", 
+            "text": "webcli  is a command line tool to conveniently create projects, \nbuild assets, push assets to S3, deploy application to production server and more.  webcli  was created during the installation of Webmaster.  Below are the availale commands:", 
+            "title": "Webcli"
+        }, 
+        {
+            "location": "/webcli/#create", 
+            "text": "To create new project in your application.  Args    --project | -p  (required. default: www)  - The name of the project to create. \nNo space or dashes.    --skel | -s  (default: basic)  - The pre-made skeleton to use for the project.    basic  : Basic skeleton  api  : A skeleton for RESTful API  admin : A skeleton for admin interface  app : A full fledge skeleton with login, blogs, etc.     Will create a  www  project with  basic  skeleton  webcli create --project www  Create a project name  api  with  api  skeleton  webcli create -p api --skel api", 
+            "title": "create"
+        }, 
+        {
+            "location": "/webcli/#local", 
+            "text": "Allow to launch the project in local dev environment.  Args    --project | -p: The name of the project    --port  (default: 5000)  - The port to use if you want to use one other than 5000    This will launch the  www  project under port 5000  webcli local -p www  This will launch the  api  project under port 5001  webcli local -p api --port 5001", 
+            "title": "local"
+        }, 
+        {
+            "location": "/webcli/#buildassets", 
+            "text": "Allows to build web assets static files.  Args   --project | -p : The name of the project   This will build your assets for the  www  project  webcli buildassets -p www", 
+            "title": "buildassets"
+        }, 
+        {
+            "location": "/webcli/#assets2s3", 
+            "text": "If you want to host your assets on AWS S3,  webcli  can conveniently upload \nthem on S3.  Args   --project | -p : The name of the project   The example below will build and upload to S3 your static files. \nIt will be reflected autmatically in your code.  webcli assets2s3 -p www  By default the  Development  config will be used. \nIf you want to use the  PRODUCTION  to upload from your local machine:  WEB_ENV='PRODUCTION' webcli assets2s3 -p www", 
+            "title": "assets2s3"
+        }, 
+        {
+            "location": "/webcli/#push", 
+            "text": "This is convenient command to push your application to production server by using GIT.  No need to add a remote manually. By specifying the remote in your  propel.yml \nfile, it will push it to that remote. This will allow to quickly change the remotes\nto push to. Of course you must commit your code.  Args    --remote | -r : The remote to push to    --all : To push to all remotes    In your  /propel.yml  file, edit the section  git-remotes :  git-remotes:\n  web:\n    - ssh://user@host/path.git\n    - ssh://user@host2/application-name.git\n  workers:\n    - ssh://user@host3/another.git  Now to push to  web  only:  webcli push --remote web  To push  workers :  webcli push -r workers  To push to all remotes:  webcli push --all", 
+            "title": "push"
+        }, 
+        {
+            "location": "/webmaster/core/", 
+            "text": "", 
+            "title": "Core"
+        }, 
+        {
+            "location": "/webmaster/decorators/", 
             "text": "Decorators\n\n\n@route(rule, **kwargs)\n\n\n@route\n has the same functionalities as Flask's route. The difference, it can be applied on the \nView class or methods in the View class\n\n\nArgs\n\n\n\n\n\n\nrule: (string - required) - The endpoint. ie: \n/my-hello\n \n\n\n\n\n\n\n**kwargs:\n\n\n\n\n\n\nendpoint (string - optional) - The endpoint name. Only on methods. ie: \nCONTACT_US_PAGE\n\n\n\n\n\n\ndefaults: (dict - optional) - To set defaults args. Only on methods. ie: \n{'category': 'all'}\n\n\n\n\n\n\n\n\n\n\non class View:\n\n\nfrom webmaster import View\nfrom webmaster.decorators import route\n\n@route(\"/my-hello\")\nclass Hello(View):\n\n    def index(self):\n        return {}\n\n    def contact(self):\n        return {}\n\n\n\nThe above example have the following endpoints:\n\n\nhttp://domain-name.com/my-hello\n and \nhttp://domain-name.com/my-hello/contact\n\n\non View action:\n\n\nclass World(View):\n\n    def index(self):\n        return {}\n\n    @route(\"/contact-us\")\n    def contact(self):\n        return {}\n\n\n\nThe above example have the following endpoints:\n\n\nhttp://domain-name.com/world\n and \nhttp://domain-name.com/world/contact-us\n\n\n\n\n@menu(name, **kwargs)\n\n\n@menu lets you conveniently create a Menu navigation on the View class and actions. \n\n\nIt can be used in the template to create a navigation menu effortlessly without editing any HTML.\n\n\nThe menu can be ordered and placed anywhere on the page. \n\n\nWith this method you can show and hide the menu without even touching any HTML. \n\n\nArgs\n\n\n\n\n\n\nname: The menu name\n\n\n\n\n\n\n**kwargs:\n\n\n\n\n\n\norder (int) : The order of the menu in the list.\n\n\n\n\n\n\nvisible (bool or callback) : To hide/show menu\n\n\n\n\n\n\nendpoint (string): By default the endpoint is built based on the method and class.\n When set it will be used instead\n\n\n\n\n\n\nendpoint_kwargs (dict): dict of k/v data for enpoint\n\n\n\n\n\n\ngroup_name (string): On class menu, it can be used to filter a menu set to display. \nIf a class is passed, it will try to inherit the group from that class\n\n\n\n\n\n\nurl (string): To override the normal \nendpoint\n and use a URL \n\n\n\n\n\n\ntarget (string): to use along with url, if applying a different target. ie: _blank\n\n\n\n\n\n\nalign_right (bool): By default it assumes the menu is on the left, \nwhen True it will set the flag for right\n\n\n\n\n\n\nfa_icon (bool): The font-awesome icon to use. ie: fa-pencil\n\n\n\n\n\n\nshow_profile_avatar (bool): Show the profile avatar\n\n\n\n\n\n\nshow_profile_name (bool): Show profile name in the menu instead of menu title\n\n\n\n\n\n\nThe args below will allow you to change where the menu is placed.\nBy default they are set automatically\n\n\n\n\n\n\nmodule_: the module name. Usually if using another module\n\n\n\n\n\n\nclass_: the class name class name in the module\n\n\n\n\n\n\nmethod_: The method name, to build endpoint. Changing this will change the url\n\n\n\n\n\n\nextends: class Name. To use the extends of the class\n\n\n\n\n\n\n\n\n\n\nExample:\n\n\n@menu(\"Main Menu\")\nclass HelloWorld(View):\n\n    @menu(\"Home\")\n    def index(self):\n        return {}\n\n    @menu(\"Password Checker\")\n    def check_password(view):\n        return {}\n\n\n\n\n\n@methods(*args)\n\n\n@methods allows to change the acceptable request method of a View Action. \n\n\nIf the action is accessed with the wrong method, it will return a 403 Invalid Method\n\n\nArgs\n\n\n\n\n*args: POST, GET, PUT, DELETE \n\n\n\n\nExample:\n\n\nclass HelloWorld(View):\n\n    def index(self):\n        return {}\n\n    @methods('POST')\n    def check_password(view):\n        return {}\n\n    @methods('POST', 'GET')\n    def comments(self):\n        if request.method == \"GET\":\n            return {}\n\n        elif request.method == \"POST\":\n            return {}\n\n\n\n\n\n@template\n\n\n\n\n@plugin\n\n\n\n\n@render_as_json\n\n\nTo render the view as JSON. The method must return a dict.\n\n\nThis decorator can be applied on the View class or the actions.\n\n\nWhen applied on the View class, it will render all actions to JSON.\n\n\nWhen applied on actions, only the action containing the decorator will be rendered as JSON.\n\n\nOn View class\n\n\n@render_as_json\nclass API(View):\n\n    def index(self):\n        return {\n            \"version\": 1,\n            \"name\": \"My API\"\n        }\n\n\n\nOn View action:\n\n\nclass Index(View):\n\n    def index(self):\n        return {}\n\n    @render_as_json\n    def list_users(views):\n        return {\n            \"users\": [\n                \"Mardix\",\n                \"Faby\",\n                \"Seba\",\n                \"Sami\"\n            ]\n        }\n\n\n\n\n\n@render_as_xml\n\n\nTo render the view as XML. The method must return a dict.\n\n\nThis decorator can be applied on the View class or the actions.\n\n\nWhen applied on the View class, it will render all actions to XML.\n\n\nWhen applied on actions, only the action containing the decorator will be rendered as XML.\n\n\nOn View class\n\n\n@render_as_xml\nclass API(View):\n\n    def index(self):\n        return {\n            \"version\": 1,\n            \"name\": \"My API\"\n        }\n\n\n\nOn View action:\n\n\nclass Index(View):\n\n    def index(self):\n        return {}\n\n    @render_as_xml\n    def list_users(views):\n        return {\n            \"users\": [\n                \"Mardix\",\n                \"Faby\",\n                \"Seba\",\n                \"Sami\"\n            ]\n        }\n\n\n\n\n\n@login_required\n\n\nExtension of \nflask_login.login_required\n where it checks for the decorator \n\n@no_login_required\n in the same action. \n\n\nIf the View class has \nlogin_required\n as decorators, having \n@no_login_required\n\n on an action will not test if the act\n\n\nExample\n\n\nclass Account(View):\n    decorators = [login_required]\n\n    def index(self):\n        return {}\n\n    @no_login_required\n    def docs(self):\n        return {}\n\n\n\nWith the above example, accessing \n/account\n will require login, but \n/account/docs\n \nwill not require login.\n\n\n\n\n@no_login_required\n\n\nA dummy decorator that just stays there \n@login_required\n to skip login requirements \non the method.\n\n\nExample\n\n\nclass Account(View):\n    decorators = [login_required]\n\n    def index(self):\n        return {}\n\n    @no_login_required\n    def docs(self):\n        return {}\n\n\n\nWith the above example, accessing \n/account\n will require login, but \n/account/docs\n \nwill not require login.\n\n\n\n\n@require_user_roles(*roles)\n\n\nA decorator to check if user has any of the roles specified\n\n\nArgs\n\n\n\n\n*roles: tuple of roles\n\n\n\n\nExample:\n\n\nclass Account(View):\n    decorators = [login_required]\n\n    def index(self):\n        return {}\n\n    @require_user_roles('superadmin', 'admin')\n    def admin(self):\n        return {}", 
             "title": "Decorators"
         }, 
         {
-            "location": "/decorators/#decorators", 
+            "location": "/webmaster/decorators/#decorators", 
             "text": "", 
             "title": "Decorators"
         }, 
         {
-            "location": "/decorators/#routerule-42kwargs", 
+            "location": "/webmaster/decorators/#routerule-42kwargs", 
             "text": "@route  has the same functionalities as Flask's route. The difference, it can be applied on the \nView class or methods in the View class  Args    rule: (string - required) - The endpoint. ie:  /my-hello      **kwargs:    endpoint (string - optional) - The endpoint name. Only on methods. ie:  CONTACT_US_PAGE    defaults: (dict - optional) - To set defaults args. Only on methods. ie:  {'category': 'all'}      on class View:  from webmaster import View\nfrom webmaster.decorators import route\n\n@route(\"/my-hello\")\nclass Hello(View):\n\n    def index(self):\n        return {}\n\n    def contact(self):\n        return {}  The above example have the following endpoints:  http://domain-name.com/my-hello  and  http://domain-name.com/my-hello/contact  on View action:  class World(View):\n\n    def index(self):\n        return {}\n\n    @route(\"/contact-us\")\n    def contact(self):\n        return {}  The above example have the following endpoints:  http://domain-name.com/world  and  http://domain-name.com/world/contact-us", 
             "title": "@route(rule, **kwargs)"
         }, 
         {
-            "location": "/decorators/#menuname-kwargs", 
+            "location": "/webmaster/decorators/#menuname-kwargs", 
             "text": "@menu lets you conveniently create a Menu navigation on the View class and actions.   It can be used in the template to create a navigation menu effortlessly without editing any HTML.  The menu can be ordered and placed anywhere on the page.   With this method you can show and hide the menu without even touching any HTML.   Args    name: The menu name    **kwargs:    order (int) : The order of the menu in the list.    visible (bool or callback) : To hide/show menu    endpoint (string): By default the endpoint is built based on the method and class.\n When set it will be used instead    endpoint_kwargs (dict): dict of k/v data for enpoint    group_name (string): On class menu, it can be used to filter a menu set to display. \nIf a class is passed, it will try to inherit the group from that class    url (string): To override the normal  endpoint  and use a URL     target (string): to use along with url, if applying a different target. ie: _blank    align_right (bool): By default it assumes the menu is on the left, \nwhen True it will set the flag for right    fa_icon (bool): The font-awesome icon to use. ie: fa-pencil    show_profile_avatar (bool): Show the profile avatar    show_profile_name (bool): Show profile name in the menu instead of menu title    The args below will allow you to change where the menu is placed.\nBy default they are set automatically    module_: the module name. Usually if using another module    class_: the class name class name in the module    method_: The method name, to build endpoint. Changing this will change the url    extends: class Name. To use the extends of the class      Example:  @menu(\"Main Menu\")\nclass HelloWorld(View):\n\n    @menu(\"Home\")\n    def index(self):\n        return {}\n\n    @menu(\"Password Checker\")\n    def check_password(view):\n        return {}", 
             "title": "@menu(name, **kwargs)"
         }, 
         {
-            "location": "/decorators/#methodsargs", 
+            "location": "/webmaster/decorators/#methodsargs", 
             "text": "@methods allows to change the acceptable request method of a View Action.   If the action is accessed with the wrong method, it will return a 403 Invalid Method  Args   *args: POST, GET, PUT, DELETE    Example:  class HelloWorld(View):\n\n    def index(self):\n        return {}\n\n    @methods('POST')\n    def check_password(view):\n        return {}\n\n    @methods('POST', 'GET')\n    def comments(self):\n        if request.method == \"GET\":\n            return {}\n\n        elif request.method == \"POST\":\n            return {}", 
             "title": "@methods(*args)"
         }, 
         {
-            "location": "/decorators/#template", 
+            "location": "/webmaster/decorators/#template", 
             "text": "", 
             "title": "@template"
         }, 
         {
-            "location": "/decorators/#plugin", 
+            "location": "/webmaster/decorators/#plugin", 
             "text": "", 
             "title": "@plugin"
         }, 
         {
-            "location": "/decorators/#render_as_json", 
+            "location": "/webmaster/decorators/#render_as_json", 
             "text": "To render the view as JSON. The method must return a dict.  This decorator can be applied on the View class or the actions.  When applied on the View class, it will render all actions to JSON.  When applied on actions, only the action containing the decorator will be rendered as JSON.  On View class  @render_as_json\nclass API(View):\n\n    def index(self):\n        return {\n            \"version\": 1,\n            \"name\": \"My API\"\n        }  On View action:  class Index(View):\n\n    def index(self):\n        return {}\n\n    @render_as_json\n    def list_users(views):\n        return {\n            \"users\": [\n                \"Mardix\",\n                \"Faby\",\n                \"Seba\",\n                \"Sami\"\n            ]\n        }", 
             "title": "@render_as_json"
         }, 
         {
-            "location": "/decorators/#render_as_xml", 
+            "location": "/webmaster/decorators/#render_as_xml", 
             "text": "To render the view as XML. The method must return a dict.  This decorator can be applied on the View class or the actions.  When applied on the View class, it will render all actions to XML.  When applied on actions, only the action containing the decorator will be rendered as XML.  On View class  @render_as_xml\nclass API(View):\n\n    def index(self):\n        return {\n            \"version\": 1,\n            \"name\": \"My API\"\n        }  On View action:  class Index(View):\n\n    def index(self):\n        return {}\n\n    @render_as_xml\n    def list_users(views):\n        return {\n            \"users\": [\n                \"Mardix\",\n                \"Faby\",\n                \"Seba\",\n                \"Sami\"\n            ]\n        }", 
             "title": "@render_as_xml"
         }, 
         {
-            "location": "/decorators/#login_required", 
+            "location": "/webmaster/decorators/#login_required", 
             "text": "Extension of  flask_login.login_required  where it checks for the decorator  @no_login_required  in the same action.   If the View class has  login_required  as decorators, having  @no_login_required \n on an action will not test if the act  Example  class Account(View):\n    decorators = [login_required]\n\n    def index(self):\n        return {}\n\n    @no_login_required\n    def docs(self):\n        return {}  With the above example, accessing  /account  will require login, but  /account/docs  \nwill not require login.", 
             "title": "@login_required"
         }, 
         {
-            "location": "/decorators/#no_login_required", 
+            "location": "/webmaster/decorators/#no_login_required", 
             "text": "A dummy decorator that just stays there  @login_required  to skip login requirements \non the method.  Example  class Account(View):\n    decorators = [login_required]\n\n    def index(self):\n        return {}\n\n    @no_login_required\n    def docs(self):\n        return {}  With the above example, accessing  /account  will require login, but  /account/docs  \nwill not require login.", 
             "title": "@no_login_required"
         }, 
         {
-            "location": "/decorators/#require_user_rolesroles", 
+            "location": "/webmaster/decorators/#require_user_rolesroles", 
             "text": "A decorator to check if user has any of the roles specified  Args   *roles: tuple of roles   Example:  class Account(View):\n    decorators = [login_required]\n\n    def index(self):\n        return {}\n\n    @require_user_roles('superadmin', 'admin')\n    def admin(self):\n        return {}", 
             "title": "@require_user_roles(*roles)"
+        }, 
+        {
+            "location": "/webmaster/exceptions/", 
+            "text": "Exceptions", 
+            "title": "Exceptions"
+        }, 
+        {
+            "location": "/webmaster/exceptions/#exceptions", 
+            "text": "", 
+            "title": "Exceptions"
+        }, 
+        {
+            "location": "/webmaster/utils/", 
+            "text": "", 
+            "title": "Utils"
+        }, 
+        {
+            "location": "/deploy/", 
+            "text": "", 
+            "title": "Deployment"
+        }, 
+        {
+            "location": "/snippets/", 
+            "text": "Snippets", 
+            "title": "Home"
+        }, 
+        {
+            "location": "/snippets/#snippets", 
+            "text": "", 
+            "title": "Snippets"
         }
     ]
 }
