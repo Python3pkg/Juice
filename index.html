@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Webmaster</title>
+  <title>Juice</title>
   
 
   <link rel="shortcut icon" href="./img/favicon.ico">
@@ -38,7 +38,7 @@
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
       <div class="wy-side-nav-search">
-        <a href="." class="icon icon-home"> Webmaster</a>
+        <a href="." class="icon icon-home"> Juice</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -55,7 +55,7 @@
         
             <ul>
             
-                <li class="toctree-l3"><a href="#what-is-webmaster">What is Webmaster ?</a></li>
+                <li class="toctree-l3"><a href="#juice">Juice</a></li>
                 
                     <li><a class="toctree-l4" href="#installation">Installation</a></li>
                 
@@ -130,54 +130,54 @@
           
             <li>
     <ul class="subnav">
-    <li><span>Packages</span></li>
+    <li><span>Plugins</span></li>
 
         
             
     <li class="toctree-l1 ">
-        <a class="" href="packages/">Home</a>
+        <a class="" href="plugins/">Home</a>
         
     </li>
 
         
             
     <li class="toctree-l1 ">
-        <a class="" href="packages/base/">Base</a>
+        <a class="" href="plugins/base/">Base</a>
         
     </li>
 
         
             
     <li class="toctree-l1 ">
-        <a class="" href="packages/contact-page/">Contact Page</a>
+        <a class="" href="plugins/contact-page/">Contact Page</a>
         
     </li>
 
         
             
     <li class="toctree-l1 ">
-        <a class="" href="packages/user/">User</a>
+        <a class="" href="plugins/user/">User</a>
         
     </li>
 
         
             
     <li class="toctree-l1 ">
-        <a class="" href="packages/publisher/">Publisher</a>
+        <a class="" href="plugins/publisher/">Publisher</a>
         
     </li>
 
         
             
     <li class="toctree-l1 ">
-        <a class="" href="packages/error-page/">Error Page</a>
+        <a class="" href="plugins/error-page/">Error Page</a>
         
     </li>
 
         
             
     <li class="toctree-l1 ">
-        <a class="" href="packages/maintenance-page/">Maintenance Page</a>
+        <a class="" href="plugins/maintenance-page/">Maintenance Page</a>
         
     </li>
 
@@ -187,40 +187,40 @@
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="webcli/">Webcli</a>
+        <a class="" href="cli/">Command Line</a>
         
     </li>
 <li>
           
             <li>
     <ul class="subnav">
-    <li><span>Webmaster Core</span></li>
+    <li><span>Juice Core</span></li>
 
         
             
     <li class="toctree-l1 ">
-        <a class="" href="webmaster/core/">Core</a>
+        <a class="" href="juice/core/">Core</a>
         
     </li>
 
         
             
     <li class="toctree-l1 ">
-        <a class="" href="webmaster/decorators/">Decorators</a>
+        <a class="" href="juice/decorators/">Decorators</a>
         
     </li>
 
         
             
     <li class="toctree-l1 ">
-        <a class="" href="webmaster/exceptions/">Exceptions</a>
+        <a class="" href="juice/exceptions/">Exceptions</a>
         
     </li>
 
         
             
     <li class="toctree-l1 ">
-        <a class="" href="webmaster/utils/">Utils</a>
+        <a class="" href="juice/utils/">Utils</a>
         
     </li>
 
@@ -260,7 +260,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href=".">Webmaster</a>
+        <a href=".">Juice</a>
       </nav>
 
       
@@ -276,7 +276,7 @@
     <li class="wy-breadcrumbs-aside">
       
         
-          <a href="https://github.com/mardix/webmaster" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/mardix/juice" class="icon icon-github"> Edit on GitHub</a>
         
       
     </li>
@@ -286,34 +286,37 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="what-is-webmaster">What is <em>Webmaster</em> ?</h1>
-<p><strong>Webmaster</strong> is a Flask based framework with some of the most common Flask extensions 
+                <h1 id="juice">Juice</h1>
+<p><img alt="Juice" src="./img/juice-small.jpg" /></p>
+<p><strong>Juice</strong> is a framework based on Flask with some of the most common Flask extensions 
 to rapidly build Website, Admin section, RESTful API and more. </p>
-<p>One of the strength of <strong>Webmaster</strong> is it automatically creates the route endpoint
+<p><strong>Juice</strong> put structure in your Flask application by grouping your methods together
+under classes.</p>
+<p>One of the strength of <strong>Juice</strong> is it automatically creates the route endpoint
 from the class and methods.</p>
 <p>It also quickly allows you to create Navigation menu on the methods you are writing.</p>
-<p><strong>Webmaster</strong> is really convenient and will help create web applications faster. </p>
+<p><strong>Juice</strong> is really convenient and will help create web applications, REST API, Admin section faster. </p>
 <hr />
 <h2 id="installation">Installation</h2>
-<p>The best way to install <strong>Webmaster</strong> is to do it with pip. </p>
-<pre><code>pip install webmaster
+<p>The best way to install <strong>Juice</strong> is to do it with pip. </p>
+<pre><code>pip install juice
 </code></pre>
 <p>As a good practice, it is best to install it into its own virtual environment.</p>
 <p>The installation will get all the necessary packages to get you going.</p>
-<p>After the installation is complete, <strong>Webmaster</strong> will create <strong>webcli</strong>,
-a command line tool to conveniently create projects, build assets, 
+<p>After the installation is complete, <strong>juice</strong> can be used in the 
+ command line to conveniently create projects, build assets, 
 push assets to S3, deploy application to production server and more.</p>
-<p><a href="webcli/">Read more about WEBCLI</a></p>
-<p>On the command line run the <strong>webcli</strong> like below</p>
-<pre><code>webcli
+<p><a href="cli/">Read more about JUICE command line</a></p>
+<p>On the command line run the <strong>juice</strong> like below</p>
+<pre><code>juice
 </code></pre>
 <hr />
 <h2 id="create-your-first-application">Create Your First Application</h2>
-<p>To create your application, we'll use the <strong>webcli</strong> command. It will create 
+<p>To create your application, we'll use the <strong>juice</strong> command. It will create 
 all the necessary files to get you going.</p>
 <p>First, <code>cd</code> into the directory that will contain your application, 
 then type the command below:</p>
-<pre><code>webcli create --project www
+<pre><code>juice create -p www
 </code></pre>
 <p>Upon creation, you should see the structure below,
 where <code>www</code> name is the default name for web project, 
@@ -329,16 +332,6 @@ but can be anything and will follow the structure below.</p>
 - requirements.txt
 |
 - application/
-    |
-    - data/
-        |
-        - mailer-templates/
-        |
-        - uploads/
-    |
-    - extras/
-        |
-        - __init__.py
     |
     - www/
         |
@@ -361,6 +354,16 @@ but can be anything and will follow the structure below.</p>
         - __init__.py
         |
         - views.py
+    |
+    - data/
+        |
+        - mailer-templates/
+        |
+        - uploads/
+    |
+    - extras/
+        |
+        - __init__.py
 </code></pre>
 <ul>
 <li>
@@ -379,13 +382,7 @@ but can be anything and will follow the structure below.</p>
 <p><code>/application</code>: contains all the applications </p>
 </li>
 <li>
-<p><code>/application/data</code>: This directory contains application data such uploads etc.</p>
-</li>
-<li>
-<p><code>/application/extras</code>: May contain customs module to be shared by all the applications</p>
-</li>
-<li>
-<p><code>/application/www</code>: In this case <code>www</code> is the application name and was set when doing <code>webcli create --project www</code>. 
+<p><code>/application/www</code>: In this case <code>www</code> is the application name and was set when doing <code>juice create --project www</code>. 
 This directory contains your application's static files, templates files, views, etc.</p>
 </li>
 <li>
@@ -397,11 +394,17 @@ This directory contains your application's static files, templates files, views,
 <li>
 <p><code>/application/www/views.py</code>: That file conatains the application's View classes</p>
 </li>
+<li>
+<p><code>/application/data</code>: This directory contains application data such uploads etc.</p>
+</li>
+<li>
+<p><code>/application/extras</code>: May contain customs module to be shared by all the applications</p>
+</li>
 </ul>
 <h2 id="your-first-launch-on-local-dev">Your First Launch on Local Dev</h2>
 <p>Now the application is setup we can launch the local dev server to see the site.</p>
 <p>To run the server, type the command below:</p>
-<pre><code>webcli local --project www
+<pre><code>juice serve -p www
 </code></pre>
 <p>Automatically it will launch the site and you can navigate to see the site at:</p>
 <pre><code>http://127.0.0.1:5000
@@ -409,15 +412,15 @@ This directory contains your application's static files, templates files, views,
 <hr />
 <h2 id="your-first-view">Your First View</h2>
 <p>By default, your views file is at <code>/application/www/views.py</code></p>
-<p>You views consist of classes extended by <code>webmaster.View</code>. One view file can 
+<p>You views consist of classes extended by <code>juice.View</code>. One view file can 
 have multiple View classes in it.</p>
 <p>Each method in the class is automatically an action, unless it is a <code>@classsmethod</code>
 or starts with <code>_</code> underscore. And <code>action</code> is an endpoint to be accessed.</p>
 <p>By default, each endpoint is built on the class and the method being called. 
 It will be in lower case and dasherized.</p>
 <p>Here's a sample of a <code>views.py</code>, which contains two View classes</p>
-<pre><code>from webmaster import View
-from webmaster.decorators import (menu, methods)
+<pre><code>from juice import View
+from juice.decorators import (menu, methods)
 
 class Index(View):
 
@@ -438,7 +441,7 @@ class Music(View):
 
     def get(self, id):
         return {
-            "album_name": "Webmaster",
+            "album_name": "Juice",
             "artist_name": "Mardix",
             "genre": "Hip-Hop" 
         }
@@ -475,10 +478,10 @@ No need to create a route for each one of them.</p>
 <p><code>@menu</code> allow us to create a navigation menu directly in the Class and methods. 
 This help with Rapid Application Development, and it uses the endpoint of the current 
 Class and method. Below is how it will look like using the views above. </p>
-<p><img alt="Nav Menu" src="./imgs/index.md-menu1.png" /></p>
+<p><img alt="Nav Menu" src="./img/index.md-menu1.png" /></p>
 <h4 id="smart-templates-mapping">Smart templates mapping</h4>
 <p>And lastly, notice that the methods return a <code>dict</code> of the data to pass to the template. 
-<strong>Webmaster</strong> will map the class name and the method used to the templates.</p>
+<strong>Juice</strong> will map the class name and the method used to the templates.</p>
 <ul>
 <li>
 <p><code>Index.about_us</code> -&gt; <strong>/templates/Index/about_us.html</strong></p>
@@ -524,7 +527,7 @@ Class and method. Below is how it will look like using the views above. </p>
 all pages are automatically included upon rendering.</p>
 <p>You would not need to use <code>{% extends %}</code> to place a layout around the <code>Music/get.html</code> page.</p>
 <p>Upon rendering, you will see a site looking like this:</p>
-<p><img alt="Nav Menu" src="./imgs/index.md-render.png" /></p>
+<p><img alt="Nav Menu" src="./img/index.md-render.png" /></p>
 <p>Learn more about <a href="application/templates/">TEMPLATES</a></p>
 <hr />
 <h2 id="your-first-static">Your First Static</h2>
@@ -666,7 +669,7 @@ all pages are automatically included upon rendering.</p>
 <li>Js-Cookie</li>
 <li>JQuery Lazy</li>
 <li>JQuery Oembed</li>
-<li>(aut)</li>
+<li>(auth)</li>
 </ul>
               
             </div>
@@ -715,5 +718,5 @@ all pages are automatically included upon rendering.</p>
 
 <!--
 MkDocs version : 0.14.0
-Build Date UTC : 2016-01-21 02:24:28.515289
+Build Date UTC : 2016-02-03 08:58:05.416493
 -->

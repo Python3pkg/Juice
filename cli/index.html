@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Webcli - Webmaster</title>
+  <title>Command Line - Juice</title>
   
 
   <link rel="shortcut icon" href="../img/favicon.ico">
@@ -20,7 +20,7 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Webcli";
+    var mkdocs_page_name = "Command Line";
   </script>
   
   <script src="../js/jquery-2.1.1.min.js"></script>
@@ -38,7 +38,7 @@
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
       <div class="wy-side-nav-search">
-        <a href=".." class="icon icon-home"> Webmaster</a>
+        <a href=".." class="icon icon-home"> Juice</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -101,54 +101,54 @@
           
             <li>
     <ul class="subnav">
-    <li><span>Packages</span></li>
+    <li><span>Plugins</span></li>
 
         
             
     <li class="toctree-l1 ">
-        <a class="" href="../packages/">Home</a>
+        <a class="" href="../plugins/">Home</a>
         
     </li>
 
         
             
     <li class="toctree-l1 ">
-        <a class="" href="../packages/base/">Base</a>
+        <a class="" href="../plugins/base/">Base</a>
         
     </li>
 
         
             
     <li class="toctree-l1 ">
-        <a class="" href="../packages/contact-page/">Contact Page</a>
+        <a class="" href="../plugins/contact-page/">Contact Page</a>
         
     </li>
 
         
             
     <li class="toctree-l1 ">
-        <a class="" href="../packages/user/">User</a>
+        <a class="" href="../plugins/user/">User</a>
         
     </li>
 
         
             
     <li class="toctree-l1 ">
-        <a class="" href="../packages/publisher/">Publisher</a>
+        <a class="" href="../plugins/publisher/">Publisher</a>
         
     </li>
 
         
             
     <li class="toctree-l1 ">
-        <a class="" href="../packages/error-page/">Error Page</a>
+        <a class="" href="../plugins/error-page/">Error Page</a>
         
     </li>
 
         
             
     <li class="toctree-l1 ">
-        <a class="" href="../packages/maintenance-page/">Maintenance Page</a>
+        <a class="" href="../plugins/maintenance-page/">Maintenance Page</a>
         
     </li>
 
@@ -158,15 +158,15 @@
           
             <li>
     <li class="toctree-l1 current">
-        <a class="current" href="./">Webcli</a>
+        <a class="current" href="./">Command Line</a>
         
             <ul>
             
-                <li class="toctree-l3"><a href="#webcli">Webcli</a></li>
+                <li class="toctree-l3"><a href="#juice-command-line-tool">Juice : Command Line Tool</a></li>
                 
                     <li><a class="toctree-l4" href="#create">create</a></li>
                 
-                    <li><a class="toctree-l4" href="#local">local</a></li>
+                    <li><a class="toctree-l4" href="#serve">serve</a></li>
                 
                     <li><a class="toctree-l4" href="#buildassets">buildassets</a></li>
                 
@@ -182,33 +182,33 @@
           
             <li>
     <ul class="subnav">
-    <li><span>Webmaster Core</span></li>
+    <li><span>Juice Core</span></li>
 
         
             
     <li class="toctree-l1 ">
-        <a class="" href="../webmaster/core/">Core</a>
+        <a class="" href="../juice/core/">Core</a>
         
     </li>
 
         
             
     <li class="toctree-l1 ">
-        <a class="" href="../webmaster/decorators/">Decorators</a>
+        <a class="" href="../juice/decorators/">Decorators</a>
         
     </li>
 
         
             
     <li class="toctree-l1 ">
-        <a class="" href="../webmaster/exceptions/">Exceptions</a>
+        <a class="" href="../juice/exceptions/">Exceptions</a>
         
     </li>
 
         
             
     <li class="toctree-l1 ">
-        <a class="" href="../webmaster/utils/">Utils</a>
+        <a class="" href="../juice/utils/">Utils</a>
         
     </li>
 
@@ -248,7 +248,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="..">Webmaster</a>
+        <a href="..">Juice</a>
       </nav>
 
       
@@ -260,11 +260,11 @@
     
       
     
-    <li>Webcli</li>
+    <li>Command Line</li>
     <li class="wy-breadcrumbs-aside">
       
         
-          <a href="https://github.com/mardix/webmaster" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/mardix/juice" class="icon icon-github"> Edit on GitHub</a>
         
       
     </li>
@@ -274,10 +274,10 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="webcli">Webcli</h1>
-<p><strong>webcli</strong> is a command line tool to conveniently create projects, 
+                <h1 id="juice-command-line-tool">Juice : Command Line Tool</h1>
+<p><strong>juice</strong> is a command line tool to conveniently create projects, 
 build assets, push assets to S3, deploy application to production server and more.</p>
-<p><strong>webcli</strong> was created during the installation of Webmaster.</p>
+<p><strong>juice</strong> was created during the installation of Juice.</p>
 <p>Below are the availale commands:</p>
 <hr />
 <h2 id="create">create</h2>
@@ -299,13 +299,13 @@ No space or dashes.</p>
 </li>
 </ul>
 <p>Will create a <code>www</code> project with <code>basic</code> skeleton</p>
-<pre><code>webcli create --project www
+<pre><code>juice create --project www
 </code></pre>
 <p>Create a project name <code>api</code> with <code>api</code> skeleton</p>
-<pre><code>webcli create -p api --skel api
+<pre><code>juice create -p api --skel api
 </code></pre>
 <hr />
-<h2 id="local">local</h2>
+<h2 id="serve">serve</h2>
 <p>Allow to launch the project in local dev environment.</p>
 <p><strong>Args</strong></p>
 <ul>
@@ -317,10 +317,10 @@ No space or dashes.</p>
 </li>
 </ul>
 <p>This will launch the <code>www</code> project under port 5000</p>
-<pre><code>webcli local -p www
+<pre><code>juice serve -p www
 </code></pre>
 <p>This will launch the <code>api</code> project under port 5001</p>
-<pre><code>webcli local -p api --port 5001
+<pre><code>juice serve -p api --port 5001
 </code></pre>
 <hr />
 <h2 id="buildassets">buildassets</h2>
@@ -330,11 +330,11 @@ No space or dashes.</p>
 <li>--project | -p : The name of the project</li>
 </ul>
 <p>This will build your assets for the <code>www</code> project</p>
-<pre><code>webcli buildassets -p www
+<pre><code>juice buildassets -p www
 </code></pre>
 <hr />
 <h2 id="assets2s3">assets2s3</h2>
-<p>If you want to host your assets on AWS S3, <strong>webcli</strong> can conveniently upload 
+<p>If you want to host your assets on AWS S3, <strong>juice</strong> can conveniently upload 
 them on S3.</p>
 <p><strong>Args</strong></p>
 <ul>
@@ -342,11 +342,11 @@ them on S3.</p>
 </ul>
 <p>The example below will build and upload to S3 your static files. 
 It will be reflected autmatically in your code.</p>
-<pre><code>webcli assets2s3 -p www
+<pre><code>juice assets2s3 -p www
 </code></pre>
 <p>By default the <code>Development</code> config will be used. 
 If you want to use the <code>PRODUCTION</code> to upload from your local machine:</p>
-<pre><code>WEB_ENV='PRODUCTION' webcli assets2s3 -p www
+<pre><code>ENV='PRODUCTION' juice assets2s3 -p www
 </code></pre>
 <hr />
 <h2 id="push">push</h2>
@@ -372,13 +372,13 @@ to push to. Of course you must commit your code.</p>
     - ssh://user@host3/another.git
 </code></pre>
 <p>Now to push to <code>web</code> only:</p>
-<pre><code>webcli push --remote web
+<pre><code>juice push --remote web
 </code></pre>
 <p>To push <code>workers</code>:</p>
-<pre><code>webcli push -r workers
+<pre><code>juice push -r workers
 </code></pre>
 <p>To push to all remotes:</p>
-<pre><code>webcli push --all
+<pre><code>juice push --all
 </code></pre>
               
             </div>
@@ -387,10 +387,10 @@ to push to. Of course you must commit your code.</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../webmaster/core/" class="btn btn-neutral float-right" title="Core"/>Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../juice/core/" class="btn btn-neutral float-right" title="Core"/>Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
-        <a href="../packages/maintenance-page/" class="btn btn-neutral" title="Maintenance Page"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../plugins/maintenance-page/" class="btn btn-neutral" title="Maintenance Page"><span class="icon icon-circle-arrow-left"></span> Previous</a>
       
     </div>
   
@@ -418,10 +418,10 @@ to push to. Of course you must commit your code.</p>
           <a class="icon icon-github" style="float: left; color: #fcfcfc"> GitHub</a>
       
       
-        <span><a href="../packages/maintenance-page/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+        <span><a href="../plugins/maintenance-page/" style="color: #fcfcfc;">&laquo; Previous</a></span>
       
       
-        <span style="margin-left: 15px"><a href="../webmaster/core/" style="color: #fcfcfc">Next &raquo;</a></span>
+        <span style="margin-left: 15px"><a href="../juice/core/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>

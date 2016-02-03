@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Decorators - Webmaster</title>
+  <title>Decorators - Juice</title>
   
 
   <link rel="shortcut icon" href="../../img/favicon.ico">
@@ -38,7 +38,7 @@
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
       <div class="wy-side-nav-search">
-        <a href="../.." class="icon icon-home"> Webmaster</a>
+        <a href="../.." class="icon icon-home"> Juice</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -101,54 +101,54 @@
           
             <li>
     <ul class="subnav">
-    <li><span>Packages</span></li>
+    <li><span>Plugins</span></li>
 
         
             
     <li class="toctree-l1 ">
-        <a class="" href="../../packages/">Home</a>
+        <a class="" href="../../plugins/">Home</a>
         
     </li>
 
         
             
     <li class="toctree-l1 ">
-        <a class="" href="../../packages/base/">Base</a>
+        <a class="" href="../../plugins/base/">Base</a>
         
     </li>
 
         
             
     <li class="toctree-l1 ">
-        <a class="" href="../../packages/contact-page/">Contact Page</a>
+        <a class="" href="../../plugins/contact-page/">Contact Page</a>
         
     </li>
 
         
             
     <li class="toctree-l1 ">
-        <a class="" href="../../packages/user/">User</a>
+        <a class="" href="../../plugins/user/">User</a>
         
     </li>
 
         
             
     <li class="toctree-l1 ">
-        <a class="" href="../../packages/publisher/">Publisher</a>
+        <a class="" href="../../plugins/publisher/">Publisher</a>
         
     </li>
 
         
             
     <li class="toctree-l1 ">
-        <a class="" href="../../packages/error-page/">Error Page</a>
+        <a class="" href="../../plugins/error-page/">Error Page</a>
         
     </li>
 
         
             
     <li class="toctree-l1 ">
-        <a class="" href="../../packages/maintenance-page/">Maintenance Page</a>
+        <a class="" href="../../plugins/maintenance-page/">Maintenance Page</a>
         
     </li>
 
@@ -158,14 +158,14 @@
           
             <li>
     <li class="toctree-l1 ">
-        <a class="" href="../../webcli/">Webcli</a>
+        <a class="" href="../../cli/">Command Line</a>
         
     </li>
 <li>
           
             <li>
     <ul class="subnav">
-    <li><span>Webmaster Core</span></li>
+    <li><span>Juice Core</span></li>
 
         
             
@@ -206,6 +206,9 @@
                 
             
                 <li class="toctree-l3"><a href="#login_required">@login_required</a></li>
+                
+            
+                <li class="toctree-l3"><a href="#fresh_login_required">@fresh_login_required</a></li>
                 
             
                 <li class="toctree-l3"><a href="#no_login_required">@no_login_required</a></li>
@@ -268,7 +271,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="../..">Webmaster</a>
+        <a href="../..">Juice</a>
       </nav>
 
       
@@ -280,7 +283,7 @@
     
       
         
-          <li>Webmaster Core &raquo;</li>
+          <li>Juice Core &raquo;</li>
         
       
     
@@ -288,7 +291,7 @@
     <li class="wy-breadcrumbs-aside">
       
         
-          <a href="https://github.com/mardix/webmaster" class="icon icon-github"> Edit on GitHub</a>
+          <a href="https://github.com/mardix/juice" class="icon icon-github"> Edit on GitHub</a>
         
       
     </li>
@@ -320,8 +323,8 @@ View class or methods in the View class</p>
 </li>
 </ul>
 <p>on class View:</p>
-<pre><code>from webmaster import View
-from webmaster.decorators import route
+<pre><code>from juice import View
+from juice.decorators import route
 
 @route("/my-hello")
 class Hello(View):
@@ -541,6 +544,25 @@ class API(View):
         return {}
 </code></pre>
 <p>With the above example, accessing <code>/account</code> will require login, but <code>/account/docs</code> 
+will not require login.</p>
+<hr />
+<h2 id="fresh_login_required">@fresh_login_required</h2>
+<p>Extension of <code>flask_login.fresh_login_required</code> where it checks for the decorator 
+<code>@no_login_required</code> in the same action. </p>
+<p>If the View class has <code>login_required</code> as decorators, having <code>@no_login_required</code>
+ on an action will not test if the act</p>
+<p>Example</p>
+<pre><code>class Account(View):
+
+    @fresh_login_required
+    def index(self):
+        return {}
+
+    @no_login_required
+    def docs(self):
+        return {}
+</code></pre>
+<p>With the above example, accessing <code>/account</code> will require fresh login, but <code>/account/docs</code> 
 will not require login.</p>
 <hr />
 <h2 id="no_login_required">@no_login_required</h2>
