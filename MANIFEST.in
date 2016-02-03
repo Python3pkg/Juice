@@ -1,3 +1,3 @@
 include *.py *.txt *.md LICENSE CHANGELOG
-recursive-include webmaster *
+recursive-include juice *
 

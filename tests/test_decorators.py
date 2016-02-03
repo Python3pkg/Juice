@@ -1,7 +1,7 @@
 
 from flask import Flask
-import webmaster.decorators as decorators
-import webmaster.core as core
+import juice.decorators as decorators
+import juice.core as core
 
 #===============================================================================
 # EXTENDS
@@ -211,7 +211,7 @@ def test_template_with_extension():
     class A(core.View):
         pass
 
-    @decorators.template("Webmaster/admin/layout.html", extends=A)
+    @decorators.template("Juice/admin/layout.html", extends=A)
     class B(core.View):
         pass
 
@@ -224,7 +224,7 @@ def test_template_with_extension():
     c = C()
 
     assert "layout.html" in a._template_extends__.get("layout")
-    assert "Webmaster/admin/layout.html" in b._template_extends__.get("layout")
+    assert "Juice/admin/layout.html" in b._template_extends__.get("layout")
     assert "My Admin Zone" in b._template_extends__.get("brand_name")
     assert "Other" in c._template_extends__.get("brand_name")
 

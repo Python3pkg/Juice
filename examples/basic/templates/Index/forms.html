@@ -1,0 +1,14 @@
+{% import "Juice/macros/forms.html" as forms %}
+
+<h2>Forms</h2>
+<h4>This example uses the <strong>forms</strong> macro</h4>
+
+{% call forms.post("Index:forms") %}
+    {{ forms.input(label="Username", name="username") }}
+    {{ forms.input(label="Password", name="password", type="password") }}
+    {{ forms.input(label="Email", name="email", type="email") }}
+    {{ forms.select(label="Sex", name="sex", options=[('female', 'Female'), ('male', 'Male')]) }}
+
+    {{ forms.button("Save", class="btn btn-default btn-success", type="submit") }}
+{% endcall %}
+

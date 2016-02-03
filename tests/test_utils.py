@@ -1,5 +1,5 @@
 
-import webmaster.utils as utils
+import juice.utils as utils
 
 
 def test_encrypted_string():

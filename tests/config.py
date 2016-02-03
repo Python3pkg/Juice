@@ -1,5 +1,5 @@
 """
-Webmaster
+Juice
 
 Base Configuration
 
@@ -217,7 +217,7 @@ class BaseConfig(object):
 #: LOGGING
 
     # Setup the logging configuration to report errors
-    # keep the 'loggers' name empty, as it is requested by Webmaster
+    # keep the 'loggers' name empty, as it is requested by Juice
     # You can add multiple handlers
     # Make sure "version" is set
 

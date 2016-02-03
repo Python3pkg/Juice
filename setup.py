@@ -1,7 +1,7 @@
 """
-Webmaster
+Juice
 
-Webmaster is a Flask based framework to help quickly develop web applications, by
+Juice is a Flask based framework to help quickly develop web applications, by
 adding structure to your views and templates.
 
 Philosophy:
@@ -18,7 +18,7 @@ It comes with pre-built components:
 And it is still Flask.
 
 http://pylot.io/
-https://github.com/mardix/Webmaster
+https://github.com/mardix/Juice
 
 """
 
@@ -28,11 +28,14 @@ from setuptools import setup, find_packages
 base_dir = os.path.dirname(__file__)
 
 __about__ = {}
-with open(os.path.join(base_dir, "webmaster", "__about__.py")) as f:
+with open(os.path.join(base_dir, "juice", "__about__.py")) as f:
     exec(f.read(), __about__)
 
+with open('requirements.txt') as f:
+    install_requires = f.read().splitlines()
+
 setup(
-    name=__about__["title"],
+    name=__about__["name"],
     version=__about__["version"],
     license=__about__["license"],
     author=__about__["author"],
@@ -40,49 +43,22 @@ setup(
     description=__about__["description"],
     url=__about__["uri"],
     long_description=__doc__,
-    py_modules=['webmaster'],
+    py_modules=['juice'],
     entry_points=dict(console_scripts=[
-        'webcli=webmaster.cli:cli'
+        'juice=juice.cli:cmd'
     ]),
     include_package_data=True,
     packages=find_packages(),
-    install_requires=[
-        'Flask==0.10.1',
-        'Flask-Assets==0.10',
-        'flask-recaptcha==0.4.1',
-        'flask-login==0.3.2',
-        'flask-kvsession==0.6.1',
-        'flask-s3==0.2.5',
-        'flask-mail==0.9.0',
-        'flask-cache==0.13.1',
-        'flask-cloudy==0.13.1',
-        'flask-seasurf==0.2.0',
-        #'flask-babel==0.9',
-        'Active-Alchemy==0.4.4',
-        'Paginator==0.3.5',
-        #'authomatic==0.1.0.post1',
-        'six==1.9.0',
-        'passlib==1.6.2',
-        'bcrypt==1.1.1',
-        'python-slugify==0.1.0',
-        'humanize==0.5.1',
-        'redis==2.9.1',
-        'ses-mailer==0.13.0',
-        'markdown==2.6.2',
-        'inflection==0.3.1',
-        'pyyaml==3.11',
-        'click==5.1',
-        'dicttoxml==1.6.6'
-    ],
+    install_requires=install_requires,
     keywords=['flask',
-              'webmaster',
+              'juice',
               'templates',
               'views',
               'classy',
               'framework',
               "mvc",
               "blueprint",
-              "webmaster"],
+              "juice"],
     platforms='any',
     classifiers=[
         'Environment :: Web Environment',

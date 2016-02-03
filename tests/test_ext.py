@@ -7,11 +7,11 @@ import flask_mail
 import flask_cloudy
 import flask_recaptcha
 
-from webmaster import Webmaster, mailer, cache, storage, recaptcha
+from juice import Juice, mailer, cache, storage, recaptcha
 
 conffile = "config.Test"
 
-app = Webmaster.init(__name__, config=conffile)
+app = Juice.init(__name__, config=conffile)
 
 
 # Recaptcha

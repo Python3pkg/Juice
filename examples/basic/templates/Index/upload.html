@@ -1,0 +1,33 @@
+{% import "Juice/macros/forms.html" as forms with context %}
+{% import "Juice/macros/base.html" as juice with context %}
+
+{% if my_object %}
+
+    {{ juice.flash_message('Upload result') }}
+
+    Name: {{ my_object.name }} <br><br>
+    Url: {{ my_object.url }} <br><br>
+    Size: {{ my_object.size }} bytes <br><br>
+    Download Url:  <a href="{{ my_object.download_url() }}">{{ my_object.download_url() }}</a>
+    <br><br>
+
+    <div>
+    <img src="{{ my_object.url }}" class="responsive">
+    </div>
+
+    <br>
+    <hr>
+
+{%  endif %}
+
+
+{% call forms.upload("Index:upload", class='myclass-name') %}
+
+    <h3>Select image to upload:</h3>
+
+    {{ forms.input(label="File to upload", name="file", type="file") }}
+
+    {{ forms.button("Upload Image", class="btn btn-info", type="submit") }}
+
+{% endcall %}
+

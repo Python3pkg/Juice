@@ -1,234 +1,52 @@
-# Webmaster
+# Juice
 
-A packages included Flask based framework to rapidly develop web applications 
-and API endpoints. 
+A batteries included Flask based framework to rapidly develop web/API applications. 
 
 It comes with User Login section, Admin section to quickly get you going.
 
-Also it includes a CMS admin, to quickly post blogs, create dynamic pages on the site.
+Also it includes a Publisher admin, to quickly post blogs, create dynamic pages on the site.
 
 Version: 0.0.*
 
 ## Install
 
-    pip install webmaster
+    pip install juice
     
 ## Create a new app
 
     cd your_dir 
     
-    webcli create -a www
+    juice create -p www
     
 ## Setup Project
     
     cd your_dir 
     
-    python manage.py setup
+    python cmd.py setup
     
 ### Start your server
 
-    webcli local
+    juice serve -p www
 
 Go to http://127.0.0.1:5000/
 
 ---
-    
-## Why Flask?
 
-Because Flask is fun, and you will still feel like you are writing.
+## Read The Docs
 
+To dive into the documentation, Read the docs @ [http://mardix.github.io/Juice/](http://mardix.github.io/Juice/)
 
-## Why not Django? 
-
-Because it's not Django. That's it! 
-
-
-## Decision Made for You
-
-- Smart routing: automatically generates routes based on the classes and methods in your views
-    
-- Class name as the base url, ie: class UserAccount will be accessed at '/user-account'
-
-- Class methods (action) could be accessed: hello_world(self) becomes 'hello-world'
-
-So
-
-    class UserAccount(Webmaster):
-        
-        def hello_world(self):
-            return {}
-
-Will be accessed at **/user-account/hello-world**
-
-- Easy rending and render decorator
-
-By default views methods can return a dict and it will transform to the rendering views
-
-    class Index(Webmaster):
-    
-        # url: /
-        def index(self):
-            return {
-                "name": "John Doe",
-                "location": "World"
-            }
-
-
-        # url: /hello-world
-        @render_as_json
-        def hello_world(self):
-            return {
-                "city": "Charlotte",
-                "state": "North Carolina"
-            }
-            
-        
-        # url: /another-one-as-xml
-        @render_as_xml
-        def another_one_as_xml(self):
-            return {
-                "city": "Charlotte",
-                "state": "North Carolina"
-            }
-
-- 
-
-- Auto route can be edited with @route()
-
-- Restful: GET, POST, PUT, DELETE
-
-- REST API Ready
-
-- bcrypt is chosen as the password hasher
-
-- Session: Redis, AWS S3, Google Storage, SQLite, MySQL, PostgreSQL
-
-- ORM: [Active-Alchemy](https://github.com/mardix/active-alchemy) (SQLALchemy wrapper)
-
-- ReCaptcha: [Flask-Recaptcha](https://github.com/mardix/flask-recaptcha)
-
-- CSRF on all POST
-
-- CloudStorage: Local, S3, Google Storage [Flask-Cloudy](https://github.com/mardix/flask-cloudy)
-
-- Mailer (SES or SMTP)
-
-- Caching
-
-- Propel for deployment
-
-
-
-# Built-in Packages
-
-- Basic Layout
-
-- Index page
-
-- User Auth
-    - login
-    - signup
-    - lost-password
-    - account-settings
-
-- User Admin
-
-- Publisher a CMS lite to manage posts (article, blog, dynamic pages, etc)
-    - With Admin
-    - With Front end view
-
-- Contact Page
-
-- Error Page (Custom error page)
-
-- Social Signin (in experiment)
-
-- Social Share
-
-- Bootswatch
-
-- Font-Awesome
-
-- Markdown
-
-
-# Front End Components
-
-- Lazy load images
-
-- Social Share Buttons
-
-
----
- 
-Application Structure:
-
-    /application
-    
-        - /data
-        
-            - /mailer-templates
-            
-            - /uploads
-        
-        - /extras
-        
-            - __init__.py
-        
-        - /www
-        
-            - /static
-                
-                - /css
-                
-                - /images
-                
-                - /js
-                
-                - assets.yml
-                
-            - /templates
-            
-                - /Index
-                    
-                    - index.html
-            
-            - __init__.py
-            
-            - views.py
-        
-    - manage.py
-    
-    - propel.yml
-    
-    - requirements.txt
-    
-    - serve_www.py
-
-
----
-
-
-Core Modules:
-
-    webmaster.core
-    
-    webmaster.decorators
-    
-    webmaster.ext
-    
-    webmaster.packages
     
 --- 
 
 ## Read The Docs
 
-Read the docs @ [http://mardix.github.io/Webmaster/](http://mardix.github.io/Webmaster/)
+Read the docs @ [http://mardix.github.io/Juice/](http://mardix.github.io/Juice/)
 
 ---
 
 
-## Helping with Documentation
+## Contribution with Documentation
 
 The documentation is written in Markdown and is located under `/docs` 
  
@@ -251,10 +69,17 @@ Run this command to see the changes and look etc
     mkdocs serve
     
 
-Then commit and push your code in `master` to make a pull request.
+**Then commit and push your code in `master` to make a pull request.**
 
-Do not push the directory `/site` generated by MkDocs. 
+Do not COMMIT or PUSH the `/site` directory generated by MkDocs.
  
+But if you wish to publish the doc site under your own github domain, 
+run the command below:
+
+    mkdocs gh-deploy --clean
+
+But it's still best to make a pull request and share the docs.
+
 That's it.
 
     

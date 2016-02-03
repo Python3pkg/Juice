@@ -1,8 +1,31 @@
 
-site_name: Webmaster
-repo_url: https://github.com/mardix/webmaster
+site_name: Juice
+repo_url: https://github.com/mardix/juice
 theme: "readthedocs"
 pages:
   - Home: 'index.md'
-  - Decorators: 'decorators.md'
+  - Application:
+    - Home: 'application/index.md'
+    - Config: 'application/config.md'
+    - Views: 'application/views.md'
+    - Templates: 'application/templates.md'
+    - Static: 'application/static.md'
+  - Plugins:
+    - Home: 'plugins/index.md'
+    - Base: 'plugins/base.md'
+    - Contact Page: 'plugins/contact-page.md'
+    - User: 'plugins/user.md'
+    - Publisher: 'plugins/publisher.md'
+    - Error Page: 'plugins/error-page.md'
+    - Maintenance Page: 'plugins/maintenance-page.md'
+  - Command Line: 'cli.md'
+  - Juice Core:
+    - Core: 'juice/core.md'
+    - Decorators: 'juice/decorators.md'
+    - Exceptions: 'juice/exceptions.md'
+    - Utils: 'juice/utils.md'
+  - Deployment: 'deploy.md'
+  - Snippets:
+    - Home: 'snippets/index.md'
+
 
