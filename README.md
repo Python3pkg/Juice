@@ -34,14 +34,14 @@ Go to http://127.0.0.1:5000/
 
 ## Read The Docs
 
-To dive into the documentation, Read the docs @ [http://mardix.github.io/Juice/](http://mardix.github.io/Juice/)
+To dive into the documentation, Read the docs @ [http://mardix.github.io/Juice/](http://mardix.github.io/juice/)
 
     
 --- 
 
 ## Read The Docs
 
-Read the docs @ [http://mardix.github.io/Juice/](http://mardix.github.io/Juice/)
+Read the docs @ [http://mardix.github.io/Juice/](http://mardix.github.io/juice/)
 
 ---
 

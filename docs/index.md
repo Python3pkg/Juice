@@ -48,7 +48,7 @@ all the necessary files to get you going.
 First, `cd` into the directory that will contain your application, 
 then type the command below:
 
-    juice create --project www
+    juice create -p www
     
 Upon creation, you should see the structure below,
 where `www` name is the default name for web project, 
@@ -131,7 +131,7 @@ Now the application is setup we can launch the local dev server to see the site.
 
 To run the server, type the command below:
 
-    juice serve --project www
+    juice serve -p www
     
 Automatically it will launch the site and you can navigate to see the site at:
 
@@ -389,4 +389,4 @@ Wasn't it easy?
 - Js-Cookie
 - JQuery Lazy
 - JQuery Oembed
-- (aut)
+- (auth)
