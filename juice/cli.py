@@ -59,14 +59,14 @@ def create_project(project_name, skel="basic"):
     propel_tpl = pkg_resources.resource_string(__name__, '%s/propel.yml' % (SKELETON_DIR))
     config_tpl = pkg_resources.resource_string(__name__, '%s/config.py' % (SKELETON_DIR))
     model_tpl = pkg_resources.resource_string(__name__, '%s/model.py' % (SKELETON_DIR))
-    manage_tpl = pkg_resources.resource_string(__name__, '%s/manage.py' % (SKELETON_DIR))
+    manage_tpl = pkg_resources.resource_string(__name__, '%s/cli.py' % (SKELETON_DIR))
 
     app_file = "%s/%s.py" % (CWD, project_name)
     requirements_txt = "%s/requirements.txt" % CWD
     propel_yml = "%s/propel.yml" % CWD
     config_py = "%s/config.py" % APPLICATION_DIR
     model_py = "%s/model.py" % APPLICATION_DIR
-    manage_py = "%s/cmd.py" % CWD
+    manage_py = "%s/cli.py" % CWD
     extras_dir = "%s/extras" % APPLICATION_DIR
 
     dirs = [
@@ -84,7 +84,7 @@ def create_project(project_name, skel="basic"):
         (config_py, config_tpl),
         (model_py, model_tpl),
         (app_file, app_tpl.format(project_name=project_name)),
-        (requirements_txt, "%s==%s" % (__about__.name, __about__.version)),
+        (requirements_txt, "%s==%s" % (__about__.__title__, __about__.__version__)),
         (propel_yml, propel_tpl.format(project_name=project_name)),
         (manage_py, manage_tpl),
         ("%s/__init__.py" % extras_dir, "# /application/extras: This is where you can place you custom/shared modules "),
@@ -112,7 +112,7 @@ class GitPush(object):
         :return:
         """
         key = "git-remotes"
-        self.prefix = "webcli"
+        self.prefix = "juice"
         f = CWD + "/" + config_file
         with open(f) as pf:
             config = yaml.load(pf)
@@ -171,37 +171,36 @@ class GitPush(object):
         return cmd
 
 # ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 
-def _addCWDToSysPath():
+
+def cwd_to_sys_path():
     sys.path.append(CWD)
 
-def _title(title=None):
-    click.echo(__doc__)
-    click.echo("v. %s" % __about__.version)
-    click.echo("")
-    if title:
-        click.echo("** %s **" % title)
-        click.echo("")
 
-def format_app_name(name):
-    return re.compile('[^a-zA-Z]').sub("", name)
-
-
-def get_app_serve_module(project):
-    _addCWDToSysPath()
-    project = format_app_name(project)
+def import_module(project):
+    cwd_to_sys_path()
+    project = sanitize_name(project)
     return importlib.import_module(project)
 
 
-def import_project_module(module):
-    _addCWDToSysPath()
-    return importlib.import_module(module)
+def sanitize_name(name):
+    return re.compile('[^a-zA-Z]').sub("", name)
 
-def _buildassets(app):
 
+def header(title=None):
+    print(__doc__)
+    print("v. %s" % __about__.__version__)
+    print("")
+    if title:
+        print("** %s **" % title)
+        print("")
+
+
+def build_assets(mod):
     from webassets.script import CommandLineEnvironment
 
-    module = get_app_serve_module(app)
+    module = import_module(mod)
     assets_env = module.app.jinja_env.assets_environment
 
     log = logging.getLogger('webassets')
@@ -213,104 +212,133 @@ def _buildassets(app):
 
 
 @click.group()
-def cmd(): pass
+def cli(): pass
 
-@cmd.command()
-@click.option("--project", "-p", default="www")
+
+@cli.command()
+@click.argument("project")
 @click.option("--skel", "-s", default="app")
 def create(project, skel):
     """  Create a new App """
 
-    app = format_app_name(project)
+    app = sanitize_name(project)
 
-    _title("Create New Project ...")
-    click.echo("- Project: %s " % app)
+    header("Create New Project ...")
+    print("- Project: %s " % app)
 
     create_project(app, skel)
 
-    click.echo("----- Juicy ----")
-    click.echo("- Your new project [ %s ] has been created" % app)
-    click.echo("- Location: [ application/%s ]" % app)
-    click.echo("")
-    click.echo("> What's next?")
-    click.echo("- Edit the config [ application/config.py ] ")
-    click.echo("- If necessary edit and run the commander [ python manage.py setup ]")
-    click.echo("- Launch local server, run [ juice serve -p %s ]" % app)
-    click.echo("")
-    click.echo("*" * 80)
+    print("----- Juicy! ----")
+    print("")
+    print("- Your new project [ %s ] has been created" % app)
+    print("- Location: [ application/%s ]" % app)
+    print("")
+    print("> What's next?")
+    print("- Edit the config [ application/config.py ] ")
+    print("- If necessary edit and run the command [ juice:cli setup ]")
+    print("- Launch local server, run [ juice serve %s ]" % app)
+    print("")
+    print("*" * 80)
 
-@cmd.command()
-@click.option("--project", "-p", default="www")
+
+@cli.command()
+@click.argument("project")
 def buildassets(project):
     """
     Build web assets static files
     """
 
-    _title("Build Project's assets files from bundles ...")
-    click.echo("- Project: %s " % project)
-    click.echo("")
-    _buildassets(project)
-    click.echo("Done!")
+    header("Build Project's assets files from bundles ...")
+    print("- Project: %s " % project)
+    print("")
+    build_assets(project)
+    print("Done!")
 
-@cmd.command()
-@click.option("--project", "-p", default="www")
+
+@cli.command()
+@click.argument("project")
 def assets2s3(project):
     """ To upload static web assets files to S3"""
 
     import flask_s3
     module = get_app_app_module(project)
 
-    _title("Build and  Upload static assets files to S3 ...")
-    click.echo("- Project: %s " % project)
-    click.echo("")
+    header("Build and  Upload static assets files to S3 ...")
+    print("- Project: %s " % project)
+    print("")
 
-    _buildassets(project)
+    build_assets(project)
     flask_s3.create_all(module.app)
-    click.echo("Done!")
+    print("Done!")
 
-@cmd.command()
-@click.option("--project", "-p", default="www")
-@click.option("--port", default=5000)
-def serve(project, port):
+
+@cli.command()
+@click.argument("project")
+@click.option("--port", "-p", default=5000)
+@click.option("--no-watch", default=False)
+def serve(project, port, no_watch):
     """ Serve a project in Local Development environment """
 
-    _title("Start server in Local environment ...")
-    click.echo("- App: %s " % project)
-    click.echo("- Port: %s" % port)
-    click.echo("")
+    header("Serve application on local ")
+    print("- Project: %s " % project)
+    print("")
+    print("- Port: %s" % port)
+    print("")
 
-    module = get_app_serve_module(project)
+    module = import_module(project)
 
-    extra_dirs = [CWD,]
-    extra_files = extra_dirs[:]
-    for extra_dir in extra_dirs:
-        for dirname, dirs, files in os.walk(extra_dir):
-            for filename in files:
-                filename = os.path.join(dirname, filename)
-                if os.path.isfile(filename):
-                    extra_files.append(filename)
-    module.app.run(debug=True, host='0.0.0.0', port=port, extra_files=extra_files)
+    extra_files = []
+    if not no_watch:
+        extra_dirs = [CWD,]
+        extra_files = extra_dirs[:]
+        for extra_dir in extra_dirs:
+            for dirname, dirs, files in os.walk(extra_dir):
+                for filename in files:
+                    filename = os.path.join(dirname, filename)
+                    if os.path.isfile(filename):
+                        extra_files.append(filename)
+    module.app.run(debug=True,
+                   host='0.0.0.0',
+                   port=port,
+                   extra_files=extra_files)
 
-@cmd.command()
-@click.option("--remote", "-r", default="web")
+@cli.command()
+@click.argument("remote")
 @click.option("--all", "-a", default="")
 #@click.option("--force", "-f", default=False)
 def push(remote, all):
     """ To Git Push application to remote git servers """
 
-    _title("Git Push Application ...")
+    header("Git Push Application ...")
 
     gp = GitPush(CWD, "propel.yml")
 
     force = False
     reset_git = False
-    if remote:
-        click.echo("Remote: %s ..." % remote)
-        gp.remote(name=remote)
-    elif all:
-        click.echo("All remotes...")
+    if all:
+        print("All remotes...")
         gp.all()
+    elif remote:
+        print("Remote: %s ..." % remote)
+        gp.remote(name=remote)
     elif reset_git:
         pass
 
-    click.echo("Done!")
+    print("Done!")
+
+# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
+
+def app_cli():
+    """
+    Run the application CLI
+    :return:
+    """
+    try:
+        module = import_module("cli")
+        module.app.cli()
+    except ImportError as e:
+        print("")
+        print("IMPORT ERROR: Missing 'cli.py' "
+              "at the root of your application: %s" % CWD)
+        print("")

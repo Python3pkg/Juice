@@ -35,17 +35,19 @@ with open('requirements.txt') as f:
     install_requires = f.read().splitlines()
 
 setup(
-    name=__about__["name"],
-    version=__about__["version"],
-    license=__about__["license"],
-    author=__about__["author"],
-    author_email=__about__["email"],
-    description=__about__["description"],
-    url=__about__["uri"],
+    name=__about__["__title__"],
+    version=__about__["__version__"],
+    license=__about__["__license__"],
+    author=__about__["__author__"],
+    author_email=__about__["__email__"],
+    description=__about__["__summary__"],
+    url=__about__["__uri__"],
     long_description=__doc__,
     py_modules=['juice'],
     entry_points=dict(console_scripts=[
-        'juice=juice.cli:cmd'
+        'juice=juice.cli:cli',
+        'juice:cli=juice.cli:app_cli',
+        'juice:serve=juice.cli:app_serve',
     ]),
     include_package_data=True,
     packages=find_packages(),

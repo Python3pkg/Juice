@@ -17,7 +17,7 @@ from application import model
 #
 
 @menu("My Admin", group_name="admin")
-@template("Juice/admin-layout.html", brand_name="Admin 2.0")
+@template("Juice/admin-layout.html", brand_name="Admin 2.0", bootswatch_theme="yeti")
 @plugin(user.admin, model=model.User, menu={"group_name": "admin"})
 @plugin(publisher.admin, model=model.Publisher, menu={"group_name": "admin"})
 class Index(View):

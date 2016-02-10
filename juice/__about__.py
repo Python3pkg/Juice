@@ -1,12 +1,17 @@
-# About
 
-name = "Juice"
-version = "0.0.0" # 0.1.0
-author = "Mardix"
-email = "mardix@pylot.io"
-description = "A full stack Flask based framework that put structure in the " \
+__all__ = [
+    "__title__", "__summary__", "__uri__", "__version__", "__author__",
+    "__email__", "__license__", "__copyright__",
+]
+
+__title__ = "Juice"
+__version__ = "0.0.0"
+__summary__ = "A full stack Flask based framework that put structure in the " \
               "file system. Features: Caching, Mailing, Storage, CSRF, recaptcha " \
               "and more"
-uri = "https://github.com/mardix/juice"
-license = "MIT"
-copyright = "(c) 2016 %s" % author
+__uri__ = "https://github.com/mardix/juice"
+__author__ = "Mardix"
+__email__ = "mardix@pylot.io"
+__license__ = "MIT"
+__copyright__ = "(c) 2016 %s" % __author__
+

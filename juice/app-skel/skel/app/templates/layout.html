@@ -1,16 +1,14 @@
-{# Juice #}
-
-{% import "Juice/macros/base.html" as base with context %}
+{% import "Juice/macros/html.html" as html with context %}
 {% import "Juice/macros/menu.html" as menu with context %}
-{% import "Juice/macros/bootstrap.html" as bootstrap with context %}
+{% import "Juice/macros/widget.html" as widget with context %}
 
 <!DOCTYPE html>
 <html>
 
     <head>
-        {{ base.site_header("%s - Site Name") }}
-        {{ bootstrap.theme('yeti') }}
-        {{ base.css_assets("all-css") }}
+        {{ html.head("%s | " + __.APPLICATION_NAME) }}
+        {{ html.bootswatch_theme('yeti') }}
+        {{ html.css("all-css") }}
     </head>
 
     <body>
@@ -24,7 +22,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    {{ base.flashed_messages() }}
+                    {{ widget.flashed_messages() }}
                 </div>
             </div>
 
@@ -47,7 +45,7 @@
         </footer>
 
 
-        {{ base.js_assets("all-js") }}
+        {{ html.js("all-js") }}
 
     </body>
 </html>

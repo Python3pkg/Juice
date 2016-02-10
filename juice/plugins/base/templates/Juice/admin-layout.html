@@ -1,12 +1,9 @@
 
-{% import "Juice/macros/base.html" as base with context %}
+{% import "Juice/macros/html.html" as html with context %}
 {% import "Juice/macros/menu.html" as menu with context %}
 {% import "Juice/macros/forms.html" as forms with context %}
 {% import "Juice/macros/widget.html" as widget with context %}
 
-
-
-{% import "Juice/macros/bootstrap.html" as bs with context %}
 
 {% set wide_view = false %}
 {% set show_menus = true %}
@@ -15,21 +12,21 @@
     {% set show_menus = false %}
 {% endif %}
 
-{% if __.TEMPLATE_CONTEXT["skip_user_auth"] is defined %}
-
+{% set bootswatch_theme = "yeti" %}
+{% if __.TEMPLATE_CONTEXT["bootswatch_theme"] is defined %}
+    {% set bootswatch_theme = __.TEMPLATE_CONTEXT["bootswatch_theme"] %}
 {% endif %}
-
 
 <!DOCTYPE html>
 <html>
 
 <head>
-    {{ base.site_header("%s - Admin",
-                        add_social_graph=false,
-                        add_google_analytics=false) }}
-    {{ bs.theme('yeti') }}
-    {{ base.css_assets("juice-admin.css") }}
-    {{ base.css_assets("admin-all-css") }}
+    {{ html.head("%s - Admin",
+                   add_social_graph=false,
+                   add_google_analytics=false) }}
+    {{ html.bootswatch_theme(bootswatch_theme) }}
+    {{ html.css("juice-admin.css") }}
+    {{ html.css("admin-all-css") }}
 </head>
 
 <body>
@@ -51,11 +48,11 @@
         {% if not wide_view %}
             <div class="row">
                 <div class="col-md-12">
-                    <h3>
+                    <h4>
                       <div class="visible-xs pull-left btn-offcanvas" data-toggle="offcanvas"><i class="fa fa-bars"></i></div>
-                      <div class="pull-left">{{ menu.current_title() }} :: {{ menu.current_sub_title() }}</div>
+                      <div class="pull-right"><strong>{{ menu.current_title() }} :: {{ menu.current_sub_title() }}</strong></div>
                       <div class="clearfix"></div>
-                    </h3>
+                    </h4>
                     <hr>
                 </div>
             </div>
@@ -78,12 +75,11 @@
                 </div>
             {% endif %}
 
-
         </div>
     </div>
 
-
-    {{ base.js_assets("admin-all-js") }}
+    {{ html.img("") }}
+    {{ html.js("admin-all-js") }}
 
 <script>
     $(function(){

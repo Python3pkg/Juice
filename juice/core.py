@@ -21,17 +21,18 @@ from flask import (Flask, g, render_template, flash, session, url_for, request,
                    redirect, make_response, Response)
 from flask_assets import Environment
 import jinja2
+from flask_cli import FlaskCLI
 import __about__
 
 
 _py2 = sys.version_info[0] == 2
 # ------------------------------------------------------------------------------
 
-NAME = __about__.name
-__version__ = __about__.version
-__author__ = __about__.author
-__license__ = __about__.license
-__copyright__ = __about__.copyright
+NAME = __about__.__title__
+__version__ = __about__.__version__
+__author__ = __about__.__author__
+__license__ = __about__.__license__
+__copyright__ = __about__.__copyright__
 
 # ------------------------------------------------------------------------------
 
@@ -554,6 +555,8 @@ class View(FlaskView):
 
         # init_app
         [_app(cls._app) for _app in cls._init_apps]
+
+        FlaskCLI(cls._app)
 
         # Register all views
         for subcls in cls.__subclasses__():

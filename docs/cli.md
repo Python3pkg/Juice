@@ -1,11 +1,16 @@
 # Juice : Command Line Tool
 
-**juice** is a command line tool to conveniently create projects, 
+Juice comes with a command line interface to conveniently create projects, 
 build assets, push assets to S3, deploy application to production server and more.
 
-**juice** was created during the installation of Juice.
+There two types of command line tool. 
+ 
+`juice`: The command to let you create projects,  build assets, 
+push assets to S3, deploy application to production server and more 
 
-Below are the availale commands:
+`juice:cli` [juice:cli](application/cli.md) to manage your own command line interface
+
+Below are the availale commands for `juice`
 
 ---
 
@@ -13,59 +18,72 @@ Below are the availale commands:
 
 To create new project in your application.
 
-**Args**
-
-- --project | -p *(required. default: www)* - The name of the project to create. 
-No space or dashes.
-
-- --skel | -s *(default: basic)* - The pre-made skeleton to use for the project. 
-    - `basic` : Basic skeleton
-    - `api` : A skeleton for RESTful API
-    - `admin`: A skeleton for admin interface
-    - `app`: A full fledge skeleton with login, blogs, etc.
-
-Will create a `www` project with `basic` skeleton
-
-    juice create --project www
+    juice create www
     
-Create a project name `api` with `api` skeleton
+*Where `www` is the $project_name.*
 
-    juice create -p api --skel api
+**arguments**
 
+- $project_name : The name of the project to create
+    
+**options**
+
+- --skel | -s *(default: app)* - The pre-made skeleton to use for the project. 
+    - `app` : Basic skeleton
+    - `api` : A skeleton for RESTful API
+
+
+
+Create a project named `api` with `api` skeleton
+
+    juice create api --skel api
+
+    
 ---
 
 ## serve
 
-Allow to launch the project in local dev environment.
+Allows to launch a project in local dev environment.
 
-**Args**
+    juice serve www
 
-- --project | -p: The name of the project
+*Where `www` is the $project_name.*
 
-- --port *(default: 5000)* - The port to use if you want to use one other than 5000
+**arguments**
 
-This will launch the `www` project under port 5000
+- $project_name : The name of the project to serve
+    
+**options**
 
-    juice serve -p www
+- -p | --port *(default: 5000)* - The port to use if you want to use one other than 5000
 
-This will launch the `api` project under port 5001
+- --no-watch - The name of the project to create. 
+No space or dashes.
 
-    juice serve -p api --port 5001
 
+This will launch the `www` project under port 5001
+
+    juice serve www -p 5001
+
+
+To not watch the files when serving, so it doesn't reload
+
+    juice serve api --no-watch 1
+    
 ---
 
 ## buildassets
 
-Allows to build web assets static files.
+Allows to build web assets static files for the project
 
-**Args**
+    juice buildassets www
+    
+*Where `www` is the $project_name.*
 
-- --project | -p : The name of the project
+**arguments**
 
-This will build your assets for the `www` project
-
-    juice buildassets -p www
-
+- $project_name : The name of the project
+    
 ---
 
 ## assets2s3
@@ -73,15 +91,15 @@ This will build your assets for the `www` project
 If you want to host your assets on AWS S3, **juice** can conveniently upload 
 them on S3.
 
-**Args**
+    juice assets2s3 www
+    
+*Where `www` is the $project_name.*
 
-- --project | -p : The name of the project
+**arguments**
 
-The example below will build and upload to S3 your static files. 
-It will be reflected autmatically in your code.
-
-    juice assets2s3 -p www
-
+- $project_name : The name of the project
+    
+    
 By default the `Development` config will be used. 
 If you want to use the `PRODUCTION` to upload from your local machine:
 
@@ -93,13 +111,20 @@ If you want to use the `PRODUCTION` to upload from your local machine:
 
 This is convenient command to push your application to production server by using GIT.
 
+    juice push web 
+
+*Where `web` is the $remote_name.*
+
 No need to add a remote manually. By specifying the remote in your `propel.yml`
 file, it will push it to that remote. This will allow to quickly change the remotes
 to push to. Of course you must commit your code.
 
-**Args**
+**arguments**
 
-- --remote | -r : The remote to push to
+- $remote_name : The name of the remote in propel.yml to push
+    
+    
+**options**
 
 - --all : To push to all remotes
 
@@ -115,11 +140,11 @@ In your `/propel.yml` file, edit the section `git-remotes`:
 
 Now to push to `web` only:
 
-    juice push --remote web
+    juice push web
 
 To push `workers`:
 
-    juice push -r workers
+    juice push workers
     
 To push to all remotes:
 

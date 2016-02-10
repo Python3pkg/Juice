@@ -739,7 +739,7 @@ def admin(view, **kwargs):
     template_page = template_dir + "/%s.html"
 
     _menu = kwargs.get("menu", {})
-    _menu.setdefault("name", "Publisher Admin")
+    _menu.setdefault("name", "Publisher")
     _menu.setdefault("group_name", "admin")
     _menu["visible_with_auth_user"] = True
     _user_roles = kwargs.get("user_roles", ('superadmin', 'admin', 'manager', 'editor'))
@@ -1178,7 +1178,7 @@ def admin(view, **kwargs):
 
             else:
                 page = request.args.get("page", 1)
-                per_page = 1 # self.get_config("PAGINATION_PER_PAGE", 25)
+                per_page = self.get_config("PAGINATION_PER_PAGE", 25)
                 images = PostModel.UploadObject.all()\
                     .filter(PostModel.UploadObject.type == "IMAGE")\
                     .order_by(PostModel.UploadObject.name.asc())

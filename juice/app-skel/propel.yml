@@ -1,7 +1,7 @@
 ###############################################################################
 # Propel Juice
 #
-# A deploy config file to deploy Juice app on the server
+# A deploy config file to deploy Juice apps
 #
 # https://github.com/mardix/propel
 #
@@ -38,7 +38,7 @@ scripts:
   # Run before all
   before_all:
     -
-      command: "$PYTHON_ENV cmd.py setup"
+      command: "juice:cli setup"
       environment: ENV="Production"
 
   # Run after all

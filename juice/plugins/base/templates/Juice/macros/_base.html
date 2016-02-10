@@ -155,56 +155,7 @@
 
 {% endmacro %}
 
-{#: SOCIAL_GRAPH() ---------------------------------------------------------- #}
-{%- macro social_graph(use_opengraph=True, use_googleplus=True, use_twitter=True) -%}
 
-    {% set url = __.__META__["url"] or request.base_url %}
-    {% set image =  __.__META__["image"] %}
-    {%  if image %}
-        {% set image = static_file(image) %}
-    {%  endif %}
-
-    {% if __.__META__["use_opengraph"] and use_opengraph %}
-        {{ meta.opengraph("title", __.__META__["title"]) }}
-        {{ meta.opengraph("description", __.__META__["description"]) }}
-        {{ meta.opengraph("url", url) }}
-        {{ meta.opengraph("site_name", __.__META__["site_name"]) }}
-        {%  set object_type = __.__META__["object_type"] %}
-            {{- meta.opengraph("type", __.__META__["object_type"]) -}}
-
-        {% if image %}
-            {{ meta.opengraph("image", image) }}
-        {% endif %}
-
-    {% endif %}
-
-    {% if __.__META__["use_googleplus"] and use_googleplus %}
-        {{ meta.googleplus("description", __.__META__["description"]) }}
-        {{ meta.googleplus("name", __.__META__["title"]) }}
-        {{ meta.googleplus("url", url) }}
-        {% if image %}
-            {{ meta.googleplus("image", image) }}
-        {% endif %}
-    {% endif %}
-
-    {% if __.__META__["use_twitter"] and use_twitter -%}
-        {{ meta.twitter("title", __.__META__["title"]) }}
-        {{ meta.twitter("description", __.__META__["description"]) }}
-        {{ meta.twitter("url", url ) }}
-        {% if image %}
-            {{ meta.twitter("image", image) }}
-            {{ meta.twitter("card", "summary_large_image") }}
-        {% else %}
-            {{ meta.twitter("card", "summary") }}
-        {% endif %}
-    {% endif %}
-
-
-    {%  for k, v in __.__META__["properties"].items() %}
-        {{ meta.custom("property", k, v) }}
-    {% endfor %}
-
-{% endmacro %}
 
 
 

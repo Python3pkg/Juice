@@ -1,21 +1,45 @@
-{#
-  Base macros
+{% import "Juice/macros/meta.html" as meta with context %}
 
+{#: HEADER() ----------------------------------------------------------- #}
+{%- macro head(title="%s",
+        favicon="favicon.ico",
+        charset="utf-8",
+        add_social_graph=true,
+        add_google_analytics=true,
+        fontawesome_version="4.4.0") -%}
 
+    <meta charset="{{ charset | safe }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title | replace("%s", __.__META__["title"]) | safe }}</title>
+    {{ meta.meta("description", __.__META__["description"]) }}
+    {{ set_favicon(favicon) }}
 
- #}
+    {% if add_social_graph == true %}
+        {{ meta.social_graph() }}
+    {% endif %}
 
+    {{ css('juice-all.css') }}
+    {{ js('jquery.js') }}
+    {{ js('juice-all.js') }}
 
-{#: CSS_ASSETS() ------------------------------------------------------------- #}
-{%- macro css_assets(file) %}
+    {% if add_google_analytics == true %}
+        {{ google_analytics() }}
+    {% endif %}
+
+    {{ fontawesome(fontawesome_version) }}
+
+{%- endmacro -%}
+
+{#: CSS ------------------------------------------------------------- #}
+{%- macro css(file) %}
     {%- assets file %}
     <link rel="stylesheet" href="{{ ASSET_URL }}" type="text/css" >
     {% endassets -%}
 {% endmacro -%}
 
 
-{#: JS_ASSETS()--------------------------------------------------------------- #}
-{%- macro js_assets(file) %}
+{#: JS--------------------------------------------------------------- #}
+{%- macro js(file) %}
     {%- assets file %}
     <script type="text/javascript" src="{{ ASSET_URL }}"></script>
     {% endassets -%}
@@ -63,7 +87,7 @@
     - static: (bool) it will be treated as static files if true
     - responsive: (bool)
 #}
-{% macro img_src(file, lazy=true, responsive=true, static=false) %}
+{% macro img(file, lazy=true, responsive=true, static=false) %}
     {% set _class = kwargs.pop('class', '') %}
     {% set _responsive = "responsive" if responsive else "" %}
 
@@ -93,36 +117,33 @@
 {#
 To
 #}
-{%  macro oembed(url) %}
-    <a href="{{ url }}" class="oembed"></a>
+{%  macro oembed(url, title="") %}
+    <a href="{{ url }}" class="oembed">{{ title }}</a>
 {%  endmacro %}
 
 
 
 #-------------------------------------------------------------------------------
 
-{% macro share_buttons(text=None, url=None, show_count=False, show_label=True, buttons=["facebook", "twitter", "googleplus"]) %}
-
-    <div class="WP-share-buttons"
-         data-buttons='{{ buttons | tojson }}'
-         {% if url %}data-url="{{ url }}"{% endif %}
-         {% if text %}data-text="{{ text }}"{% endif %}
-         data-show-count="{{ show_count }}"
-         data-show-label="{{ show_label }}"
-    ></div>
-
-{% endmacro %}
 
 {%- macro fontawesome(version="4.3.0") -%}
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/{{ version }}/css/font-awesome.min.css">
 {%- endmacro -%}
 
 
+{#: Favicon :#}
+{% macro set_favicon(path) %}
+    <link rel="shortcut icon" href="{{- static_file(path) -}}">
+{% endmacro %}
 
 
+{% macro bootswatch_theme(name) %}
+    {{ css('Juice/bootswatch/%s.css' % name) }}
+{% endmacro %}
+
+
+{# IN EXPERIMENT #}
 {% macro oauth_providers(text="Signin with #provider", size="lg", btn_block=true) %}
-
-
 <script>
     $(function(){
         var redirect = "{{ login_url_next | default(login_url_default) }}"
@@ -134,9 +155,7 @@ To
 #-------------------------------------------------------------------------------
 
 
-{#: Favicon :#}
-{% macro set_favicon(path) %}
-    <link rel="shortcut icon" href="{{- static_file(path) -}}">
-{% endmacro %}
+
+
 
 

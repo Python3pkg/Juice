@@ -1,5 +1,3 @@
-{% import "Juice/macros/base.html" as base with context %}
-
 {#
 
  Widget
@@ -10,7 +8,7 @@
 
  {% call collapsible('My Title') %}
     This is the body
- {% endcall %}base
+ {% endcall %}
 
 
 #}
@@ -299,6 +297,13 @@ pagination
 #-------------------------------------------------------------------------------
 
 
-{% macro theme(name) %}
-    {{ base.css_assets('Juice/bootswatch/%s.css' % name) }}
+{% macro share_buttons(text=None, url=None, show_count=False, show_label=True, buttons=["facebook", "twitter", "googleplus"]) %}
+    <div class="share-buttons"
+         data-buttons='{{ buttons | tojson }}'
+         {% if url %}data-url="{{ url }}"{% endif %}
+         {% if text %}data-text="{{ text }}"{% endif %}
+         data-show-count="{{ show_count }}"
+         data-show-label="{{ show_label }}"
+    ></div>
+
 {% endmacro %}

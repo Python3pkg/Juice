@@ -824,7 +824,7 @@ def admin(view, **kwargs):
     template_page = template_dir + "/%s.html"
 
     _menu = kwargs.get("menu", {})
-    _menu.setdefault("name", "User Admin")
+    _menu.setdefault("name", "Users")
     _menu.setdefault("group_name", "admin")
     _menu["visible_with_auth_user"] = True
 

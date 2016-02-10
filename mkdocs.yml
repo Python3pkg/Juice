@@ -1,6 +1,6 @@
 
 site_name: Juice
-repo_url: https://github.com/mardix/juice
+repo_url: https://github.com/mardix/Juice
 theme: "readthedocs"
 pages:
   - Home: 'index.md'
