@@ -49,7 +49,7 @@ setup(
         'juice:cli=juice.cli:app_cli'
     ]),
     include_package_data=True,
-    packages=find_packages(),
+    packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
     install_requires=install_requires,
     keywords=['flask',
               'juice',
