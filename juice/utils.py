@@ -38,7 +38,7 @@ def is_valid_password(password):
     """
     Check if a password is valid
     """
-    pattern = re.compile(r"^.{4,25}$")
+    pattern = re.compile(r"^.{4,75}$")
     return bool(pattern.match(password))
 
 
@@ -362,33 +362,6 @@ def get_decorators_list(method):
     kls = _InspectMethodsDecorators(method)
     return kls.parse()
 
-
-def test_get_decorators_list():
-
-    def deco1(func):
-        @functools.wraps(func)
-        def decorated_view(*args, **kwargs):
-            return func(*args, **kwargs)
-        return decorated_view
-
-    def deco2(func):
-        @functools.wraps(func)
-        def decorated_view(*args, **kwargs):
-            return func(*args, **kwargs)
-        return decorated_view
-
-    class Hi(object):
-
-        @deco1
-        @deco2
-        def hello(self):
-            return True
-
-    k_hi = Hi()
-    decos = get_decorators_list(k_hi.hello)
-    assert isinstance(decos, list)
-    assert "deco1" in decos
-    assert "deco2" in decos
 
 
 

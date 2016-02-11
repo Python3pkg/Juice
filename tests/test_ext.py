@@ -6,13 +6,12 @@ import ses_mailer
 import flask_mail
 import flask_cloudy
 import flask_recaptcha
+from juice import Juice
+from juice.ext import mailman, cache, storage, recaptcha, csrf
 
-from juice import Juice, mailer, cache, storage, recaptcha
+conffile = "config.py"
 
-conffile = "config.Test"
-
-app = Juice.init(__name__, config=conffile)
-
+_ = Juice(__name__, config=conffile)
 
 # Recaptcha
 def test_recaptcha():

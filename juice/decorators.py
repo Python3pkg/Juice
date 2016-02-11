@@ -344,7 +344,7 @@ class Menu(object):
                 if extends:
                     if is_class_:
                         extendscls = self.get(extends)
-                        if extendscls and kwargs in extendscls:
+                        if extendscls and "kwargs" in extendscls:
                             if "group_name" not in kwargs:
                                 kwargs["group_name"] = extendscls["kwargs"]["group_name"]
                             if "visible" not in kwargs:
