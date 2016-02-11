@@ -23,6 +23,7 @@ import __about__
 import click
 import yaml
 import subprocess
+import sh
 
 CWD = os.getcwd()
 SKELETON_DIR = "app-skel"
@@ -100,75 +101,43 @@ def create_project(project_name, skel="basic"):
 # ------------------------------------------------------------------------------
 
 
-class GitPush(object):
+def git_push_to_master(cwd, hosts, force=False):
     """
-    A class that allows you to deploy with git without setting up git remotes
-
+    To push to master
+    :param cwd:
+    :param hosts:
+    :param force:
+    :return:
     """
-    def __init__(self, CWD, config_file="propel.yml"):
-        """
-        :param CWD: Current working dir
-        :param config_file: the config file
-        :return:
-        """
-        key = "git-remotes"
-        self.prefix = "juice"
-        f = CWD + "/" + config_file
-        with open(f) as pf:
-            config = yaml.load(pf)
-        self.config = config[key]
-        self.CWD = CWD
-
-    def run(self, cmd):
-        subprocess.call(cmd.strip(), shell=True)
-
-    def remote(self, name, force=False):
-        remotes = self.config[name]
-        name = "%s_push__%s" % (self.prefix, name)
-        cmd = self._gen_git_remote_command(name, remotes)
-        cmd += self._gen_git_push_remote(name, force)
-        cmd += self._gen_git_remove_remote(name)
-        self.run("cd %s; %s" % (self.CWD, cmd))
-
-    def all(self, force=False):
-        l = []
-        [l.extend(h) for k, h in self.config.items()]
-        remotes = list(set(l))
-        name = "%s_push__all" % self.prefix
-        cmd = self._gen_git_remote_command(name, remotes)
-        cmd += self._gen_git_push_remote(name, force)
-        cmd += self._gen_git_remove_remote(name)
-        self.run("cd %s; %s" % (self.CWD, cmd))
-
-    def reset_git(self):
-        cmd = ""
-        for k, values in self.config.items():
-            cmd += self._gen_git_remote_command(k, values)
-        self.run("cd %s; %s" % (self.CWD, cmd))
-
-    def _gen_git_push_remote(self, name, force=False):
+    with sh.pushd(cwd):
+        name = "__juice_push"
         force = " -f" if force else ""
-        return "git push %s %s master;" % (force, name)
 
-    def _gen_git_remove_remote(self, name):
-        return "git remote remove %s;" % name
+        if sh.git("status", "--porcelain").strip():
+            raise Exception("Repository is UNCLEAN. Commit your changes")
 
-    def _gen_git_remote_command(self, name, remotes):
-        """
-        Generate the push command for a remote
-        :param name (str): the remote name
-        :param remotes (list): list of
-        :return str:
-        """
-        if not isinstance(remotes, list):
-            raise TypeError("'remotes' must be of list type")
+        remote_list = sh.git("remote").strip().split()
+        if name in remote_list:
+            sh.git("remote", "remove", name)
+        sh.git("remote", "add", name, hosts[0])
+        if len(hosts) > 1:
+            for h in hosts:
+                sh.git("remote", "set-url", name, "--push", "--add", h)
+            sh.git("push", force, name, "master")
+            sh.git("remote", "remove", name)
 
-        cmd = self._gen_git_remove_remote(name)
-        cmd += "git remote add %s %s;" % (name, remotes[0])
-        if len(remotes) > 1:
-            for h in remotes:
-                cmd += "git remote set-url %s --push --add %s;" % (name, h)
-        return cmd
+
+def get_git_remotes_hosts(cwd, key=None, file="propel.yml"):
+    """
+    Returns the remote hosts in propel
+    :param cwd:
+    :param key:
+    :param file:
+    :return:
+    """
+    with open("%s/%s" % (cwd, file)) as f:
+        config = yaml.load(f)["git-remotes"]
+    return config[key] if key else config
 
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
@@ -306,24 +275,19 @@ def serve(project, port, no_watch):
 @click.argument("remote")
 @click.option("--all", "-a", default="")
 #@click.option("--force", "-f", default=False)
-def push(remote, all):
+def push(remote, all, force=False):
     """ To Git Push application to remote git servers """
 
     header("Git Push Application ...")
 
-    gp = GitPush(CWD, "propel.yml")
-
-    force = False
-    reset_git = False
     if all:
         print("All remotes...")
-        gp.all()
+        hosts = get_git_remotes_hosts(CWD)
+        git_push_to_master(cwd=CWD, hosts=hosts, force=force)
     elif remote:
-        print("Remote: %s ..." % remote)
-        gp.remote(name=remote)
-    elif reset_git:
-        pass
-
+        print("Remote: %s" % remote)
+        hosts = get_git_remotes_hosts(CWD, remote)
+        git_push_to_master(cwd=CWD, hosts=hosts, force=force)
     print("Done!")
 
 # ------------------------------------------------------------------------------
