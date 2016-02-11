@@ -46,8 +46,7 @@ setup(
     py_modules=['juice'],
     entry_points=dict(console_scripts=[
         'juice=juice.cli:cli',
-        'juice:cli=juice.cli:app_cli',
-        'juice:serve=juice.cli:app_serve',
+        'juice:cli=juice.cli:app_cli'
     ]),
     include_package_data=True,
     packages=find_packages(),
