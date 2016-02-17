@@ -7,13 +7,13 @@ import os
 import re
 import string
 import random
-import urlparse
 import socket
 import subprocess
 import functools
 import multiprocessing
 import threading
 from passlib.hash import bcrypt as crypt_engine
+from six.moves.urllib.parse import urlparse
 import datetime
 import humanize
 import pkg_resources
@@ -24,6 +24,7 @@ from slugify import slugify
 from inflection import (dasherize, underscore, camelize, pluralize,
                         singularize, titleize)
 from werkzeug.utils import import_string
+
 
 
 def is_valid_email(email):

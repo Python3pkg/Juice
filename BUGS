@@ -1,0 +1,15 @@
+
+- MENU BUG, when Class doesn't have MENU name, in admin-layout it fails because the side
+menu can't create the menu.
+
+File "/Users/Mardix/.virtualenvs/rawxxxvideos/lib/python2.7/site-packages/juice/plugins/base/templates/Juice/macros/menu.html", line 337, in template
+{{ _panel_sub_menu(nav) }}
+File "/Users/Mardix/.virtualenvs/rawxxxvideos/lib/python2.7/site-packages/juice/plugins/base/templates/Juice/macros/menu.html", line 406, in template
+{{ _panel_listgroup(nav_items) }}
+File "/Users/Mardix/.virtualenvs/rawxxxvideos/lib/python2.7/site-packages/juice/plugins/base/templates/Juice/macros/menu.html", line 415, in template
+{% if item[3]["visible"] %}
+File "/Users/Mardix/.virtualenvs/rawxxxvideos/lib/python2.7/site-packages/jinja2/environment.py", line 389, in getitem
+return obj[argument]
+UndefinedError: str object has no element 3
+
+------

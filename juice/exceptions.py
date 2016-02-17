@@ -5,6 +5,7 @@ from werkzeug.exceptions import HTTPException
 class ApplicationError(Exception): pass
 class ModelError(ApplicationError): pass
 class UserError(ApplicationError): pass
+class ViewError(ApplicationError): pass
 
 #-------------------------------------------------------------------------------
 # Abort Specific Error
