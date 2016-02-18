@@ -1,5 +1,5 @@
 """
----------------------------------- JUICE:CLI -----------------------------------
+---------------------------------- JUICY -----------------------------------
 
 A command line tool to manage your app
 
@@ -7,18 +7,18 @@ To run, Juice already has a hook that you can directly use in the command line
 
 Run:
 
-    juice:cli
+    juicy
 
 It will show the list of actions available
 
 To run an action:
 
-    juice:cli $action
+    juicy $action
 
 
-By default it will use the dev environment. On production, change the env
+By default it will use the DEV environment. On production, change the env
 
-    ENV=PRODUCTION juice:cli $action
+    ENV=PRODUCTION juicy $action
 
 
 If you are using Propel, the example below will run the setup in the production
@@ -29,7 +29,7 @@ environment
       # Run before all
       before_all:
         -
-          command: "juice:cli setup"
+          command: "juicy setup"
           environment: ENV="Production"
 
 -----
@@ -51,11 +51,11 @@ def user(id):
 
 - The hello() can be called
 
-    juice:cli hello
+    juicy hello
 
 - The user() can be called:
 
-    juice:cli user --id 1
+    juicy user --id 1
 
 --------------------------------------------------------------------------------
 
@@ -74,16 +74,17 @@ conf = get_env_config(config)
 
 # ------------------------------------------------------------------------------
 
+def setup_model():
+    """
+    Setup models from model.py
+    """
+    model.db.create_all()
 
 def setup_admin_user_publisher():
     """
     Setup Juice User and Publisher Admin
     :return:
     """
-
-    # ==== Create All Tables from model.py === #
-
-    model.db.create_all()
 
     # ==== Setup User Admin === #
 
@@ -133,7 +134,7 @@ def setup():
 
     """ Setup """
     print("::Setup")
-
+    setup_db()
     setup_admin_user_publisher()
 
     print("Done!")

@@ -17,7 +17,6 @@ It comes with pre-built components:
 
 And it is still Flask.
 
-http://pylot.io/
 https://github.com/mardix/Juice
 
 """
@@ -46,7 +45,7 @@ setup(
     py_modules=['juice'],
     entry_points=dict(console_scripts=[
         'juice=juice.cli:cli',
-        'juice:cli=juice.cli:app_cli'
+        'juicy=juice.cli:juicy'
     ]),
     include_package_data=True,
     packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),

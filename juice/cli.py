@@ -60,14 +60,14 @@ def create_project(project_name, skel="basic"):
     propel_tpl = pkg_resources.resource_string(__name__, '%s/propel.yml' % (SKELETON_DIR))
     config_tpl = pkg_resources.resource_string(__name__, '%s/config.py' % (SKELETON_DIR))
     model_tpl = pkg_resources.resource_string(__name__, '%s/model.py' % (SKELETON_DIR))
-    manage_tpl = pkg_resources.resource_string(__name__, '%s/cli.py' % (SKELETON_DIR))
+    manage_tpl = pkg_resources.resource_string(__name__, '%s/juicy.py' % (SKELETON_DIR))
 
     app_file = "%s/%s.py" % (CWD, project_name)
     requirements_txt = "%s/requirements.txt" % CWD
     propel_yml = "%s/propel.yml" % CWD
     config_py = "%s/config.py" % APPLICATION_DIR
     model_py = "%s/model.py" % APPLICATION_DIR
-    manage_py = "%s/cli.py" % CWD
+    manage_py = "%s/juicy.py" % CWD
     extras_dir = "%s/extras" % APPLICATION_DIR
 
     dirs = [
@@ -204,7 +204,7 @@ def create(project, skel):
     print("")
     print("> What's next?")
     print("- Edit the config [ application/config.py ] ")
-    print("- If necessary edit and run the command [ juice:cli setup ]")
+    print("- If necessary edit and run the command [ juicy setup ]")
     print("- Launch local server, run [ juice serve %s ]" % app)
     print("")
     print("*" * 80)
@@ -293,16 +293,15 @@ def push(remote, all, force=False):
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
 
-def app_cli():
+def juicy():
     """
-    Run the application CLI
+    Run the application juicy
     :return:
     """
     try:
-        module = import_module("cli")
+        module = import_module("juicy")
         module.app.cli()
     except ImportError as e:
         print("")
-        print("IMPORT ERROR: Missing 'cli.py' "
-              "at the root of your application: %s" % CWD)
+        print("ERROR Import: << %s >>  @ Root Application: %s" % (e, CWD))
         print("")
