@@ -10,7 +10,7 @@ flask-cloudy==0.13.1
 flask-seasurf==0.2.0
 flask-cli==0.2.1
 Active-Alchemy==0.4.4
-Paginator==0.3.5
+Paginator==0.4.1
 six==1.9.0
 passlib==1.6.2
 bcrypt==1.1.1
