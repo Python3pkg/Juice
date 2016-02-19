@@ -19,7 +19,7 @@ import logging
 import importlib
 import pkg_resources
 import utils
-import __about__
+from __about__ import *
 import click
 import yaml
 import subprocess
@@ -85,7 +85,7 @@ def create_project(project_name, skel="basic"):
         (config_py, config_tpl),
         (model_py, model_tpl),
         (app_file, app_tpl.format(project_name=project_name)),
-        (requirements_txt, "%s==%s" % (__about__.__title__, __about__.__version__)),
+        (requirements_txt, "%s==%s" % (__title__, __version__)),
         (propel_yml, propel_tpl.format(project_name=project_name)),
         (manage_py, manage_tpl),
         ("%s/__init__.py" % extras_dir, "# /application/extras: This is where you can place you custom/shared modules "),
@@ -110,7 +110,7 @@ def git_push_to_master(cwd, hosts, force=False):
     :return:
     """
     with sh.pushd(cwd):
-        name = "__juice_push"
+        name = "__juicy_push"
         force = " -f" if force else ""
 
         if sh.git("status", "--porcelain").strip():
@@ -159,7 +159,7 @@ def sanitize_name(name):
 
 def header(title=None):
     print(__doc__)
-    print("v. %s" % __about__.__version__)
+    print("v. %s" % __version__)
     print("")
     if title:
         print("** %s **" % title)
@@ -184,7 +184,7 @@ def build_assets(mod):
 def cli(): pass
 
 
-@cli.command()
+@cli.command("create-app")
 @click.argument("project")
 @click.option("--skel", "-s", default="app")
 def create(project, skel):
@@ -196,8 +196,8 @@ def create(project, skel):
     print("- Project: %s " % app)
 
     create_project(app, skel)
-
-    print("----- Juicy! ----")
+    print("")
+    print("----- That's Juicy! ----")
     print("")
     print("- Your new project [ %s ] has been created" % app)
     print("- Location: [ application/%s ]" % app)
@@ -205,17 +205,15 @@ def create(project, skel):
     print("> What's next?")
     print("- Edit the config [ application/config.py ] ")
     print("- If necessary edit and run the command [ juicy setup ]")
-    print("- Launch local server, run [ juice serve %s ]" % app)
+    print("- Launch app on devlopment mode, run [ juicy serve %s ]" % app)
     print("")
     print("*" * 80)
 
 
-@cli.command()
+@cli.command("buildassets")
 @click.argument("project")
 def buildassets(project):
-    """
-    Build web assets static files
-    """
+    """ Build web assets static files """
 
     header("Build Project's assets files from bundles ...")
     print("- Project: %s " % project)
@@ -224,31 +222,32 @@ def buildassets(project):
     print("Done!")
 
 
-@cli.command()
+@cli.command("assets2s3")
 @click.argument("project")
 def assets2s3(project):
-    """ To upload static web assets files to S3"""
+    """ To upload assets files to S3"""
 
     import flask_s3
     module = get_app_app_module(project)
 
-    header("Build and  Upload static assets files to S3 ...")
+    header("Building assets files ...")
     print("- Project: %s " % project)
     print("")
-
     build_assets(project)
+
+    print("Uploading assets files to S3 ...")
     flask_s3.create_all(module.app)
     print("Done!")
 
 
-@cli.command()
+@cli.command("serve")
 @click.argument("project")
 @click.option("--port", "-p", default=5000)
 @click.option("--no-watch", default=False)
 def serve(project, port, no_watch):
-    """ Serve a project in Local Development environment """
+    """ Serve application in development mode """
 
-    header("Serve application on local ")
+    header("Serving application in development mode ... ")
     print("- Project: %s " % project)
     print("")
     print("- Port: %s" % port)
@@ -271,15 +270,14 @@ def serve(project, port, no_watch):
                    port=port,
                    extra_files=extra_files)
 
-@cli.command()
+@cli.command("deploy")
 @click.argument("remote")
 @click.option("--all", "-a", default="")
 #@click.option("--force", "-f", default=False)
-def push(remote, all, force=False):
-    """ To Git Push application to remote git servers """
+def deploy(remote, all, force=False):
+    """ To DEPLOY application to remote git servers """
 
-    header("Git Push Application ...")
-
+    header("Deploying application via Git Push ...")
     if all:
         print("All remotes...")
         hosts = get_git_remotes_hosts(CWD)
@@ -293,15 +291,16 @@ def push(remote, all, force=False):
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
 
-def juicy():
+def cmd():
     """
-    Run the application juicy
+    Help to run the command line
     :return:
     """
-    try:
-        module = import_module("juicy")
-        module.app.cli()
-    except ImportError as e:
-        print("")
-        print("ERROR Import: << %s >>  @ Root Application: %s" % (e, CWD))
-        print("")
+    if os.path.isfile(os.path.join(os.path.join(CWD, "juicy.py"))):
+        import_module("juicy")
+    else:
+        print("ERROR: Missing <<'juicy.py'>> @ %s" % CWD)
+
+    cli()
+
+

@@ -21,19 +21,10 @@ from flask import (Flask, g, render_template, flash, session, url_for, request,
                    redirect, make_response, Response)
 from flask_assets import Environment
 import jinja2
-from flask_cli import FlaskCLI
-import __about__
+from __about__ import *
 
 
 _py2 = sys.version_info[0] == 2
-# ------------------------------------------------------------------------------
-
-NAME = __about__.__title__
-__version__ = __about__.__version__
-__author__ = __about__.__author__
-__license__ = __about__.__license__
-__copyright__ = __about__.__copyright__
-
 # ------------------------------------------------------------------------------
 
 __all__ = [
@@ -57,7 +48,7 @@ __all__ = [
            ]
 
 # Env
-_env_key = "ENV"
+_env_key = "env"
 def get_env():
     """
     Return the Capitalize environment name
@@ -480,7 +471,7 @@ class View(FlaskView):
             properties={}
         )
     _global = dict(
-        __NAME__=NAME, 
+        __NAME__=__title__,
         __VERSION__=__version__,
         __YEAR__=datetime.datetime.now().year,
         __META__=_default_page_meta
@@ -555,8 +546,6 @@ class View(FlaskView):
 
         # init_app
         [_app(cls._app) for _app in cls._init_apps]
-
-        FlaskCLI(cls._app)
 
         # Register all views
         for subcls in cls.__subclasses__():

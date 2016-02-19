@@ -24,7 +24,7 @@ web:
   -
     name: "" # The site name
     application: "{project_name}:app"
-    environment: ENV="Production"
+    environment: env=production
 
     # Nginx related config
     nginx:
@@ -38,8 +38,8 @@ scripts:
   # Run before all
   before_all:
     -
-      command: "juice:cli setup"
-      environment: ENV="Production"
+      command: "juicy setup"
+      environment: env=production
 
   # Run after all
   after_all:
@@ -70,7 +70,7 @@ workers:
   -
     name: "myworker1"
     command: ""
-    environment: ENV="Production"
+    environment: env=production
 
 
 # ------------------------------------------------------------------------------

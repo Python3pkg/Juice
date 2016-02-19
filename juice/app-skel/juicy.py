@@ -36,14 +36,14 @@ environment
 
 Examples:
 
-@app.cli.command(with_appcontext=False)
+@cli.command()
 def hello():
     ''' Hello Description '''
     print(":Hello")
     print("Hello From the Other Side!")
 
-@app.cli.command(with_appcontext=False)
-@click.option("--id")
+@cli.command()
+@click.option("id")
 def user(id):
     ''' This is the user's description '''
     print("User ID: %s" % id)
@@ -55,7 +55,7 @@ def user(id):
 
 - The user() can be called:
 
-    juicy user --id 1
+    juicy user id 1
 
 --------------------------------------------------------------------------------
 
@@ -67,7 +67,7 @@ from application import config, model
 from juice.plugins import user, publisher
 from juice.ext import mailman
 from www import app
-import click
+from juice.cli import cli, click
 
 # Load the config
 conf = get_env_config(config)
@@ -129,7 +129,8 @@ def setup_admin_user_publisher():
 
 # ------------------------------------------------------------------------------
 
-@app.cli.command(with_appcontext=False)
+
+@cli.command()
 def setup():
 
     """ Setup """

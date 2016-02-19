@@ -44,8 +44,8 @@ setup(
     long_description=__doc__,
     py_modules=['juice'],
     entry_points=dict(console_scripts=[
-        'juice=juice.cli:cli',
-        'juicy=juice.cli:juicy'
+        'juicy=juice.cli:cmd',
+        'juice=juice.cli:cmd'
     ]),
     include_package_data=True,
     packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests"]),
