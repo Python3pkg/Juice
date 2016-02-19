@@ -61,13 +61,15 @@ def user(id):
 
 """
 
-from juice import get_env_config, abort
+from juice import Juice, get_env_config, abort
 import juice.utils as utils
 from application import config, model
 from juice.plugins import user, publisher
 from juice.ext import mailman
-from www import app
 from juice.cli import cli, click
+
+# init Juice without registering the views
+Juice(__name__, skip_views=True)
 
 # Load the config
 conf = get_env_config(config)

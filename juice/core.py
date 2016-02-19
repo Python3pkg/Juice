@@ -480,7 +480,8 @@ class View(FlaskView):
 
     @classmethod
     def __call__(cls, flask_or_import_name, project=None, directory=None,
-                 config=None, exceptions=None, compress_html=True):
+                 config=None, exceptions=None, compress_html=True,
+                 skip_views=False):
         """
         Allow to register all subclasses of Juice at once
 
@@ -495,6 +496,7 @@ class View(FlaskView):
         :param exceptions: The exceptions path to load
         :param compress_html: bool - If true it will use the plugin "htmlcompress"
                 to remove white spaces off the html result
+        :param skip_views: bool - If true, it will setup everything but registering the views
         """
 
         if isinstance(flask_or_import_name, Flask):
@@ -548,13 +550,14 @@ class View(FlaskView):
         [_app(cls._app) for _app in cls._init_apps]
 
         # Register all views
-        for subcls in cls.__subclasses__():
-            base_route = subcls.base_route
-            if not base_route:
-                base_route = utils.dasherize(utils.underscore(subcls.__name__))
-                if subcls.__name__.lower() == "index":
-                    base_route = "/"
-            subcls.register(cls._app, base_route=base_route)
+        if not skip_views:
+            for subcls in cls.__subclasses__():
+                base_route = subcls.base_route
+                if not base_route:
+                    base_route = utils.dasherize(utils.underscore(subcls.__name__))
+                    if subcls.__name__.lower() == "index":
+                        base_route = "/"
+                subcls.register(cls._app, base_route=base_route)
 
         # Load all bundles
         [cls.assets.from_yaml(a) for a in cls._asset_bundles]

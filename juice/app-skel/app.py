@@ -11,7 +11,7 @@ This is the entry point of the application.
 
 ** To serve the local development app
 
-> juice serve -p {project_name}
+> juicy serve {project_name}
 
 #---------
 
@@ -32,6 +32,6 @@ from juice import Juice
 # Import the project's views
 import application.{project_name}.views
 
-# 'app' variable name is required if you intend to use it with 'juice' cli tool
+# 'app' variable name is required if you intend to use 'juicy' the cli tool
 app = Juice(__name__, project="{project_name}")
 
