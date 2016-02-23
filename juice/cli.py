@@ -228,7 +228,7 @@ def assets2s3(project):
     """ To upload assets files to S3"""
 
     import flask_s3
-    module = get_app_app_module(project)
+    module = import_module(project)
 
     header("Building assets files ...")
     print("- Project: %s " % project)
