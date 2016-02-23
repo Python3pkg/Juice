@@ -137,7 +137,7 @@ def get_git_remotes_hosts(cwd, key=None, file="propel.yml"):
     """
     with open("%s/%s" % (cwd, file)) as f:
         config = yaml.load(f)["git-remotes"]
-    return config[key] if key else [v for k,l in k.items() for v in l]
+    return config[key] if key else [v for k,l in config.items() for v in l]
 
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
