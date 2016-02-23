@@ -110,7 +110,7 @@ def git_push_to_master(cwd, hosts, force=False):
     :return:
     """
     with sh.pushd(cwd):
-        name = "__juicy_push"
+        name = "juicypush"
         force = " -f" if force else ""
 
         if sh.git("status", "--porcelain").strip():
@@ -137,7 +137,7 @@ def get_git_remotes_hosts(cwd, key=None, file="propel.yml"):
     """
     with open("%s/%s" % (cwd, file)) as f:
         config = yaml.load(f)["git-remotes"]
-    return config[key] if key else config
+    return config[key] if key else [v for k,l in k.items() for v in l]
 
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
