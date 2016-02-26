@@ -77,41 +77,6 @@
 
 
 
-{#
- To create an image
- Has the option of making that image easyload
-
- params:
-    - file: The image name
-    - lazy: (bool) if True, it will be lazy loaded
-    - static: (bool) it will be treated as static files if true
-    - responsive: (bool)
-#}
-{% macro img(file, lazy=true, responsive=true, static=false) %}
-    {% set _class = kwargs.pop('class', '') %}
-    {% set _responsive = "responsive" if responsive else "" %}
-
-    {% set blank_image_1x1 = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNgYAAAAAMAASsJTYQAAAAASUVORK5CYII=" %}
-    {% set image_file = static_file(file) if static else file%}
-    {% set lazy_class = "lazy" %}
-
-    {% if lazy %}
-        {% set img_src = blank_image_1x1 %}
-        {% set data_src = image_file %}
-    {% else %}
-        {% set img_src = image_file %}
-        {% set data_src = "" %}
-        {% set lazy_class = "" %}
-    {% endif %}
-
-
-    <img src="{{ img_src }}"
-         data-src="{{ data_src }}"
-         class="{{ lazy_class }} {{ _responsive }} {{ _class }}"
-         {% for key in kwargs %}{{key | safe}}="{{kwargs[key]|safe}}"{% endfor %}
-    >
-{% endmacro %}
-
 
 {#: OEMBED ------------------------------------------------------------------ #}
 {#
