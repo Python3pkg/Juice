@@ -100,6 +100,10 @@ def create_project(project_name, skel="basic"):
 
 # ------------------------------------------------------------------------------
 
+def propel_deploy_config(cwd, file="propel.yml"):
+    with open("%s/%s" % (cwd, file)) as f:
+        config = yaml.load(f)["deploy"]
+    return config 
 
 def git_push_to_master(cwd, hosts, force=False):
     """
@@ -127,17 +131,26 @@ def git_push_to_master(cwd, hosts, force=False):
             sh.git("remote", "remove", name)
 
 
-def get_git_remotes_hosts(cwd, key=None, file="propel.yml"):
+def get_deploy_hosts_list(cwd, key=None, file="propel.yml"):
     """
     Returns the remote hosts in propel
     :param cwd:
     :param key:
     :param file:
-    :return:
+    :return: list
     """
-    with open("%s/%s" % (cwd, file)) as f:
-        config = yaml.load(f)["git-remotes"]
+    config = propel_deploy_config(cwd=cwd, file=file)["hosts"]
     return config[key] if key else [v for k,l in config.items() for v in l]
+
+def get_deploy_assets2s3_list(cwd, file="propel.yml"):
+    """
+    Return the list of all the assets2s3 repo to publish when deploying
+    :param cwd:
+    :param file:
+    :return: list
+    """
+    conf = propel_deploy_config(cwd=cwd, file=file)
+    return conf["assets2s3"] if "assets2s3" in conf else []
 
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
@@ -179,6 +192,19 @@ def build_assets(mod):
     cmdenv = CommandLineEnvironment(assets_env, log)
     cmdenv.build()
 
+def _assets2s3(project):
+
+    import flask_s3
+    module = import_module(project)
+
+    header("Building assets files ...")
+    print("- Project: %s " % project)
+    print("")
+    build_assets(project)
+
+    print("Uploading assets files to S3 ...")
+    flask_s3.create_all(module.app)
+    print("Done!")
 
 @click.group()
 def cli(): pass
@@ -226,18 +252,7 @@ def buildassets(project):
 @click.argument("project")
 def assets2s3(project):
     """ To upload assets files to S3"""
-
-    import flask_s3
-    module = import_module(project)
-
-    header("Building assets files ...")
-    print("- Project: %s " % project)
-    print("")
-    build_assets(project)
-
-    print("Uploading assets files to S3 ...")
-    flask_s3.create_all(module.app)
-    print("Done!")
+    _assets2s3(project)
 
 
 @cli.command("serve")
@@ -270,22 +285,39 @@ def serve(project, port, no_watch):
                    port=port,
                    extra_files=extra_files)
 
+def deploy_assets2s3():
+    for mod in get_deploy_assets2s3_list(CWD):
+        _assets2s3(mod)
+
+
+@cli.command("deploy-all")
+#@click.option("--assets2s3")
+#@click.option("--force", "-f", default=False)
+def deploy_all(force=False):
+    """ To DEPLOY application to remote git servers """
+
+    header("Deploying All application via Git Push ...")
+    print("All remotes...")
+    #if assets2s3:
+    #    deploy_assets2s3()
+
+    hosts = get_deploy_hosts_list(CWD)
+    git_push_to_master(cwd=CWD, hosts=hosts, force=force)
+    print("Done!")
+
+
 @cli.command("deploy")
 @click.argument("remote")
 @click.option("--all", "-a", default="")
+#@click.option("--assets2s3")
 #@click.option("--force", "-f", default=False)
 def deploy(remote, all, force=False):
     """ To DEPLOY application to remote git servers """
 
-    header("Deploying application via Git Push ...")
-    if all:
-        print("All remotes...")
-        hosts = get_git_remotes_hosts(CWD)
-        git_push_to_master(cwd=CWD, hosts=hosts, force=force)
-    elif remote:
-        print("Remote: %s" % remote)
-        hosts = get_git_remotes_hosts(CWD, remote)
-        git_push_to_master(cwd=CWD, hosts=hosts, force=force)
+    header("Deploying application via Git Push to remote...")
+    print("Remote: %s" % remote)
+    hosts = get_deploy_hosts_list(CWD, remote)
+    git_push_to_master(cwd=CWD, hosts=hosts, force=force)
     print("Done!")
 
 # ------------------------------------------------------------------------------
