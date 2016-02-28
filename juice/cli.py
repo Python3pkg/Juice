@@ -130,7 +130,7 @@ def get_deploy_assets2s3_list(cwd, file="propel.yml"):
     return conf["assets2s3"] if "assets2s3" in conf else []
 
 
-def git_push_to_master(cwd, hosts, name="all", force=False):
+def git_push_to_master(cwd, hosts, name="all"):
     """
     To push to master
     :param cwd:
@@ -140,8 +140,6 @@ def git_push_to_master(cwd, hosts, name="all", force=False):
     """
     with sh.pushd(cwd):
         name = "juicy_deploy_%s" % name
-
-        force = " -f" if force else ""
 
         if sh.git("status", "--porcelain").strip():
             raise Exception("Repository is UNCLEAN. Commit your changes")
@@ -153,7 +151,7 @@ def git_push_to_master(cwd, hosts, name="all", force=False):
         if len(hosts) > 1:
             for h in hosts:
                 sh.git("remote", "set-url", name, "--push", "--add", h)
-            sh.git("push", force, name, "master")
+            sh.git("push", name, "master")
             sh.git("remote", "remove", name)
 
 
@@ -307,9 +305,8 @@ def serve(project, port, no_watch):
 @cli.command("deploy")
 @click.option("--remote", "-r", default=None)
 @click.option("--assets-to-s3", "-a", is_flag=True)
-@click.option("--force", "-f", is_flag=True)
 @catch_exception
-def deploy(remote, assets_to_s3, force):
+def deploy(remote, assets_to_s3):
     """ To DEPLOY your application """
 
     header("Deploying...")
@@ -321,7 +318,7 @@ def deploy(remote, assets_to_s3, force):
     remote_name = remote or "ALL"
     print("Pushing application's content to remote: %s " % remote_name)
     hosts = get_deploy_hosts_list(CWD, remote or None)
-    git_push_to_master(cwd=CWD, hosts=hosts, name=remote_name, force=force)
+    git_push_to_master(cwd=CWD, hosts=hosts, name=remote_name)
     print("Done!")
 
 # ------------------------------------------------------------------------------
