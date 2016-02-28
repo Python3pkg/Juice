@@ -1,5 +1,6 @@
 """
---------------------------------------------------------------------------------
+________________________________________________________________________________
+
     /$$$$$ /$$   /$$ /$$$$$$  /$$$$$$  /$$$$$$$$
    |__  $$| $$  | $$|_  $$_/ /$$__  $$| $$_____/
       | $$| $$  | $$  | $$  | $$  \__/| $$
@@ -9,7 +10,6 @@
 |  $$$$$$/|  $$$$$$/ /$$$$$$|  $$$$$$/| $$$$$$$$
  \______/  \______/ |______/ \______/ |________/
 
---------------------------------------------------------------------------------
 """
 
 import os
@@ -19,11 +19,11 @@ import logging
 import importlib
 import pkg_resources
 import utils
-from __about__ import *
 import click
 import yaml
-import subprocess
+import functools
 import sh
+from __about__ import *
 
 CWD = os.getcwd()
 SKELETON_DIR = "app-skel"
@@ -100,12 +100,37 @@ def create_project(project_name, skel="basic"):
 
 # ------------------------------------------------------------------------------
 
+
 def propel_deploy_config(cwd, file="propel.yml"):
     with open("%s/%s" % (cwd, file)) as f:
         config = yaml.load(f)["deploy"]
     return config 
 
-def git_push_to_master(cwd, hosts, force=False):
+
+def get_deploy_hosts_list(cwd, key=None, file="propel.yml"):
+    """
+    Returns the remote hosts in propel
+    :param cwd:
+    :param key:
+    :param file:
+    :return: list
+    """
+    config = propel_deploy_config(cwd=cwd, file=file)["hosts"]
+    return config[key] if key else [v for k, l in config.items() for v in l]
+
+
+def get_deploy_assets2s3_list(cwd, file="propel.yml"):
+    """
+    Return the list of all the assets2s3 repo to publish when deploying
+    :param cwd:
+    :param file:
+    :return: list
+    """
+    conf = propel_deploy_config(cwd=cwd, file=file)
+    return conf["assets2s3"] if "assets2s3" in conf else []
+
+
+def git_push_to_master(cwd, hosts, name="all", force=False):
     """
     To push to master
     :param cwd:
@@ -114,7 +139,8 @@ def git_push_to_master(cwd, hosts, force=False):
     :return:
     """
     with sh.pushd(cwd):
-        name = "juicypush"
+        name = "juicy_deploy_%s" % name
+
         force = " -f" if force else ""
 
         if sh.git("status", "--porcelain").strip():
@@ -131,29 +157,19 @@ def git_push_to_master(cwd, hosts, force=False):
             sh.git("remote", "remove", name)
 
 
-def get_deploy_hosts_list(cwd, key=None, file="propel.yml"):
-    """
-    Returns the remote hosts in propel
-    :param cwd:
-    :param key:
-    :param file:
-    :return: list
-    """
-    config = propel_deploy_config(cwd=cwd, file=file)["hosts"]
-    return config[key] if key else [v for k,l in config.items() for v in l]
-
-def get_deploy_assets2s3_list(cwd, file="propel.yml"):
-    """
-    Return the list of all the assets2s3 repo to publish when deploying
-    :param cwd:
-    :param file:
-    :return: list
-    """
-    conf = propel_deploy_config(cwd=cwd, file=file)
-    return conf["assets2s3"] if "assets2s3" in conf else []
-
 # ------------------------------------------------------------------------------
 # ------------------------------------------------------------------------------
+def catch_exception(func):
+    @functools.wraps(func)
+    def decorated_view(*args, **kwargs):
+        try:
+            func(*args, **kwargs)
+        except Exception as ex:
+            print("")
+            print("?? ERROR !!")
+            print(ex.__repr__())
+            print("")
+    return decorated_view
 
 
 def cwd_to_sys_path():
@@ -173,10 +189,10 @@ def sanitize_name(name):
 def header(title=None):
     print(__doc__)
     print("v. %s" % __version__)
-    print("")
+    print("_" * 80)
     if title:
         print("** %s **" % title)
-        print("")
+
 
 
 def build_assets(mod):
@@ -197,24 +213,24 @@ def _assets2s3(project):
     import flask_s3
     module = import_module(project)
 
-    header("Building assets files ...")
-    print("- Project: %s " % project)
+    header("Building assets files for project: %s ..." % project)
     print("")
     build_assets(project)
 
     print("Uploading assets files to S3 ...")
     flask_s3.create_all(module.app)
-    print("Done!")
+    print("")
 
 @click.group()
 def cli(): pass
 
 
-@cli.command("create-app")
+@cli.command("new-project")
 @click.argument("project")
 @click.option("--skel", "-s", default="app")
+@catch_exception
 def create(project, skel):
-    """  Create a new App """
+    """  Create a new Project in the current directory """
 
     app = sanitize_name(project)
 
@@ -236,20 +252,20 @@ def create(project, skel):
     print("*" * 80)
 
 
-@cli.command("buildassets")
+@cli.command("build-assets")
 @click.argument("project")
+@catch_exception
 def buildassets(project):
-    """ Build web assets static files """
+    """ Build web assets files """
 
-    header("Build Project's assets files from bundles ...")
-    print("- Project: %s " % project)
+    header("Build project's assets files from bundles: %s ..." % project)
     print("")
     build_assets(project)
     print("Done!")
 
-
-@cli.command("assets2s3")
+@cli.command("assets-to-s3")
 @click.argument("project")
+@catch_exception
 def assets2s3(project):
     """ To upload assets files to S3"""
     _assets2s3(project)
@@ -258,7 +274,8 @@ def assets2s3(project):
 @cli.command("serve")
 @click.argument("project")
 @click.option("--port", "-p", default=5000)
-@click.option("--no-watch", default=False)
+@click.option("--no-watch", is_flag=True)
+@catch_exception
 def serve(project, port, no_watch):
     """ Serve application in development mode """
 
@@ -280,44 +297,31 @@ def serve(project, port, no_watch):
                     filename = os.path.join(dirname, filename)
                     if os.path.isfile(filename):
                         extra_files.append(filename)
+
     module.app.run(debug=True,
                    host='0.0.0.0',
                    port=port,
                    extra_files=extra_files)
 
-def deploy_assets2s3():
-    for mod in get_deploy_assets2s3_list(CWD):
-        _assets2s3(mod)
-
-
-@cli.command("deploy-all")
-#@click.option("--assets2s3")
-#@click.option("--force", "-f", default=False)
-def deploy_all(force=False):
-    """ To DEPLOY application to remote git servers """
-
-    header("Deploying All application via Git Push ...")
-    print("All remotes...")
-    #if assets2s3:
-    #    deploy_assets2s3()
-
-    hosts = get_deploy_hosts_list(CWD)
-    git_push_to_master(cwd=CWD, hosts=hosts, force=force)
-    print("Done!")
-
 
 @cli.command("deploy")
-@click.argument("remote")
-@click.option("--all", "-a", default="")
-#@click.option("--assets2s3")
-#@click.option("--force", "-f", default=False)
-def deploy(remote, all, force=False):
-    """ To DEPLOY application to remote git servers """
+@click.option("--remote", "-r", default=None)
+@click.option("--assets-to-s3", "-a", is_flag=True)
+@click.option("--force", "-f", is_flag=True)
+@catch_exception
+def deploy(remote, assets_to_s3, force):
+    """ To DEPLOY your application """
 
-    header("Deploying application via Git Push to remote...")
-    print("Remote: %s" % remote)
-    hosts = get_deploy_hosts_list(CWD, remote)
-    git_push_to_master(cwd=CWD, hosts=hosts, force=force)
+    header("Deploying...")
+
+    if assets_to_s3:
+        for mod in get_deploy_assets2s3_list(CWD):
+            _assets2s3(mod)
+
+    remote_name = remote or "ALL"
+    print("Pushing application's content to remote: %s " % remote_name)
+    hosts = get_deploy_hosts_list(CWD, remote or None)
+    git_push_to_master(cwd=CWD, hosts=hosts, name=remote_name, force=force)
     print("Done!")
 
 # ------------------------------------------------------------------------------

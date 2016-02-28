@@ -1,30 +1,32 @@
 ###############################################################################
-# Propel Juice
+#                                   Propel
 #
 # A deploy config file to deploy Juice apps
 #
-# https://github.com/mardix/propel
+# Go to `https://github.com/mardix/propel` for more info and config options
 #
-# - On the server where the app will be deployed at, you can run the following:
+# How to run?
+#
+# After `pip install propel` on the production server, you can run the following
+# commands:
 #
 #   'propel -w' on the hosting server to launch a web application
-#   'propel -k' on the hosting server to launch a worker application
-#   'propel -s $script-name' on the hosting server to execute a
-#                                 script by name
+#   'propel -k $worker-name' on the hosting server to launch a worker application by name
+#   'propel -s $script-name' on the hosting server to execute a script by name
 #
 ###############################################################################
 
 
 # Virtualenv
 virtualenv:
-  name: ""  # The name of the virtualenv. Required for python applications
+  name: ""  # Required - The name of the virtual environment
 
 # WEB: list of dict of web sites/application to deploy
 web:
   -
-    name: "" # The site name
+    name: ""  # Required - The site name
     application: "{project_name}:app"
-    environment: env=production
+    environment: env="production"
 
     # Nginx related config
     nginx:
@@ -35,54 +37,49 @@ web:
 # SCRIPTS: A dict of all scripts to execute
 scripts:
 
-  # Run before all
+  # Scripts to before anything else
   before_all:
     -
-      command: "juicy setup"
-      environment: env=production
+      command: "$PYTHON_ENV juicy.py setup"
+      environment: env="production"
 
-  # Run after all
-  after_all:
-    - command: ""
 
-  # run before web deployment
-  before_web:
-    - command: ""
-
-  # run after web deployment
-  after_web:
-    - command: ""
-
-  # run before web deployment
-  before_workers:
-    - command: ""
-
-  # run after web deployment
-  after_workers:
-    - command: ""
-
-  # run this script when UNDEPLOYING
+  # Scripts to run when undeploying
   undeploy:
     - command: ""
 
 # WORKERS: Run custom script or app in the background using supervisor
 workers:
-  -
-    name: "myworker1"
-    command: ""
-    environment: env=production
+
+  # Tasks:
+  tasks:
+    -
+      name: "worker-task-1"
+      command: "" # $PYTHON_ENV juicy.py
+      environment: env="production"
+
+
 
 
 # ------------------------------------------------------------------------------
-# Git Push
-# If GIT is available in your environment, you can quickly push directly
-# to your remotes.
-# git-remotes: dict of remote name and git repos
-# To deploy on the 'web' remote:
-# > juice push -r web
-#
-git-remotes:
-  web:
-    - ssh://user@host/path.git
+# DEPLOY (For Juice only)
+# Config to run when running 'juicy deploy'
+# Require local git and remote git for deploy to work
+
+deploy:
+
+  # hosts: k/v of remote name/hosts to deploy content to. Hosts must be git repos
+  hosts:
+
+    # remote name containing list of hosts. Host must be git repo
+    # > juicy deploy web
+    web:
+      - ssh://user@host/path.git
+
+
+  # assets2s3: list of project name to run assets2s3 before deploy
+  assets2s3:
+    - {project_name}
+
 
 

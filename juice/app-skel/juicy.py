@@ -18,7 +18,7 @@ To run an action:
 
 By default it will use the DEV environment. On production, change the env
 
-    ENV=PRODUCTION juicy $action
+    env="production" juicy $action
 
 
 If you are using Propel, the example below will run the setup in the production
@@ -29,8 +29,8 @@ environment
       # Run before all
       before_all:
         -
-          command: "juicy setup"
-          environment: ENV="Production"
+          command: "$PYTHON_ENV juicy.py setup"
+          environment: env="production"
 
 -----
 
@@ -141,6 +141,14 @@ def setup():
     setup_admin_user_publisher()
 
     print("Done!")
+
+
+# ------------------------------------------------------------------------------
+
+#
+if __name__ == "__main__":
+    cli()
+
 
 
 
