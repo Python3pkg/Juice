@@ -76,7 +76,7 @@ conf = get_env_config(config)
 
 # ------------------------------------------------------------------------------
 
-def setup_model():
+def setup_db():
     """
     Setup models from model.py
     """
@@ -138,6 +138,7 @@ def setup():
     """ Setup """
     print("::Setup")
     setup_db()
+
     setup_admin_user_publisher()
 
     print("Done!")
