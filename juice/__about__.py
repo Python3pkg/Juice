@@ -5,7 +5,7 @@ __all__ = [
 ]
 
 __title__ = "Juice"
-__version__ = "0.0.19"
+__version__ = "0.0.20"
 __summary__ = "A full stack Flask based framework that put structure in the " \
               "file system. Features: Caching, Mailing, Storage, CSRF, recaptcha " \
               "and more"
