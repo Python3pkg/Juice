@@ -1136,5 +1136,5 @@ def setup(model, admin_email, password=None):
                        password=password,
                        first_name="Admin",
                        role="superadmin")
-    return True
+        return True
 
