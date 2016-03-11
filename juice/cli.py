@@ -171,9 +171,9 @@ def cwd_to_sys_path():
     sys.path.append(CWD)
 
 
-def import_module(project):
+def import_module(project, is_app=False):
     cwd_to_sys_path()
-    project = project_name(project)
+    project = project_name("app_" + project if is_app else project)
     return importlib.import_module(project)
 
 
@@ -192,7 +192,7 @@ def header(title=None):
 def build_assets(mod):
     from webassets.script import CommandLineEnvironment
 
-    module = import_module(mod)
+    module = import_module(mod, True)
     assets_env = module.app.jinja_env.assets_environment
 
     log = logging.getLogger('webassets')
@@ -205,7 +205,7 @@ def build_assets(mod):
 def _assets2s3(project):
 
     import flask_s3
-    module = import_module(project)
+    module = import_module(project, True)
 
     header("Building assets files for project: %s ..." % project)
     print("")
@@ -279,7 +279,7 @@ def serve(project, port, no_watch):
     print("- Port: %s" % port)
     print("")
 
-    module = import_module("app_" + project)
+    module = import_module(project, True)
 
     extra_files = []
     if not no_watch:
