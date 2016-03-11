@@ -25,14 +25,14 @@ virtualenv:
 web:
   -
     name: ""  # Required - The site name
-    application: "{project_name}:app"
+    application: "app_{project_name}:app"
     environment: env="production"
 
     # Nginx related config
     nginx:
       aliases:
         "/static": "application/{project_name}/static"
-        "/files": "application/data/uploads"
+        "/files": "application/_data/uploads"
 
 # SCRIPTS: A dict of all scripts to execute
 scripts:

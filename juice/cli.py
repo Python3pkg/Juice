@@ -28,7 +28,7 @@ from __about__ import *
 CWD = os.getcwd()
 SKELETON_DIR = "app-skel"
 APPLICATION_DIR = "%s/application" % CWD
-APPLICATION_DATA_DIR = "%s/data" % APPLICATION_DIR
+APPLICATION_DATA_DIR = "%s/_data" % APPLICATION_DIR
 
 
 def get_project_dir_path(project_name):
@@ -62,18 +62,16 @@ def create_project(project_name, skel="basic"):
     model_tpl = pkg_resources.resource_string(__name__, '%s/model.py' % (SKELETON_DIR))
     manage_tpl = pkg_resources.resource_string(__name__, '%s/juicy.py' % (SKELETON_DIR))
 
-    app_file = "%s/%s.py" % (CWD, project_name)
+    app_file = "%s/app_%s.py" % (CWD, project_name)
     requirements_txt = "%s/requirements.txt" % CWD
     propel_yml = "%s/propel.yml" % CWD
     config_py = "%s/config.py" % APPLICATION_DIR
     model_py = "%s/model.py" % APPLICATION_DIR
     manage_py = "%s/juicy.py" % CWD
-    extras_dir = "%s/extras" % APPLICATION_DIR
 
     dirs = [
         APPLICATION_DIR,
         APPLICATION_DATA_DIR,
-        extras_dir,
         project_dir
     ]
     for d in dirs:
@@ -87,8 +85,7 @@ def create_project(project_name, skel="basic"):
         (app_file, app_tpl.format(project_name=project_name)),
         (requirements_txt, "%s==%s" % (__title__, __version__)),
         (propel_yml, propel_tpl.format(project_name=project_name)),
-        (manage_py, manage_tpl),
-        ("%s/__init__.py" % extras_dir, "# /application/extras: This is where you can place you custom/shared modules "),
+        (manage_py, manage_tpl)
     ]
     for f in files:
         if not os.path.isfile(f[0]):
@@ -96,7 +93,7 @@ def create_project(project_name, skel="basic"):
                 f0.write(f[1])
 
     copy_resource("%s/skel/%s/" % (SKELETON_DIR, skel), project_dir)
-    copy_resource("%s/%s/" % (SKELETON_DIR, "data"), APPLICATION_DATA_DIR)
+    copy_resource("%s/%s/" % (SKELETON_DIR, "_data"), APPLICATION_DATA_DIR)
 
 # ------------------------------------------------------------------------------
 
@@ -176,12 +173,12 @@ def cwd_to_sys_path():
 
 def import_module(project):
     cwd_to_sys_path()
-    project = sanitize_name(project)
+    project = project_name(project)
     return importlib.import_module(project)
 
 
-def sanitize_name(name):
-    return re.compile('[^a-zA-Z]').sub("", name)
+def project_name(name):
+    return re.compile('[^a-zA-Z_]').sub("", name)
 
 
 def header(title=None):
@@ -190,7 +187,6 @@ def header(title=None):
     print("_" * 80)
     if title:
         print("** %s **" % title)
-
 
 
 def build_assets(mod):
@@ -230,7 +226,7 @@ def cli(): pass
 def create(project, skel):
     """  Create a new Project in the current directory """
 
-    app = sanitize_name(project)
+    app = project_name(project)
 
     header("Create New Project ...")
     print("- Project: %s " % app)
@@ -283,7 +279,7 @@ def serve(project, port, no_watch):
     print("- Port: %s" % port)
     print("")
 
-    module = import_module(project)
+    module = import_module("app_" + project)
 
     extra_files = []
     if not no_watch:

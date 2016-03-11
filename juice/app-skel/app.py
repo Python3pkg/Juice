@@ -3,7 +3,7 @@
 
 https://github.com/mardix/juice
 
-{project_name}.py
+app_{project_name}.py
 
 This is the entry point of the application.
 
@@ -23,7 +23,7 @@ This is the entry point of the application.
 
 ** To deploy with Gunicorn
 
-> gunicorn {project_name}:app
+> gunicorn app_{project_name}:app
 
 """
 

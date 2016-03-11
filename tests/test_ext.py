@@ -7,7 +7,7 @@ import flask_mail
 import flask_cloudy
 import flask_recaptcha
 from juice import Juice
-from juice.ext import mailman, cache, storage, recaptcha, csrf
+from juice.ext import mail, cache, storage, recaptcha, csrf
 
 conffile = "config.py"
 

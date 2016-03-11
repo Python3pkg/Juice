@@ -9,6 +9,7 @@ import os
 
 CWD = os.path.dirname(__file__)
 
+
 class BaseConfig(object):
     """
     Base Configuration.
@@ -44,6 +45,13 @@ class BaseConfig(object):
     #: Turn ON/OFF maintenance page
     APPLICATION_MAINTENANCE_ON = False
 
+    #: The application data directory
+    APPLICATION_DATA_DIR = os.path.join(CWD, "_data")
+
+    # MAX_CONTENT_LENGTH
+    # If set to a value in bytes, Flask will reject incoming requests with a
+    # content length greater than this by returning a 413 status code
+    MAX_CONTENT_LENGTH = 2 * 1024 * 1024
 
 # ------------------------------------------------------------------------------
 # CREDENTIALS
@@ -69,7 +77,7 @@ class BaseConfig(object):
 
     #: SQL_URI
     #: format: engine://USERNAME:PASSWORD@HOST:PORT/DB_NAME
-    SQL_URI = "sqlite:////%s/data/db.db" % CWD
+    SQL_URI = "sqlite:////%s/db.db" % APPLICATION_DATA_DIR
 
     #: REDIS_URI
     #: format: USERNAME:PASSWORD@HOST:PORT
@@ -139,7 +147,7 @@ class BaseConfig(object):
     #: STORAGE_CONTAINER
     #: The Bucket name (for S3, Google storage, Azure, cloudfile)
     #: or the directory name (LOCAL) to access
-    STORAGE_CONTAINER = "%s/data/uploads" % CWD
+    STORAGE_CONTAINER = os.path.join(APPLICATION_DATA_DIR, "uploads")
 
     #: STORAGE_SERVER
     #: Bool, to serve local file
@@ -150,18 +158,18 @@ class BaseConfig(object):
     STORAGE_SERVER_URL = "files"
 
 # ------------------------------------------------------------------------------
-# MAILMAN
+# MAIL
 
     # AWS SES
     # To use AWS SES to send email
     #:
     #: - To use the default AWS credentials (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
-    #: set MAILMAN_URI = "ses://"
+    #: set MAIL_URI = "ses://"
     #: * To use a different credential:
-    #: set MAILMAN_URI = "ses://{access_key}:{secret_key}@{region}"
+    #: set MAIL_URI = "ses://{access_key}:{secret_key}@{region}"
     #:
     #: *** uncomment if you are using SMTP instead
-    # MAILMAN_URI = "ses://"
+    # MAIL_URI = "ses://"
 
     # SMTP
     #: If you are using SMTP, it will use Flask-Mail
@@ -171,24 +179,24 @@ class BaseConfig(object):
     #: with ssl and tls -> smtp+ssl+tls://USERNAME:PASSWORD@HOST:PORT
     #:
     #: *** comment out if you are using SES instead
-    # MAILMAN_URI = "smtp+ssl://{username}:{password}@{host}:{port}"\
+    # MAIL_URI = "smtp+ssl://{username}:{password}@{host}:{port}"\
     #    .format(username="", password="", host="smtp.gmail.com", port=465)
 
-    #: MAILMAN_SENDER - The sender of the email by default
+    #: MAIL_SENDER - The sender of the email by default
     #: For SES, this email must be authorized
-    MAILMAN_SENDER = APPLICATION_ADMIN_EMAIL
+    MAIL_SENDER = APPLICATION_ADMIN_EMAIL
 
-    #: MAILMAN_REPLY_TO
+    #: MAIL_REPLY_TO
     #: The email to reply to by default
-    MAILMAN_REPLY_TO = APPLICATION_ADMIN_EMAIL
+    MAIL_REPLY_TO = APPLICATION_ADMIN_EMAIL
 
-    #: MAILMAN_TEMPLATE
+    #: MAIL_TEMPLATE
     #: a directory that contains the email template or a dict
-    MAILMAN_TEMPLATE = "%s/data/mailer-templates" % CWD
+    MAIL_TEMPLATE = os.path.join(APPLICATION_DATA_DIR, "mail-templates")
 
-    #: MAILMAN_TEMPLATE_CONTEXT
+    #: MAIL_TEMPLATE_CONTEXT
     #: a dict of all context to pass to the email by default
-    MAILMAN_TEMPLATE_CONTEXT = {
+    MAIL_TEMPLATE_CONTEXT = {
         "site_name": APPLICATION_NAME,
         "site_url": APPLICATION_URL
     }
@@ -260,15 +268,21 @@ class BaseConfig(object):
     """
 
 # ------------------------------------------------------------------------------
-# PACKAGE CONFIG
+# USER PACKAGE 
+    
+    # Bool - To Enable/disable login
+    USER_AUTH_ALLOW_SIGNUP = False
+    
+    # Bool - To Enable/Disable signup
+    USER_AUTH_ALLOW_LOGIN = True
+    
+    # Password reset method: TOKEN or PASSWORD
+    USER_AUTH_PASSWORD_RESET_METHOD = "TOKEN"
+    
+    # The time in minutes for the token reset to expire
+    USER_AUTH_RESET_TOKEN_TTL = 60
+    
 
-    #: User Package
-    USER_AUTH = {
-        "enable_login": True,  # Bool - To Enable/disable login
-        "enable_signup": True,  # Bool - To Enable/Disable signup
-        "password_reset_method": "TOKEN",  # Password reset method: TOKEN or PASSWORD,
-        "token_reset_ttl": 60  # The time in minutes for the token reset to expire
-    }
 
     """
     # List of valid providers
@@ -291,13 +305,8 @@ class BaseConfig(object):
     """
 
 # ------------------------------------------------------------------------------
-
-    # MAX_CONTENT_LENGTH
-    # If set to a value in bytes, Flask will reject incoming requests with a
-    # content length greater than this by returning a 413 status code
-    MAX_CONTENT_LENGTH = 2 * 1024 * 1024
-
-
+# ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # --- ENVIRONMENT BASED CONFIG -------------------------------------------------
 
 

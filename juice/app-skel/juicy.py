@@ -65,7 +65,7 @@ from juice import Juice, get_env_config, abort
 import juice.utils as utils
 from application import config, model
 from juice.plugins import user, publisher
-from juice.ext import mailman
+from juice.ext import mail
 from juice.cli import cli, click
 
 # init Juice without registering the views
@@ -100,9 +100,9 @@ def setup_admin_user_publisher():
                   admin_email=admin_email,
                   password=password):
 
-        if mailman.validated:
+        if mail.validated:
             body = "Admin Password: %s" % password
-            mailman.send(to=admin_email, subject="Admin Password", body=body)
+            mail.send(to=admin_email, subject="Admin Password", body=body)
 
         print("---- Setup SUPER ADMIN User ----")
         print("- Admin Email: %s" % admin_email)

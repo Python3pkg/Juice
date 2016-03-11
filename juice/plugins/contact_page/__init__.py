@@ -4,7 +4,7 @@ Contact Page
 """
 from juice import (View, flash, abort, register_package, redirect, request, url_for)
 from juice.decorators import (menu, template, route)
-from juice.ext import (mailman, recaptcha)
+from juice.ext import (mail, recaptcha)
 import juice.utils as utils
 import logging
 
@@ -47,7 +47,7 @@ def contact_page(view, **kwargs):
             # Email to
             email_to = kwargs.pop("email_to", self.get_config("APPLICATION_CONTACT_EMAIL", None))
 
-            if not mailman.validated:
+            if not mail.validated:
 
                 abort("MailmanConfigurationError")
             elif not email_to:
@@ -72,7 +72,7 @@ def contact_page(view, **kwargs):
                         flash_type = "error"
                     else:
                         try:
-                            mailman.send(to=email_to,
+                            mail.send(to=email_to,
                                          reply_to=email,
                                          mail_from=email,
                                          mail_subject=subject,

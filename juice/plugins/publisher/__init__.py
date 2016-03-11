@@ -18,7 +18,7 @@ from juice import (View, redirect, request, url_for, session, abort, flash,
                     flash_data, get_flashed_data, register_package, init_app)
 from juice.decorators import (menu, route, template, plugin, login_required,
                                no_login_required, require_user_roles)
-from juice.ext import (mailman, cache, storage, recaptcha, csrf,
+from juice.ext import (mail, cache, storage, recaptcha, csrf,
                          user_authenticated, user_not_authenticated)
 from juice.exceptions import (ApplicationError, ModelError, UserError)
 from juice import utils

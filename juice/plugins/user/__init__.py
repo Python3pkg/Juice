@@ -8,7 +8,7 @@ from juice import (View, redirect, request, url_for, session, abort, flash,
                        flash_data, get_flashed_data, register_package, init_app)
 from juice.decorators import (menu, route, template, plugin, login_required,
                               no_login_required, require_user_roles)
-from juice.ext import (mailman, cache, storage, recaptcha, csrf,
+from juice.ext import (mail, cache, storage, recaptcha, csrf,
                        user_authenticated, user_not_authenticated)
 from juice.exceptions import (ApplicationError, ModelError, UserError)
 import juice.utils as utils
@@ -317,10 +317,6 @@ def auth(view, **kwargs):
         TEMP_DATA_KEY = "login_tmp_data"
 
         @property
-        def _package_conf(self):
-            return self.get_config("USER_AUTH", {})
-
-        @property
         def tmp_data(self):
             return session[self.TEMP_DATA_KEY]
 
@@ -329,20 +325,20 @@ def auth(view, **kwargs):
             session[self.TEMP_DATA_KEY] = data
 
         def _login_enabled(self):
-            if self._package_conf.get("enable_login") is not True:
+            if self.get_config("USER_AUTH_ALLOW_LOGIN") is not True:
                 abort("UserLoginDisabledError")
 
         def _signup_enabled(self):
-            if self._package_conf.get("enable_signup") is not True:
+            if self.get_config("USER_AUTH_ALLOW_SIGNUP") is not True:
                 abort("UserSignupDisabledError")
 
         def _oauth_enabled(self):
-            if self._package_conf.get("enable_oauth") is not True:
+            if self.get_config("USER_AUTH_ALLOW_OAUTH") is not True:
                 abort("UserOAuthDisabledError")
 
         def _send_reset_password(self, user):
-            delivery = self._package_conf.get("password_reset_method")
-            token_reset_ttl = self._package_conf.get("token_reset_ttl", 60)
+            delivery = self.get_config("USER_AUTH_PASSWORD_RESET_METHOD")
+            token_reset_ttl = self.get_config("USER_AUTH_TOKEN_RESET_TTL", 60)
             new_password = None
             if delivery.upper() == "TOKEN":
                 token = user.set_temp_login(token_reset_ttl)
@@ -353,7 +349,7 @@ def auth(view, **kwargs):
                 new_password = user.set_password(password=None, random=True)
                 url = url_for(endpoint_namespace % "login", _external=True)
 
-            mailman.send(template="reset-password.txt",
+            mail.send(template="reset-password.txt",
                          method_=delivery,
                          to=user.email,
                          name=user.email,
@@ -403,8 +399,8 @@ def auth(view, **kwargs):
 
             return dict(login_url_next=request.args.get("next", ""),
                         login_url_default=url_for(on_signin_view),
-                        signup_enabled=self._package_conf.get("enable_signup"),
-                        oauth_enabled=self._package_conf.get("enable_oauth_login"))
+                        signup_enabled=self.get_config("USER_AUTH_ALLOW_SIGNUP"),
+                        oauth_enabled=self.get_config("USER_AUTH_ALLOW_LOGIN"))
 
         @menu("Logout",
               endpoint=endpoint_namespace % "logout",

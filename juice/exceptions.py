@@ -12,11 +12,11 @@ class ViewError(ApplicationError): pass
 
 class MailmanConfigurationError(HTTPException):
     code = 500
-    description = "MAILMAN is not configured properly"
+    description = "MAIL is not configured properly"
 
 class MailmanUnknownProviderError(HTTPException):
     code = 500
-    description = "MAILMAN is configured with an unknown provider"
+    description = "MAIL is configured with an unknown provider"
 
 
 class SQLAlchemyError(OperationalError, HTTPException):

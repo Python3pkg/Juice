@@ -7,7 +7,6 @@ import warnings
 import logging
 import inspect
 import functools
-from six.moves.urllib.parse import urlparse
 from flask import abort, request, current_app
 from .core import View, init_app
 import utils
@@ -26,7 +25,7 @@ import flask_s3
 # Load base packages
 from juice.plugins import base
 
-__all__ = ["mailman",
+__all__ = ["mail",
            "cache",
            "storage",
            "recaptcha",
@@ -34,7 +33,6 @@ __all__ = ["mailman",
 # ------------------------------------------------------------------------------
 
 # user_*
-
 
 def user_authenticated():
     """ A shortcut to check if a user is authenticated """
@@ -54,8 +52,8 @@ def _setup(app):
         "SECRET_KEY",
         "APPLICATION_ADMIN_EMAIL",
         "APPLICATION_CONTACT_EMAIL",
-        "MAILMAN_URI",
-        "MAILMAN_SENDER",
+        "MAILER_URI",
+        "MAIL_SENDER",
         "RECAPTCHA_SITE_KEY",
         "RECAPTCHA_SECRET_KEY"
     ]
@@ -120,8 +118,6 @@ def _setup(app):
         "markdown_toc": markdown_ext.toc
     })
 
-init_app(_setup)
-
 # ------------------------------------------------------------------------------
 
 # Session
@@ -131,7 +127,7 @@ def _session(app):
     store = None
     uri = app.config.get("SESSION_URI")
     if uri:
-        parse_uri = urlparse(uri)
+        parse_uri = utils.urlparse(uri)
         scheme = parse_uri.scheme
         username = parse_uri.username
         password = parse_uri.password
@@ -172,13 +168,13 @@ def _session(app):
     if store:
         flask_kvsession.KVSessionExtension(store, app)
 
-init_app(_session)
+
 
 # ------------------------------------------------------------------------------
 # Mailer
-class _Mailman(object):
+class _Mailer(object):
     """
-    config key: MAILMAN_*
+    config key: MAIL_*
     A simple wrapper to switch between SES-Mailer and Flask-Mail based on config
     """
     mail = None
@@ -194,9 +190,9 @@ class _Mailman(object):
         self.config = app.config
         scheme = None
 
-        mailer_uri = self.config.get("MAILMAN_URI")
+        mailer_uri = self.config.get("MAIL_URI")
         if mailer_uri:
-            mailer_uri = urlparse(mailer_uri)
+            mailer_uri = utils.urlparse(mailer_uri)
             scheme = mailer_uri.scheme
             hostname = mailer_uri.hostname
 
@@ -211,10 +207,10 @@ class _Mailman(object):
                 self.mail = ses_mailer.Mail(aws_access_key_id=access_key,
                                             aws_secret_access_key=secret_key,
                                             region=region,
-                                            sender=self.config.get("MAILMAN_SENDER"),
-                                            reply_to=self.config.get("MAILMAN_REPLY_TO"),
-                                            template=self.config.get("MAILMAN_TEMPLATE"),
-                                            template_context=self.config.get("MAILMAN_TEMPLATE_CONTEXT"))
+                                            sender=self.config.get("MAIL_SENDER"),
+                                            reply_to=self.config.get("MAIL_REPLY_TO"),
+                                            template=self.config.get("MAIL_TEMPLATE"),
+                                            template_context=self.config.get("MAIL_TEMPLATE_CONTEXT"))
 
             # SMTP will use flask-mail
             elif "smtp" in scheme.lower():
@@ -228,7 +224,7 @@ class _Mailman(object):
                         "MAIL_PORT": mailer_uri.port,
                         "MAIL_USE_TLS": True if "tls" in mailer_uri.scheme else False,
                         "MAIL_USE_SSL": True if "ssl" in mailer_uri.scheme else False,
-                        "MAIL_DEFAULT_SENDER": app.config.get("MAILMAN_SENDER"),
+                        "MAIL_DEFAULT_SENDER": app.config.get("MAIL_SENDER"),
                         "TESTING": app.config.get("TESTING"),
                         "DEBUG": app.config.get("DEBUG")
                     }
@@ -238,8 +234,8 @@ class _Mailman(object):
                 _app = _App()
                 self.mail = flask_mail.Mail(app=_app)
 
-                _ses_mailer = ses_mailer.Mail(template=self.config.get("MAILMAN_TEMPLATE"),
-                                              template_context=self.config.get("MAILMAN_TEMPLATE_CONTEXT"))
+                _ses_mailer = ses_mailer.Mail(template=self.config.get("MAIL_TEMPLATE"),
+                                              template_context=self.config.get("MAIL_TEMPLATE_CONTEXT"))
                 self._template = _ses_mailer.parse_template
             else:
                 logging.warning("Mailer Error. Invalid scheme '%s'>" % scheme)
@@ -255,9 +251,7 @@ class _Mailman(object):
         :param kwargs: context args
         :return: bool - True if everything is ok
         """
-
-
-        sender = self.config.get("MAILMAN_SENDER")
+        sender = self.config.get("MAIL_SENDER")
         recipients = [to] if not isinstance(to, list) else to
         kwargs.update({
             "subject": subject,
@@ -298,8 +292,6 @@ class _Mailman(object):
         else:
             abort("MailmanUnknownProviderError")
 
-mailman = _Mailman()
-init_app(mailman.init_app)
 
 # ------------------------------------------------------------------------------
 
@@ -314,7 +306,7 @@ class _AssetsDelivery(flask_s3.FlaskS3):
             if delivery_method.upper() == "CDN":
                 domain = app.config.get("ASSETS_DELIVERY_DOMAIN")
                 if "://" in domain:
-                    domain_parsed = urlparse(domain)
+                    domain_parsed = utils.urlparse(domain)
                     is_secure = domain_parsed.scheme == "https"
                     domain = domain_parsed.netloc
                 app.config.setdefault("S3_CDN_DOMAIN", domain)
@@ -329,10 +321,15 @@ class _AssetsDelivery(flask_s3.FlaskS3):
 
             super(self.__class__, self).init_app(app)
 
-assets_delivery = _AssetsDelivery()
-init_app(assets_delivery.init_app)
-
 # ------------------------------------------------------------------------------
+
+init_app(_setup)
+
+init_app(_session)
+
+# Mail
+mail = _Mailer()
+init_app(mail.init_app)
 
 # Cache
 cache = flask_cache.Cache()
@@ -349,6 +346,10 @@ init_app(recaptcha.init_app)
 # CSRF
 csrf = flask_seasurf.SeaSurf()
 init_app(csrf.init_app)
+
+# Assets delivery
+assets_delivery = _AssetsDelivery()
+init_app(assets_delivery.init_app)
 
 # ------------------------------------------------------------------------------
 

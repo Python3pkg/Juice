@@ -8,7 +8,7 @@ from juice import (View, flash, abort, session, request, url_for, redirect,
 from juice.decorators import (route, menu, template, plugin, methods,
                                render_as_json, render_as_xml)
 from juice.exceptions import (ApplicationError, ModelError, UserError)
-from juice.ext import (mailman, storage, cache, recaptcha, csrf)
+from juice.ext import (mail, storage, cache, recaptcha, csrf)
 from juice.plugins import (contact_page, user, publisher)
 from application import model
 
