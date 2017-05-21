@@ -18,12 +18,12 @@ import sys
 import logging
 import importlib
 import pkg_resources
-import utils
+from . import utils
 import click
 import yaml
 import functools
 import sh
-from __about__ import *
+from .__about__ import *
 
 CWD = os.getcwd()
 SKELETON_DIR = "app-skel"
@@ -113,7 +113,7 @@ def get_deploy_hosts_list(cwd, key=None, file="propel.yml"):
     :return: list
     """
     config = propel_deploy_config(cwd=cwd, file=file)["hosts"]
-    return config[key] if key else [v for k, l in config.items() for v in l]
+    return config[key] if key else [v for k, l in list(config.items()) for v in l]
 
 
 def get_deploy_assets2s3_list(cwd, file="propel.yml"):
@@ -162,7 +162,7 @@ def catch_exception(func):
         except Exception as ex:
             print("")
             print("?? ERROR !!")
-            print(ex.__repr__())
+            print((ex.__repr__()))
             print("")
     return decorated_view
 
@@ -183,10 +183,10 @@ def project_name(name):
 
 def header(title=None):
     print(__doc__)
-    print("v. %s" % __version__)
-    print("_" * 80)
+    print(("v. %s" % __version__))
+    print(("_" * 80))
     if title:
-        print("** %s **" % title)
+        print(("** %s **" % title))
 
 
 def build_assets(mod):
@@ -229,21 +229,21 @@ def create(project, skel):
     app = project_name(project)
 
     header("Create New Project ...")
-    print("- Project: %s " % app)
+    print(("- Project: %s " % app))
 
     create_project(app, skel)
     print("")
     print("----- That's Juicy! ----")
     print("")
-    print("- Your new project [ %s ] has been created" % app)
-    print("- Location: [ application/%s ]" % app)
+    print(("- Your new project [ %s ] has been created" % app))
+    print(("- Location: [ application/%s ]" % app))
     print("")
     print("> What's next?")
     print("- Edit the config [ application/config.py ] ")
     print("- If necessary edit and run the command [ juicy setup ]")
-    print("- Launch app on devlopment mode, run [ juicy serve %s ]" % app)
+    print(("- Launch app on devlopment mode, run [ juicy serve %s ]" % app))
     print("")
-    print("*" * 80)
+    print(("*" * 80))
 
 
 @cli.command("build-assets")
@@ -274,9 +274,9 @@ def serve(project, port, no_watch):
     """ Serve application in development mode """
 
     header("Serving application in development mode ... ")
-    print("- Project: %s " % project)
+    print(("- Project: %s " % project))
     print("")
-    print("- Port: %s" % port)
+    print(("- Port: %s" % port))
     print("")
 
     module = import_module(project, True)
@@ -312,7 +312,7 @@ def deploy(remote, assets_to_s3):
             _assets2s3(mod)
 
     remote_name = remote or "ALL"
-    print("Pushing application's content to remote: %s " % remote_name)
+    print(("Pushing application's content to remote: %s " % remote_name))
     hosts = get_deploy_hosts_list(CWD, remote or None)
     git_push_to_master(cwd=CWD, hosts=hosts, name=remote_name)
     print("Done!")
@@ -328,7 +328,7 @@ def cmd():
     if os.path.isfile(os.path.join(os.path.join(CWD, "juicy.py"))):
         import_module("juicy")
     else:
-        print("ERROR: Missing <<'juicy.py'>> @ %s" % CWD)
+        print(("ERROR: Missing <<'juicy.py'>> @ %s" % CWD))
 
     cli()
 

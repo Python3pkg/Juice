@@ -105,9 +105,9 @@ def setup_admin_user_publisher():
             mail.send(to=admin_email, subject="Admin Password", body=body)
 
         print("---- Setup SUPER ADMIN User ----")
-        print("- Admin Email: %s" % admin_email)
-        print("- Admin Password: %s" % password)
-        print("-" * 40)
+        print(("- Admin Email: %s" % admin_email))
+        print(("- Admin Password: %s" % password))
+        print(("-" * 40))
         print("")
 
     # ==== Setup Publisher === #
@@ -126,7 +126,7 @@ def setup_admin_user_publisher():
                            post_types=post_types,
                            post_categories=post_categories):
             print("Completed")
-        print("-" * 40)
+        print(("-" * 40))
         print("")
 
 # ------------------------------------------------------------------------------

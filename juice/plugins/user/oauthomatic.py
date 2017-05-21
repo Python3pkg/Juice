@@ -18,7 +18,7 @@ class OAuthomatic(object):
             config = {}
             auth_providers = []
 
-            for provider, conf in providers.items():
+            for provider, conf in list(providers.items()):
                 if hasattr(oauth2, provider):
                     cls = getattr(oauth2, provider)
                     conf["class_"] = conf["class_"] if "class_" in conf else cls

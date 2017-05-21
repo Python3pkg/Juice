@@ -3,9 +3,9 @@ Juice
 
 """
 
-from core import *
-from decorators import *
-import exceptions
+from .core import *
+from .decorators import *
+from . import exceptions
 
 
 

@@ -225,7 +225,7 @@ def model(db):
             :param roles: tuple of roles string
             :return: bool
             """
-            roles = map(utils.slugify, list(roles))
+            roles = list(map(utils.slugify, list(roles)))
             for r in UserRole.all().filter(UserRole.name.in_(roles)):
                 if r.id == self.role_id:
                     return True

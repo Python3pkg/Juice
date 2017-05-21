@@ -1,7 +1,7 @@
 """
 Some common functions
 """
-from __future__ import division
+
 import inspect
 import os
 import re
@@ -17,7 +17,7 @@ from six.moves.urllib.parse import urlparse
 import datetime
 import humanize
 import pkg_resources
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import hashlib
 import json
 from slugify import slugify
@@ -58,10 +58,10 @@ def is_valid_url(url):
 
 
 def urlencode(s):
-    return urllib2.quote(s)
+    return urllib.parse.quote(s)
 
 def urldecode(s):
-    return urllib2.unquote(s).decode('utf8')
+    return urllib.parse.unquote(s).decode('utf8')
 
 # md5_hash
 def md5_string(s):

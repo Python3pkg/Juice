@@ -11,8 +11,8 @@ import datetime
 import functools
 import logging
 import logging.config
-import utils
-import exceptions
+from . import utils
+from . import exceptions
 from six import string_types
 from werkzeug.contrib.fixers import ProxyFix
 from werkzeug.routing import BaseConverter, parse_rule
@@ -21,7 +21,7 @@ from flask import (Flask, g, render_template, flash, session, url_for, request,
                    redirect, make_response, Response)
 from flask_assets import Environment
 import jinja2
-from __about__ import *
+from .__about__ import *
 
 
 _py2 = sys.version_info[0] == 2

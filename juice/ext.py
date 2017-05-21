@@ -9,7 +9,7 @@ import inspect
 import functools
 from flask import abort, request, current_app
 from .core import View, init_app
-import utils
+from . import utils
 import humanize
 from .extras import markdown_ext
 import flask_cloudy
@@ -95,7 +95,7 @@ def _setup(app):
 
         Convert newlines into <p> and <br />s.
         """
-        if not isinstance(s, basestring):
+        if not isinstance(s, str):
             s = str(s)
         s = re.sub(r'\r\n|\r|\n', '\n', s)
         paragraphs = re.split('\n{2,}', s)

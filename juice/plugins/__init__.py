@@ -1,7 +1,7 @@
 
-import base
-import error_page
-import maintenance_page
+from . import base
+from . import error_page
+from . import maintenance_page
 
 
 

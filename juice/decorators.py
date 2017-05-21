@@ -2,9 +2,9 @@ import functools
 import inspect
 from flask import Response, jsonify, abort, request, current_app
 from werkzeug.wrappers import BaseResponse
-from core import View, init_app
+from .core import View, init_app
 from dicttoxml import dicttoxml
-import ext
+from . import ext
 import copy
 
 __all__ = [
@@ -47,7 +47,7 @@ def plugin(module, *args, **kwargs):
     def wrap(f):
         m = module(f, *args, **kwargs)
         if inspect.isclass(m):
-            for k, v in m.__dict__.items():
+            for k, v in list(m.__dict__.items()):
                 if not k.startswith("__"):
                     setattr(f, k, v)
         elif inspect.isfunction(m):
@@ -82,7 +82,7 @@ def route(rule=None, **kwargs):
         if inspect.isclass(f):
             extends = kwargs.pop("extends", None)
             if extends and hasattr(extends, self.view_key):
-                for k, v in getattr(extends, self.view_key).items():
+                for k, v in list(getattr(extends, self.view_key).items()):
                     kwargs.setdefault(k, v)
 
             kwargs.setdefault("route", rule)
@@ -159,7 +159,7 @@ def template(page=None, layout=None, **kwargs):
             layout_ = layout or page
             extends = kwargs.pop("extends", None)
             if extends and hasattr(extends, pkey):
-                items = getattr(extends, pkey).items()
+                items = list(getattr(extends, pkey).items())
                 if "layout" in items:
                     layout_ = items.pop("layout")
                 for k, v in items:
@@ -183,7 +183,7 @@ def template(page=None, layout=None, **kwargs):
                         response.setdefault("template_", page)
                     if layout:
                         response.setdefault("layout_", layout)
-                    for k, v in kwargs.items():
+                    for k, v in list(kwargs.items()):
                         response.setdefault(k, v)
                 return response
             return wrap
@@ -468,7 +468,7 @@ class Menu(object):
          # (order, Name, sub_menu, **kargs, hidden_submenu)
         menu_list = []
         menu_index = 0
-        for _, menu in copy.deepcopy(self.MENU.items()):
+        for _, menu in copy.deepcopy(list(self.MENU.items())):
             menu_index += 1
             sub_menu = []
 
@@ -576,7 +576,7 @@ def headers(headers={}):
         def decorated_function(*args, **kwargs):
             resp = make_response(f(*args, **kwargs))
             h = resp.headers
-            for header, value in headers.items():
+            for header, value in list(headers.items()):
                 h[header] = value
             return resp
         return decorated_function
@@ -619,9 +619,9 @@ def crossdomain(origin=None,
         options_resp = current_app.make_default_options_response()
         methods = options_resp.headers['allow']
 
-    if headers is not None and not isinstance(headers, basestring):
+    if headers is not None and not isinstance(headers, str):
         headers = ', '.join(x.upper() for x in headers)
-    if not isinstance(origin, basestring):
+    if not isinstance(origin, str):
         origin = ', '.join(origin)
     if isinstance(max_age, timedelta):
         max_age = max_age.total_seconds()

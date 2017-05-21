@@ -5,7 +5,7 @@ This plugin to display customize error page
 
 Can be called as standalone
 """
-from __future__ import division
+
 import logging
 from juice import (View, register_package, abort)
 from juice import exceptions

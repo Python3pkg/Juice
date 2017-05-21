@@ -525,7 +525,7 @@ def page(view, **kwargs):
             # Filter items not in the 'accept'
             url_kwargs = {_: None if _ not in slug_format.get(slug)["accept"]
                                   else __
-                                  for _, __ in url_kwargs.items()}
+                                  for _, __ in list(url_kwargs.items())}
 
             url = url_for(slug_format.get(slug)["endpoint"],
                           _external=True,
@@ -1014,7 +1014,7 @@ def admin(view, **kwargs):
                 post.update_tags(_tags)
 
                 post.set_slug(slug or title)
-                post.update_categories(map(int, post_categories))
+                post.update_categories(list(map(int, post_categories)))
                 post.set_options("social", social_options)
 
                 if post.is_published and not post.published_at:
